@@ -7,7 +7,7 @@ doc: $(DTX.pdf) $(EXAMPLE.pdf)
 $(EXAMPLE.pdf): %.pdf: %.tex $(DTX.sty) $(DTX.cls) $(IMG) $(EXAMPLE.deps) 
 	$(PDFLATEX) $(firstword $<)
 	@if (grep Citation $(patsubst %.dtx, %.log, $(firstword $<)) > /dev/null);\
-	    then bibtex $(patsubst %.dtx, %, $(firstword $<));fi
+	    then biber $(patsubst %.dtx, %, $(firstword $<));fi
 	@if (grep "Writing index file" $(patsubst %.dtx, %.log, $(firstword $<)) > /dev/null);\
 	   then makeindex\
 		-o $(patsubst %.dtx, %.ind, $(firstword $<))\
@@ -27,7 +27,7 @@ $(DTX.pdf): %.pdf: %.dtx $(IMG)
 	$(PDFLATEX) $(patsubst %.pdf,%.ins,$@)
 	$(PDFLATEX) $(firstword $<)
 	@if (grep Citation $(patsubst %.dtx, %.log, $(firstword $<)) > /dev/null);\
-	    then bibtex $(patsubst %.dtx, %, $(firstword $<));fi
+	    then biber $(patsubst %.dtx, %, $(firstword $<));fi
 	@if (grep "Writing glossary file" $(patsubst %.dtx, %.log, $(firstword $<)) > /dev/null);\
 	   then makeindex\
 		-o $(patsubst %.dtx, %.gls, $(firstword $<))\

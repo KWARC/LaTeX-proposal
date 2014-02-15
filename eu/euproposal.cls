@@ -25,7 +25,7 @@
 \xdef\@@table{\@@table&\@nameuse{wa@institution@\@I @name}}
 \xdef\@@table{\@@table&\@nameuse{wa@institution@\@I @acronym}}
 \xdef\@@table{\@@table&\@nameuse{wa@institution@\@I @countryshort}\tabularnewline\hline}}}
-\begin{tabular}{|l|p{8cm}|l|l|}\hline
+\begin{tabular}{|l|p{8cm}|l|l|}\hline%|
 \# & Participant organisation name & Short name &  Country\\\hline\hline
 \@@table
 \end{tabular}}
