@@ -1,3 +1,4 @@
+auto
 *.acn
 *.acr
 *.alg
@@ -30,3 +31,9 @@
 *.vrb
 *.xdy
 *.tdo
+*.run.xml
+*.pdata
+*-blx.bib
+*.deliverables
+*.delivs
+*.bcf
