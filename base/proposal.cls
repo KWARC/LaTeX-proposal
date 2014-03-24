@@ -416,11 +416,13 @@
 \def\task@set#1{\edef\task@id{task\thetask@all}
 \def\task@wphases{0-0}\def\task@partners{}\def\task@lead{}
 \setkeys{task}{#1}}
+\def\task@post@title@space{\quad}
 \newcounter{alltasks}
+\def\task@post@title@space{\quad}
 \newenvironment{task}[1][]%
 {\stepcounter{alltasks}
 \@task{#1}\item[\pdata@target{task}{\taskin\task@id\wp@id}{\task@label{\thetask@wp}}]%
-\@ifundefined{task@title}{}{\textbf\task@title}%
+\@ifundefined{task@title}{}{\textbf\task@title}\task@post@title@space%
 \def\@initial{0-0}\ifx\task@wphases\@initial\else%
 \ (\let\@@sep=\relax\@for\@I:=\task@wphases%
 \do{\decode@wphase\@I\@@sep\show@wphase\wphase@start\wphase@end\wphase@force\let\@@sep=\sep@wphases}%
