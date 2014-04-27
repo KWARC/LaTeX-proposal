@@ -67,6 +67,8 @@
 \setcounter{secnumdepth}{3}
 \newif\ifofpage\ofpagefalse
 \fancyhead[RE,LO]{\prop@gen@acronym}
+\fancyhfoffset{0pt}
+\fancyfoot[C]{}
 \newcommand\prop@of@pages[2]{page~#1\ifofpage~of~#2\fi}
 \fancyhead[LE,RO]{\prop@of@pages\thepage{\pdataref@num{prop}{page}{last}}}
 \pagestyle{fancyplain}
