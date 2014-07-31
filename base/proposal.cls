@@ -430,7 +430,7 @@
 \do{\decode@wphase\@I\@@sep\show@wphase\wphase@start\wphase@end\wphase@force\let\@@sep=\sep@wphases}%
 \ifx\task@lead\@empty\else; \task@legend@partners: \site\task@lead~(\legend@lead)\fi%
 \ifx\task@partners\@empty\else\@for \@I:=\task@partners\do{, \site\@I}\fi)\\\fi}
-{}
+{\ignorespaces}
 \newcommand\month@label[1]{M#1}
 \newcommand\show@wphase[3]{\def\@test{#3}\month@label{#1}-\month@label{#2}%
 \ifx\@test\@empty\@ #3}
