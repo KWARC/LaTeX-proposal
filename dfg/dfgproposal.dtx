@@ -91,7 +91,7 @@
 % |macros/latex/base/lppl.txt|.  Either version 1.0 or, at your option, any later
 % version. The CTAN archive always contains the latest stable version, the development
 % version can be found at \url{https://github.com/KWARC/LaTeX-proposal}. For bug reports
-% please use the sTeX trac at \url{https://github.com/KWARC/LaTeX-proposal/issues}.
+% please use the sTeX TRAC at \url{https://github.com/KWARC/LaTeX-proposal/issues}.
 %
 % \section{The User Interface}\label{sec:user-interface}
 % 
@@ -138,7 +138,11 @@
 % you will have to run |bibtex -min-crossrefs=999 proposal1-blx.aux| to generate file
 % |proposal1.bbl| that generates the bibliography list. To automate this (at least on Unix
 % systems), we have added the field |Makefile.template|, which allows you do do any
-% necessary steps by just typing |make|.
+% necessary steps by just typing |make|. 
+% 
+% The papers listed in |\dfgprojpapers| are put into a special bib\LaTeX category
+% \DescribeMacro|featured|, and can thus be excluded from the general bibliography by
+% adding |notcategory=featured| to the final |\printbibliography|. 
 % 
 % \subsection{Final Report Infrastructure}\label{sec:user:report}
 % 
@@ -364,14 +368,14 @@ Applicant\if@sites\ifnum\the@PIs>1{s}\fi\fi\ \deu{(Antragsteller)}}%
 \subsection{Application period \deu{(Antragszeitraum)}}\fi
 \prop@gen@months\quad Months starting \prop@gen@start
 \@ifundefined{prop@gen@fundsuntil}{}
-{ (\ifdeutsch mittel reichen bis\else funds last until\fi\ \prop@gen@fundsuntil)}
+{ (\ifdeutsch Mittel reichen bis\else funds last until\fi\ \prop@gen@fundsuntil)}
 \ifdeutsch\else\selectlanguage{USenglish}\fi
 \newpage\fi%ifgeneral
 \setcounter{page}{0}}
 {}
 %    \end{macrocode}
 % \end{environment}
-% We also need to translage some of the generated parts
+% We also need to translate some of the generated parts
 %    \begin{macrocode}
 \ifdeutsch
 \def\prop@warnpubs@message{Viele der Publikationen der Antragsteller sind verf\"ugbar unter folgenden URLs:}
@@ -394,7 +398,7 @@ Applicant\if@sites\ifnum\the@PIs>1{s}\fi\fi\ \deu{(Antragsteller)}}%
 \ifdeutsch
 \item Publications either cited in section~\ref{sec:ourpubs} or occurring in one of the
   curricula vitae (CD only)\else
-\item Zitierte Publicationen aus Abschnitt~\ref{sec:ourpubs} oder einem der Lebensl\"aufe
+\item Zitierte Publikationen aus Abschnitt~\ref{sec:ourpubs} oder einem der Lebensl\"aufe
   (nur CD)\fi
 \end{itemize}}
 %</cls>
@@ -549,54 +553,59 @@ Applicant\if@sites\ifnum\the@PIs>1{s}\fi\fi\ \deu{(Antragsteller)}}%
 %    \end{macrocode}
 % \Finale
 \endinput
-% LocalWords:  dfgproposal dtx kohlhase areastrue svninfo noworkareas twoside
-% LocalWords:  areasfalse wa textcomp amssymb url graphicx colortbl xcolor RO
-% LocalWords:  fancyhdr keyval eurosym tikz calc USenglish ngerman linkcolor ne
-% LocalWords:  citecolor urlcolor colorlinks pagecolor breaklinks bookmarksopen
-% LocalWords:  hyperref LaTeX workpackage PIs thema acrolong anzungsantrag im
-% LocalWords:  Einzelverfahren tabline Allgemeine Angaben Antragsteller worktel
-% LocalWords:  bitabline personaltitle academictitle birthdate Dienstanschrift
-% LocalWords:  workaddress atabline workfax Privatanschrift privaddress privtel
-% LocalWords:  dt Kennwort Fachgebiet und Arbeitsrichtung Voraussichtliche wa
-% LocalWords:  Gesamtdauer Antragszeitraum Zusammenfassung workarea wp wps num
-% LocalWords:  refundefinedtrue lightgray gantt xstep Unterschriften Id areas
-% LocalWords:  submit hide ed public article paper today array comment wide RE
-% LocalWords:  babel true bookmarks blue LO LE page of prop sites key site RM
-% LocalWords:  def id title acronym discipline start months Proposal Erg by cls
-% LocalWords:  DFG empty em name affiliation Applicants Work Address email The
-% LocalWords:  curriculum vita the applicants are enclosed appendix reference
-% LocalWords:  Research area and field work Scientific Fields Anticipated write
-% LocalWords:  duration Application period Summary short lead Package label task
-% LocalWords:  tasks deps number line Effort target ids aux dfg count warning at
-% LocalWords:  for undefined safe zero one two three four five six seven eight
-% LocalWords:  nine ten eleven twelve style lines totals Packages xscale yscale
-% LocalWords:  step set gray very thin grid workphase len force phase length to
-% LocalWords:  taskdep from rectangle left right width pt color red above dep
-% LocalWords:  Overview Activities Signatures Date paralist ymonths ymid yinc
-% LocalWords:  xend effort month iffalse eustrep.dtx fileversion maketitle Antr
-% LocalWords:  tableofcontents DescribeEnv ifpublic ifpublic compactitem wpfig
-% LocalWords:  wpfig workplan workplan bookeeping wissenchaftliche tasklist dmp
-% LocalWords:  tasklist taskin taskref taskref tasktref tasktref localtaskref
-% LocalWords:  localtaskref ganttchart biblatex dfgprojpapers dfgprojpapers ifx
-% LocalWords:  bibtex proposal1-blx.aux pdataref WPtref WPtref WAref WAref WAtref
-% LocalWords:  WAtref protectmacro thebibliography bibitem newblock newif inst
-% LocalWords:  ifsubmit submitfalse publicfalse ifkeys keysfalse ifwork RAMtrue
-% LocalWords:  submittrue publictrue excludecomment RAMfalse keystrue sfdefault
-% LocalWords:  renewcommand familydefault helvet includecomment subsubsections
-% LocalWords:  setcounter secnumdepth ifofpage ofpagefalse fancyhead thepage sw
-% LocalWords:  pagestyle fancyplain sitesfalse sitestrue ifundefined gdef allwp
-% LocalWords:  fundedperiod reportperiod textbf newenvironment titlepage auxout
-% LocalWords:  thispagestyle newcounter stepcounter tocdepth ofpagetrue setkeys
-% LocalWords:  finalreport orderzeitraum thewa thewp addtocounter bigskip pws
-% LocalWords:  textsf smallskip ignorespaces subsubsection thedfg theallwp req
-% LocalWords:  compactenum compactenum thetask newcount thegantt refsection tl
-% LocalWords:  nocite defbibheading ourpubs printbibliography expandafter ifnum
-% LocalWords:  csname endcsname dfgcount ifcase cellcolor wptable widehat qquad
-% LocalWords:  tabularnewline wplist ifgantt drafttrue RMdisclaimer draftfalse
-% LocalWords:  RMdisclaimerfalse RMdisclaimertrue newdimen taskwps thetaskwps
-% LocalWords:  whilenum hfill marginpar texteuro officialeuro texttt newpage cb
-% LocalWords:  min-crossrefs pdata xdef newcommand hline aff
-% LocalWords:  renewenvironment nameuse paperlist applareas applareas dfgpdata
-% LocalWords:  Gesch aftszeichen projpapers shortname sitedescription ednote
-% LocalWords:  textsc newlength setlength textwidth WAauthorblock assoc tmpop
-% LocalWords:  tmpop tmpop
+% LocalWords:  dfgproposal dtx kohlhase areastrue svninfo noworkareas twoside notcategory
+% LocalWords:  areasfalse wa textcomp amssymb url graphicx colortbl xcolor RO Abriss Rabe
+% LocalWords:  fancyhdr keyval eurosym tikz calc USenglish ngerman linkcolor ne ifgeneral
+% LocalWords:  citecolor urlcolor colorlinks pagecolor breaklinks bookmarksopen ifdeutsch
+% LocalWords:  hyperref LaTeX workpackage PIs thema acrolong anzungsantrag im generaltrue
+% LocalWords:  Einzelverfahren tabline Allgemeine Angaben Antragsteller worktel Deutscher
+% LocalWords:  bitabline personaltitle academictitle birthdate Dienstanschrift Antrag gen
+% LocalWords:  workaddress atabline workfax Privatanschrift privaddress privtel prop@gen
+% LocalWords:  dt Kennwort Fachgebiet und Arbeitsrichtung Voraussichtliche wa deutschtrue
+% LocalWords:  Gesamtdauer Antragszeitraum Zusammenfassung workarea wp wps num Neuantrag
+% LocalWords:  refundefinedtrue lightgray gantt xstep Unterschriften Id areas auf deu nur
+% LocalWords:  submit hide ed public article paper today array comment wide RE Disziplin
+% LocalWords:  babel true bookmarks blue LO LE page of prop sites key site RM ur das auft
+% LocalWords:  def id title acronym discipline start months Proposal Erg by cls seit der
+% LocalWords:  DFG empty em name affiliation Applicants Work Address email The Erstantrag
+% LocalWords:  curriculum vita the applicants are enclosed appendix reference mittel der
+% LocalWords:  Research area and field work Scientific Fields Anticipated write reichen
+% LocalWords:  duration Application period Summary short lead Package label task Viele pn
+% LocalWords:  tasks deps number line Effort target ids aux dfg count warning at sind aus
+% LocalWords:  for undefined safe zero one two three four five six seven eight verf ugbar
+% LocalWords:  nine ten eleven twelve style lines totals Packages xscale yscale unter von
+% LocalWords:  step set gray very thin grid workphase len force phase length to folgenden
+% LocalWords:  taskdep from rectangle left right width pt color red above dep Literatur
+% LocalWords:  Overview Activities Signatures Date paralist ymonths ymid yinc Verzeichnis
+% LocalWords:  xend effort month iffalse eustrep.dtx fileversion maketitle Antr Ausdruck
+% LocalWords:  tableofcontents DescribeEnv ifpublic ifpublic compactitem wpfig Lebenslauf
+% LocalWords:  wpfig workplan workplan bookeeping wissenchaftliche tasklist dmp Zitierte
+% LocalWords:  tasklist taskin taskref taskref tasktref tasktref localtaskref Abschnitt
+% LocalWords:  localtaskref ganttchart biblatex dfgprojpapers dfgprojpapers ifx einem Typ
+% LocalWords:  bibtex proposal1-blx.aux pdataref WPtref WPtref WAref WAref WAtref Lebensl
+% LocalWords:  WAtref protectmacro thebibliography bibitem newblock newif inst aufe Seite
+% LocalWords:  ifsubmit submitfalse publicfalse ifkeys keysfalse ifwork RAMtrue Institut
+% LocalWords:  submittrue publictrue excludecomment RAMfalse keystrue sfdefault Lehrstuhl
+% LocalWords:  renewcommand familydefault helvet includecomment subsubsections bezahlte
+% LocalWords:  setcounter secnumdepth ifofpage ofpagefalse fancyhead thepage sw Berichts
+% LocalWords:  pagestyle fancyplain sitesfalse sitestrue ifundefined gdef allwp Summen
+% LocalWords:  fundedperiod reportperiod textbf newenvironment titlepage auxout Titel
+% LocalWords:  thispagestyle newcounter stepcounter tocdepth ofpagetrue setkeys Dauer
+% LocalWords:  finalreport orderzeitraum thewa thewp addtocounter bigskip pws DFG-Mitteln
+% LocalWords:  textsf smallskip ignorespaces subsubsection thedfg theallwp req Ende Summe
+% LocalWords:  compactenum compactenum thetask newcount thegantt refsection tl Personen
+% LocalWords:  nocite defbibheading ourpubs printbibliography expandafter ifnum Monate
+% LocalWords:  csname endcsname dfgcount ifcase cellcolor wptable widehat qquad Aufw ande
+% LocalWords:  tabularnewline wplist ifgantt drafttrue RMdisclaimer draftfalse Hilfskraft
+% LocalWords:  RMdisclaimerfalse RMdisclaimertrue newdimen taskwps thetaskwps intendierte
+% LocalWords:  whilenum hfill marginpar texteuro officialeuro texttt newpage cb grau
+% LocalWords:  min-crossrefs pdata xdef newcommand hline aff NeedsTeXFormat dfgreporting
+% LocalWords:  renewenvironment nameuse paperlist applareas applareas dfgpdata kursiv
+% LocalWords:  Gesch aftszeichen projpapers shortname sitedescription ednote generalfalse
+% LocalWords:  textsc newlength setlength textwidth WAauthorblock assoc tmpop markiert
+% LocalWords:  tmpop tmpop deutschfalse Sachbeihilfe Arbeitsgebiet Fortsetungsantrag
+%  LocalWords:  Publikationen Publikatinsverzeichnis Wissenschaftler Verwertungsfelder
+%  LocalWords:  Kooperationspartner otherlanguage Arbeitspaket Arbeitsbereich Aufwand
+%  LocalWords:  Arbeitsbereiche Personenmonaten Arbeitspaketleiter Arbeitspakete unten
+%  LocalWords:  Zeitliche Verteilung Lastverteilung Bisherige Kollaboration Leiter
+%  LocalWords:  Schritt endinput

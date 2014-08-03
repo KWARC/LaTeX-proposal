@@ -896,9 +896,10 @@ joint&\multicolumn{\the@site}{l|}{\jpub $\hat=$ publication, \jpro $\hat=$ proje
 \define@key{paperlist}{submitted}[true]{\prop@ppl[,keyword=submitted]{unpublished}{Submitted}}
 \define@key{paperlist}{books}[true]{\prop@ppl{book}{Monographs}}
 \define@key{paperlist}{techreports}[true]{\prop@ppl{techreport}{Technical Reports}}
+\DeclareBibliographyCategory{featured}
 \newcommand\prop@paperlist[2][]{%
 \begin{refsection}%
-\nocite{#2}%
+\nocite{#2}\addtocategory{featured}{#2}%
 \let\biboldfont\bibfont%
 \renewcommand{\bibfont}{\footnotesize}%
 \renewcommand{\baselinestretch}{.9}

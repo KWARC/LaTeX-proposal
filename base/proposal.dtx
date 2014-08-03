@@ -2245,6 +2245,14 @@ joint&\multicolumn{\the@site}{l|}{\jpub $\hat=$ publication, \jpro $\hat=$ proje
 \define@key{paperlist}{techreports}[true]{\prop@ppl{techreport}{Technical Reports}}
 %    \end{macrocode}
 %
+% \begin{macro}{featured}
+% We introduce a new bibLaTeX category |featured| for those papers that were already
+% mentioned in |\prop@paperlist| and the macros defined from it. 
+%    \begin{macrocode}
+\DeclareBibliographyCategory{featured}
+%    \end{macrocode}
+% \end{macro}
+%
 % \begin{macro}{\prop@paperlist}
 %   We generate a subsection with a |refsection| (this makes a separate bibliography for
 %   this section) and activate the keys via |\nocite|. Then we just print the bibliography
@@ -2252,7 +2260,7 @@ joint&\multicolumn{\the@site}{l|}{\jpub $\hat=$ publication, \jpro $\hat=$ proje
 %    \begin{macrocode}
 \newcommand\prop@paperlist[2][]{%
 \begin{refsection}%
-\nocite{#2}%
+\nocite{#2}\addtocategory{featured}{#2}%
 \let\biboldfont\bibfont%
 \renewcommand{\bibfont}{\footnotesize}%
 \renewcommand{\baselinestretch}{.9}
