@@ -56,10 +56,14 @@
 \pdata@def{prop}{gen}{totalduration}{#1}}
 \define@key{prop@gen}{fundsuntil}{\def\prop@gen@fundsuntil{#1}%
 \pdata@def{prop}{gen}{fundsuntil}{#1}}
-\newcommand\prop@gen@acro{ACRONYM}
-\newcommand\prop@gen@months{???}
-\newcommand\prop@gen@title{???Proposal Title???}
-\newcommand\prop@gen@instrument{??? Instrument ???}
+\newcommand\prop@gen@acro@default{ACRONYM}
+\def\prop@gen@acro{\prop@gen@acro@default}
+\newcommand\prop@gen@months@default{???months???}
+\def\prop@gen@months{\prop@gen@months@default}
+\newcommand\prop@gen@title@default{???Proposal Title???}
+\def\prop@gen@title{\prop@gen@title@default}
+\newcommand\prop@gen@instrument@default{??? Instrument ???}
+\def\prop@gen@instrument{\prop@gen@instrument@default}
 \newcommand\prop@tl[2]{\xdef\tab@line{}
 \@for\tl@ext:={#1}\do{\xdef\tab@line{\tab@line&#2}}
 \tab@line}

@@ -504,7 +504,7 @@ wagray,.70/.70,.70,.70/0,0,.70/0,0,0,.30}
 \xdef\wpfig@headline{\wpfig@headline &\@sw{\wpfig@legend@RM}\if@RAM&\@sw{\wpfig@legend@RAM}\fi}
 \fi}%if@sites
 \if@RAM\begin{tabular}{|l|l|*{\thewpfig@options}{r|}*{\the@sites}{r|r|}|r|r|}\hline
-\else\begin{tabular}{|l|l|*{\thewpfig@options}{r|}|*{\the@sites}{r|}|r|}\hline\fi
+\else\begin{tabular}{|l|l|*{\thewpfig@options}{r|}|*{\the@sites}{r|}|r|}\hline\fi%|
 \wpfig@headline\\\hline\hline}
 {\end{tabular}\smallskip\\
 \wpfig@legend@RAM@expl
@@ -717,6 +717,11 @@ wagray,.70/.70,.70,.70/0,0,.70/0,0,0,.30}
 \setkeys{gantt}{#1}}
 \newenvironment{gantt}[2][]
 {\gantt@set{#1}
+\def\@test{\prop@gen@months@default}
+\ifx\@test\prop@gen@months
+\ClassError{proposal}{Need overall project months to draw gantt
+    chart - expect trouble;\MessageBreak specify
+    \protect\begin{proposal}[...,months=??,...] to fix}\fi
 \@ifundefined{gantt@size}{}{\csname\gantt@size\endcsname}
 \newdimen\gantt@ymonths
 \gantt@ymonths=#2 cm
@@ -762,7 +767,7 @@ wagray,.70/.70,.70,.70/0,0,.70/0,0,0,.30}
        \@for\@@ft:=\@@wphases\do{%task-level work phases
          \decode@wphase\@@ft
          \@action\@@task\@@line\wphase@start\wphase@len\wphase@force}}}}
- \else% ifwork@ares
+ \else% ifwork@areas false
  \edef\@@wps{\pdataref@safe{all}{wp}{ids}}
  \@for\@@wp:=\@@wps\do{% iterate over work packages
    \stepcounter{taskwps}
@@ -778,7 +783,7 @@ wagray,.70/.70,.70,.70/0,0,.70/0,0,0,.30}
      \@for\@@ft:=\@@wphases\do{%iterate over the task-level work phases
        \decode@wphase\@@ft
        \@action\@@task\@@line\wphase@start\wphase@len\wphase@force}}}
- \fi% ifwork@areas
+ \fi% ifwork@areas end
  \edef\@@deps{\pdataref@safe{all}{task}{deps}}
  \@for\@@dep:=\@@deps\do{%
    \@dependency{\pdataref@safe{taskdep}\@@dep{from}}{\pdataref@safe{taskdep}\@@dep{to}}}
