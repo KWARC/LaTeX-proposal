@@ -71,7 +71,7 @@
 \subsection{Application period \deu{(Antragszeitraum)}}\fi
 \prop@gen@months\quad Months starting \prop@gen@start
 \@ifundefined{prop@gen@fundsuntil}{}
-{ (\ifdeutsch mittel reichen bis\else funds last until\fi\ \prop@gen@fundsuntil)}
+{ (\ifdeutsch Mittel reichen bis\else funds last until\fi\ \prop@gen@fundsuntil)}
 \ifdeutsch\else\selectlanguage{USenglish}\fi
 \newpage\fi%ifgeneral
 \setcounter{page}{0}}
@@ -92,7 +92,7 @@
 \ifdeutsch
 \item Publications either cited in section~\ref{sec:ourpubs} or occurring in one of the
   curricula vitae (CD only)\else
-\item Zitierte Publicationen aus Abschnitt~\ref{sec:ourpubs} oder einem der Lebensl\"aufe
+\item Zitierte Publikationen aus Abschnitt~\ref{sec:ourpubs} oder einem der Lebensl\"aufe
   (nur CD)\fi
 \end{itemize}}
 \ifgeneral
