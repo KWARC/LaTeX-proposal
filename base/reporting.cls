@@ -61,11 +61,11 @@
  breaklinks=true, bookmarksopen=true]{hyperref}
 \ifsubmit
 \RequirePackage[hide]{ed}
-\ifsvninfo\RequirePackage[final,today]{svninfo}\fi
+\if@svninfo\RequirePackage[final,today]{svninfo}\fi
 \else
 \RequirePackage[show]{ed}
-\ifsvninfo\RequirePackage[eso-foot,today]{svninfo}\fi
-\ifgitinfo\RequirePackage[mark]{gitinfo2}\fi
+\if@svninfo\RequirePackage[eso-foot,today]{svninfo}\fi
+\if@gitinfo\RequirePackage[mark]{gitinfo2}\fi
 \fi
 \renewcommand\ednoteshape{\sl\footnotesize}
 \ifpublic\excludecomment{private}\else\includecomment{private}\fi
