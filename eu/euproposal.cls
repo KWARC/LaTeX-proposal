@@ -39,7 +39,12 @@
 \end{center}
 {\large\prop@gen@instrument}\\
 {\large\textbf{Date of Preparation: \today}}
-\ifsubmit\else\\{\large\textbf{Revision}: {\svnInfoRevision} of \svnInfoDate}\fi\\[1em]
+\ifsubmit\else\\
+{\large\textbf{Revision}:
+\if@svninfo\svnInfoRevision\fi\if@gitinfo\gitAbbrevHash\fi
+ of
+\if@svninfo\svnInfoDate\fi\if@gitinfo\gitAuthorDate\fi}
+\fi\\[1em]
 {\large}
 \begin{large}
  \begin{description}
