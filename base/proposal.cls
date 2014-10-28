@@ -15,9 +15,13 @@
 \newif\ifdelivs\delivsfalse
 \newif\ifwork@areas\work@areastrue
 \newif\if@RAM\@RAMfalse
+\newif\if@svninfo\@svninfofalse
+\newif\if@gitinfo\@gitinfofalse
 \def\proposal@class{article}
 \DeclareOption{wpsubsection}{\@wpsubsectiontrue}
 \DeclareOption{submit}{\submittrue}
+\DeclareOption{gitinfo}{\@gitinfotrue}
+\DeclareOption{svninfo}{\@svninfotrue}
 \DeclareOption{public}{\publictrue}
 \DeclareOption{noworkareas}{\work@areasfalse\PassOptionsToClass{\CurrentOption}{pdata}}
 \DeclareOption{RAM}{\@RAMtrue}
@@ -57,10 +61,11 @@
  breaklinks=true, bookmarksopen=true]{hyperref}
 \ifsubmit
 \RequirePackage[hide]{ed}
-\RequirePackage[final,today]{svninfo}
+\ifsvninfo\RequirePackage[final,today]{svninfo}\fi
 \else
 \RequirePackage[show]{ed}
-\RequirePackage[eso-foot,today]{svninfo}
+\ifsvninfo\RequirePackage[eso-foot,today]{svninfo}\fi
+\ifgitinfo\RequirePackage[mark]{gitinfo2}\fi
 \fi
 \renewcommand\ednoteshape{\sl\footnotesize}
 \ifpublic\excludecomment{private}\else\includecomment{private}\fi
