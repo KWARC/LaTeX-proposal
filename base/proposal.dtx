@@ -308,7 +308,7 @@
 % In the work packages we can list tasks that need to be undertaken with the
 % \DescribeEnv{tasklist}|tasklist| environment. The individual tasks are marked up with
 % the \DescribeEnv{task}|task| environment.  This takes a keyval argument with the keys
-% |id| for identification, |title| for a title, and the workphase keys |wphrases|,
+% |id| for identification, |title| for a title, and the workphase keys |wphases|,
 % |start|, |end|, and |force| (see Section~\ref{sec:user:workphase}). For planning
 % involvement we can specify the overall person months via the |PM| key, the task lead via
 % |lead|, and the partners involved via the |partners| key. Finally task dependencies can
@@ -393,9 +393,10 @@
 % \DescribeMacro{\delivref}|\delivref{|\meta{wp}|}{|\meta{id}|}| where \meta{wp} is the
 % work package identifier and \meta{id} that if the deliverable and
 % \DescribeMacro{\delivtref}|\delivtref{|\meta{wp}|}{|\meta{id}|}| for a reference with
-% title. |\pdatacount{|\meta{wp}|}{delivs}| gives the number of milestones of the work
-% package \meta{wp} |\pdatacount{all}{delivs}| that of all deliverables (aggregating over
-% all work packages).
+% title. \DescribeMacro{\localdelivref}|\localdelivref| can be used to reference
+% deliverables in the same work package. |\pdatacount{|\meta{wp}|}{delivs}| gives the
+% number of milestones of the work package \meta{wp} |\pdatacount{all}{delivs}| that of
+% all deliverables (aggregating over all work packages).
 % 
 % Some proposal templates ask for an overview table of the deliverables which aggregates
 % the deliverables of the respective work packages and areas ordered by due date. This can
@@ -419,26 +420,28 @@
 % includes to work packages, work groups, \ldots. Whenever these are defined using the
 % |proposal| infrastructure, the class saves the relevant information in the auxiliary
 % file \meta{proposal}|.aux|. This information can be referenced via the
-% \DescribeMacro{\pdataref}|\pdataref| macro, which takes three arguments.
+% \DescribeMacro  {\pdataref}|\pdataref| macro, which takes three arguments.
 % 
 % In a reference |\pdataref{|\meta{type}|}{|\meta{id}|}{|\meta{aspect}|}| the first argument
 % \meta{type} specifies the type of the object (currently one of |wp|, |wa|, and
 % |partner|) to be referenced, \meta{id} specifies the identifier of the referenced object
 % (it matches the identifier given in the |id| key of the object), and \meta{aspect}
 % specifies the aspect of the saved information that is referenced. 
-% 
-% For a partner \meta{aspect} can be one of |number| (partner number), |short| (partner
-% acronym), |long| (official partner name), |nationality| (partner nationality). 
+%
+% \DescribeMacro{\pdatarefFB}|\pdatarefFB{|\meta{type}|}{|\meta{id}|}{|\meta{a1}|}{|\meta{a2}|}|
+% tries first |\pdataref{|\meta{type}|}{|\meta{id}|}{|\meta{a1}|}| and if that is not
+% given |\pdataref{|\meta{type}|}{|\meta{id}|}{|\meta{a2}|}|. 
 % 
 % For a work package \meta{aspect} can be |number|, (the work package number), |label|
 % (the label {\bf{WP$n$}} where $n$ is the work package number for referencing), |title|
 % (the work package title), |lead| the work package leader, |short| (a short version of
 % the WP title for tables). For work groups we have the same aspects with analogous
 % meanings. In all cases, the referenced information carries a hyperlink to the referenced
-% object.
+% object.  
 % 
-% The \DescribeMacro{\pdataRef}|\pdataRef| macro is a variant of |\pdataref| that also carries a
-% hyperlink (if the |hyperref| package is loaded).
+% The \DescribeMacro{\pdataRef}|\pdataRef| and \DescribeMacro{\pdataRefFB}|\pdataRefFB|
+% macros are variant of |\pdataref| and |\pdataRef| that also carry a hyperlink (if the
+% |hyperref| package is loaded).
 %
 % The \DescribeMacro{\pdatacount}|\pdatacount| macro gives access to the numbers of
 % certain aspects. For instance, the number of work packages in the proposal can be cited
@@ -909,7 +912,7 @@
 % \begin{macro}{\OBJref}
 %    \begin{macrocode}
 \newcommand\OBJref[1]{\pdataRef{obj}{#1}{label}}
-\newcommand\OBJtref[1]{\pdataRef{obj}{#1}{label}: \pdataRef{obj}{#1}{title}}
+\newcommand\OBJtref[1]{\OBJref{#1}: \pdataRefFB{obj}{#1}{short}{title}}
 %    \end{macrocode}
 % \end{macro}
 % 
@@ -928,8 +931,8 @@
 %    \begin{macrocode}
 \define@key{workpackage}{id}{\def\wp@id{#1}\@dmp{id=#1}}
 \define@key{workpackage}{title}{\pdata@def{wp}\wp@id{title}{#1}}
-\define@key{workpackage}{lead}{\pdata@def{wp}\wp@id{lead}{#1}\def\wp@lead{#1}\@dmp{lead=#1}}
 \define@key{workpackage}{short}{\pdata@def{wp}\wp@id{short}{#1}}
+\define@key{workpackage}{lead}{\pdata@def{wp}\wp@id{lead}{#1}\def\wp@lead{#1}\@dmp{lead=#1}}
 \define@key{workpackage}{type}{\def\wp@type{#1}\pdata@def{wp}\wp@id{type}{#1}}
 \define@key{workpackage}{wphases}{\def\wp@wphases{#1}\pdata@def{wp}\wp@id{wphases}{#1}}
 \define@key{workpackage}{swsites}[true]{\def\wp@swsites{#1}}
@@ -1099,14 +1102,14 @@
 \@for\@site:=\prop@gen@sites\do{\if@site@contributes\@site{\stepcounter{wp@sites@num}}%
 \xdef\wp@sites@line{\wp@sites@line%
 \if@site@contributes\@site{&%
-\ifx\wp@swsites\@true% 
+\ifx\wp@swsites\@true%
 \@sw{\ifx\@site\wp@lead\lead@style{\site{\@site}}\else\site{\@site}\fi}%
 \else\ifx\@site\wp@lead\lead@style{\site{\@site}}\else\site{\@site}\fi%
 \fi}}%
 \xdef\wp@efforts@line{\wp@efforts@line%
 \if@site@contributes\@site{&%
 \ifx\@site\wp@lead%
-\lead@style{\pdataref@safe\wp@id\@site{RM}\if@RAM+\pdataref@safe\wp@id\@site{RAM}\fi} 
+\lead@style{\pdataref@safe\wp@id\@site{RM}\if@RAM+\pdataref@safe\wp@id\@site{RAM}\fi}
 \else\pdataref@safe\wp@id\@site{RM}\if@RAM+\pdataref@safe\wp@id\@site{RAM}\fi\fi}}%
 }% do
 \xdef\wp@sites@line{\wp@sites@line&\sum@style{\wp@legend@all}}%
@@ -1258,12 +1261,14 @@
 %    \end{macrocode}
 % \end{macro}
 % 
-% \begin{macro}{\delivref}
+% \begin{macro}{\*deliv*ref}
 %   This macro is generally useful to put a comment at the end of the line, possibly
 %   making a new one if there is not enough space.
 %    \begin{macrocode}
 \newcommand\delivref[2]{\pdataRef{deliv}{#1#2}{label}}
-\newcommand\delivtref[2]{\pdataRef{deliv}{#1#2}{label}: \pdataRef{deliv}{#1#2}{short}}
+\newcommand\localdelivref[1]{\delivref{\wp@id}{#1}}
+\newcommand\delivtref[2]{\delivref{#1}{#2}: \pdataRefFB{deliv}{#1#2}{short}{title}}
+\newcommand\localdelivtref[1]{\delivtref{\wp@id}{#1}}
 %    \end{macrocode}
 % \end{macro}
 % 
@@ -1276,6 +1281,7 @@
 \define@key{deliv}{nature}{\def\deliv@nature{#1}}
 \define@key{deliv}{miles}{\def\deliv@miles{#1}}
 \define@key{deliv}{short}{\def\deliv@short{#1}}
+\define@key{deliv}{lead}{\def\deliv@lead{#1}}
 %    \end{macrocode}
 % The |\wpdeliv| macro cycles over the due dates and generates the relevant entries into
 % the deliverables file. The first step is to write the general metadata to the pdata
@@ -1295,8 +1301,15 @@
 \@ifundefined{deliv@short}
 {\pdata@def{deliv}{\wpg@id\deliv@id}{short}{#2}}
 {\pdata@def{deliv}{\wpg@id\deliv@id}{short}{\deliv@short}}
-\pdata@def{deliv}{\wpg@id\deliv@id}{nature}{\deliv@nature}
-\pdata@def{deliv}{\wpg@id\deliv@id}{dissem}{\deliv@dissem}
+\@ifundefined{deliv@nature}
+{\protect\G@refundefinedtrue\@latex@warning{key 'nature' for Deliv \wpg@id undefined}}
+{\pdata@def{deliv}{\wpg@id\deliv@id}{nature}{\deliv@nature}}
+\@ifundefined{deliv@dissem}
+{\protect\G@refundefinedtrue\@latex@warning{key 'dissem' for Deliv \wpg@id undefined}}
+{\pdata@def{deliv}{\wpg@id\deliv@id}{dissem}{\deliv@dissem}}
+\@ifundefined{deliv@lead}
+{\protect\G@refundefinedtrue\@latex@warning{key 'lead' for Deliv \wpg@id  undefined}}
+{\pdata@def{deliv}{\wpg@id\deliv@id}{lead}{\deliv@lead}}
 %    \end{macrocode}
 % Then we iterate over the due dates and generate an entry for teach of them.
 %    \begin{macrocode}
@@ -1305,18 +1318,21 @@
 {\ifnum\@I<10 0\@I\else\@I\fi}% sort key
 {\@I}% due date
 {\current@label}% label
-{\@ifundefined{deliv@id}{\protect\G@refundefinedtrue\@latex@warning{key 'id' for Deliv #1
-      undefined}??}{\wpg@id\deliv@id}}% id
-{\@ifundefined{deliv@dissem}{\protect\G@refundefinedtrue\@latex@warning{key 'dissem' for
-      Deliv #1 undefined}??}{\deliv@dissem}}% dissemination level
-{\@ifundefined{deliv@nature}{\protect\G@refundefinedtrue\@latex@warning{key 'nature' for Deliv
-      #1 undefined}??}{\deliv@nature}}% nature
+{\@ifundefined{deliv@id}{??}{\wpg@id\deliv@id}}% id
+{\@ifundefined{deliv@dissem}{??}{\deliv@dissem}}% dissemination level
+{\@ifundefined{deliv@nature}{??}{\deliv@nature}}% nature
 {#2}
-{\ifx\@type\@wp{WP\ifwork@areas\thewa.\fi\thewp}\else{WA\thewa}\fi}}}}%WP
+{\ifx\@type\@wp{WP\ifwork@areas\thewa.\fi\thewp}\else{WA\thewa}\fi}%WP
+{\@ifundefined{deliv@lead}{??}{\string\site{\deliv@lead}}}}}}% lead
 %    \end{macrocode}
 % And finally, we generate the entry into the deliverables table. 
 %    \begin{macrocode}
-\item[\current@label: (Month \deliv@due; nature: \deliv@nature, dissem.: \deliv@dissem)] \pdata@target{deliv}{\wpg@id\deliv@id}{\textit{#2}}
+\item[\current@label\ (%
+\delivs@legend@due: \@ifundefined{deliv@due}{??}{\deliv@due}, 
+\delivs@legend@nature: \@ifundefined{deliv@nature}{??}{\deliv@nature}, 
+\delivs@legend@dissem: \@ifundefined{deliv@dissem}{??}{\deliv@dissem}, 
+\delivs@legend@lead: \@ifundefined{deliv@lead}{??}{\site{\deliv@lead}})]
+ \pdata@target{deliv}{\wpg@id\deliv@id}{\textit{#2}}
 \@ifundefined{deliv@miles}{}{% print the milestones and update their deliverables
 \let\m@sep=\relax% do not print the separator the first time round
 \lec{\@for\@I:=\deliv@miles\do{% Iterate over the milestones mentioned
@@ -1356,7 +1372,7 @@
 %   making a new one if there is not enough space.
 %    \begin{macrocode}
 \newcommand\mileref[1]{\pdataRef{mile}{#1}{label}}
-\newcommand\miletref[1]{\pdataRef{mile}{#1}{label}: \pdataRef{mile}{#1}{short}}
+\newcommand\miletref[1]{\mileref{#1}: \pdataRefFB{mile}{#1}{short}{title}}
 %    \end{macrocode}
 % \end{macro}
 % 
@@ -1431,25 +1447,33 @@
 % \begin{macro}{\deliverable}
 %    the first argument is an extended due date to facilitate sorting. 
 %    \begin{macrocode}
-\newcommand{\deliverable}[8]{\pdataRef{deliv}{#4}{label}&#7&#8&#6&#5&#2\\\hline}%sortkey,due,label,id,title,type,level
+\newcommand{\deliverable}[9]{\pdataRef{deliv}{#4}{label}&#7&#8&#9&#6&#5&#2\\\hline}%sortkey,due,label,id,title,type,level,lead
 %    \end{macrocode}
 % \end{macro}
 % 
 % \begin{environment}{deliverables}
 %    
 %    \begin{macrocode}
-\newenvironment{deliverables}[1]{\ifdelivs\begin{longtable}{|l|p{#1}|l|l|l|l|}\hline
-\#&\delivs@legend@name&\delivs@legend@wp&\delivs@legend@nature&
-\delivs@legend@level&\delivs@legend@due\\\hline\hline\else\deliv@error\fi}
+\newenvironment{deliverables}[1]{\ifdelivs\begin{longtable}{|l|p{#1}|l|l|l|l|l|}\hline%
+\#&\textbf{\delivs@legend@name}&%
+\textbf{\delivs@legend@wp}&%
+\textbf{\delivs@legend@lead}&%
+\textbf{\delivs@legend@nature}&%
+\textbf{\delivs@legend@level}&%
+\textbf{\delivs@legend@due}\\\hline\hline%
+\endhead%
+\else\deliv@error\fi}
 {\ifdelivs\end{longtable}\fi}
 %    \end{macrocode}
 % now the multilingual support
 %    \begin{macrocode}
 \newcommand\delivs@legend@name{Deliverable name}
 \newcommand\delivs@legend@wp{WP}
-\newcommand\delivs@legend@nature{Nature}
+\newcommand\delivs@legend@nature{Type}
 \newcommand\delivs@legend@level{Level}
 \newcommand\delivs@legend@due{Due}
+\newcommand\delivs@legend@dissem{Dissem.}
+\newcommand\delivs@legend@lead{Lead}
 %    \end{macrocode}
 % \end{environment}
 % 
@@ -1475,7 +1499,7 @@
 % \end{environment}
 % The next step is to 
 %    \begin{macrocode}
-\newcommand\task@label[1]{T#1}
+\newcommand\task@label[2]{\textbf{T#1.#2}}
 %    \end{macrocode}
 % We define the keys for the task macro
 %    \begin{macrocode}
@@ -1483,15 +1507,15 @@
 \define@key{task}{wphases}{\def\task@wphases{#1}\pdata@def{task}{\taskin\task@id\wp@id}{wphases}{#1}\@dmp{wphases=#1}}
 \define@key{task}{requires}{\@requires\task@id{#1}\@dmp{req=#1}}
 \define@key{task}{title}{\def\task@title{#1}\pdata@def{task}{\taskin\task@id\wp@id}{title}{#1}}
-\define@key{task}{lead}{\def\task@lead{#1}\pdata@def{task}{\taskin\task@id\wp@id}{lead}{#1}\@dmp{lead=#1}}
-\define@key{task}{partners}{\def\task@partners{#1}\pdata@def{task}{\taskin\task@id\wp@id}{partners}{#1}\@dmp{partners=#1}}
-\define@key{task}{PM}{\def\task@PM{#1}\pdata@def{task}{\taskin\task@id\wp@id}{PM}{#1}\@dmp{PM=#1}}
+\define@key{task}{lead}{\def\task@lead{#1}\pdata@def{task}{\taskin\task@id\wp@id}{lead}{#1}}
+\define@key{task}{partners}{\def\task@partners{#1}\pdata@def{task}{\taskin\task@id\wp@id}{partners}{#1}}
+\define@key{task}{PM}{\def\task@PM{#1}\pdata@def{task}{\taskin\task@id\wp@id}{PM}{#1}}
 %    \end{macrocode}
 % then we define an auxiliary function that gives them sensible defaults and sets the
 % internal macros.
 %    \begin{macrocode}
 \def\task@set#1{\edef\task@id{task\thetask@all}
-\def\task@wphases{0-0}\def\task@partners{}\def\task@lead{}
+\def\task@wphases{0-0}\def\task@partners{}\def\task@lead{}\def\task@PM{}
 \setkeys{task}{#1}}
 %    \end{macrocode}
 % 
@@ -1506,15 +1530,20 @@
 %    \begin{macrocode}
 \newcounter{alltasks}
 \def\task@post@title@space{\quad}
+\newcommand\task@legend@partners{Sites: }
+\newcommand\task@legend@PM{PM}
 \newenvironment{task}[1][]%
 {\stepcounter{alltasks}
-\@task{#1}\item[\pdata@target{task}{\taskin\task@id\wp@id}{\task@label{\thetask@wp}}]%
+\@task{#1}\item[\pdata@target{task}{\taskin\task@id\wp@id}{\task@label\thewp\thetask@wp}]%
 \@ifundefined{task@title}{}{\textbf\task@title}\task@post@title@space%
 \def\@initial{0-0}\ifx\task@wphases\@initial\else%
-\ (\let\@@sep=\relax\@for\@I:=\task@wphases%
+\let\@@sep=\relax\@for\@I:=\task@wphases%
 \do{\decode@wphase\@I\@@sep\show@wphase\wphase@start\wphase@end\wphase@force\let\@@sep=\sep@wphases}%
-\ifx\task@lead\@empty\else; \task@legend@partners: \site\task@lead~(\legend@lead)\fi%
-\ifx\task@partners\@empty\else\@for \@I:=\task@partners\do{, \site\@I}\fi)\\\fi}
+\fi% initial
+\hfill%
+\ifsubmit\else\ifx\task@PM\@empty\else\task@PM\ \task@legend@PM;\fi\fi%
+\ifx\task@lead\@empty\else\ \task@legend@partners\site\task@lead~(\legend@lead)\fi%
+\@for\@I:=\task@partners\do{, \site\@I}\\}
 {\ignorespaces}
 %    \end{macrocode}
 % now the multilingual support and presentation configuration
@@ -1538,7 +1567,7 @@
 \def\@task#1{\stepcounter{task@all}\stepcounter{task@wp}%
 \task@set{#1}%
 \pdata@def{task}{\taskin\task@id\wp@id}{wphases}\task@wphases
-\pdata@def{task}{\taskin\task@id\wp@id}{label}{\task@label\thetask@wp}%
+\pdata@def{task}{\taskin\task@id\wp@id}{label}{\task@label\thewp\thetask@wp}%
 \pdata@def{task}{\taskin\task@id\wp@id}{number}{\thetask@wp}%
 \pdata@def{task}{\taskin\task@id\wp@id}{page}{\thepage}%
 \update@tasks{\taskin\task@id\wp@id}}
@@ -1553,18 +1582,18 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\localtaskref}
-%    \begin{macrocode}
-\newcommand\localtaskref[1]{\pdataRef{task}{\wp@id @#1}{label}}
-%    \end{macrocode}
-% \end{macro}
-% 
-% \begin{macro}{\taskref}
+% \begin{macro}{\*task*ref}
 %    \begin{macrocode}
 \newcommand\taskin[2]{#2@#1}
-\newcommand\taskref[2]{\WPref{#1}.\pdataRef{task}{#1@#2}{label}}
-\newcommand\taskreflong[2]{\WPref{#1}.\pdataRef{task}{#2}{label}}
-\newcommand\tasktref[2]{\WPref{#1} (\task@label@long \pdataRef{task}{#1@#2}{number})}
+\newcommand\taskref[2]{\pdataRef{task}{#1@#2}{label}}
+\newcommand\taskreflong[2]{\pdataRef{task}{#2}{label}}
+\newcommand\tasktref[2]{\taskref{#1}{#2}: \pdataRefFB{task}{#1@#2}{short}{title}}
+\newcommand\localtaskref[1]{\taskref{\wp@id}{#1}}
+\newcommand\localtasktref[1]{\tasktref{\wp@id}{#1}}
+%    \end{macrocode}
+% \end{macro}
+% now we initialize experimental infrastructure for task dependencies (not very well used/tested)
+%    \begin{macrocode}
 \newcounter{gantt@deps}
 \def\@requires#1#2{\stepcounter{gantt@deps}%
 \edef\dep@id{taskdep\thegantt@deps}%
@@ -1573,7 +1602,6 @@
 \update@deps\dep@id}
 %</cls>
 %    \end{macrocode}
-% \end{macro}
 %
 % \subsection{Project Data,  Referencing \& Hyperlinking}\label{sec:impl:hyperlinking} 
 % 
@@ -1636,10 +1664,32 @@
 %    \end{macrocode}
 % \end{macro}
 %
+% \begin{macro}{\pdatarefFB}
+% a variant with fallback field,
+%    \begin{macrocode}
+\newcommand\pdatarefFB[4]{\@ifundefined{#1@#2@#3}%
+{\@ifundefined{#1@#2@#4}%
+{\protect\G@refundefinedtrue\@latex@warning{both #3 and its fallback #4 undefined for #1 #2}??}%
+{\csname #1@#2@#4\endcsname}}
+{\csname #1@#2@#3\endcsname}}
+%    \end{macrocode}
+% \end{macro}
+% 
 % \begin{macro}{\pdataRef}
 %    \begin{macrocode}
 \newcommand\pdataRef[3]{\@ifundefined{#1@#2@#3}%
 {\protect\G@refundefinedtrue\@latex@warning{#3 for #1 #2 undefined}??}%
+{\hyperlink{#1@#2@target}{\csname #1@#2@#3\endcsname}}}
+%    \end{macrocode}
+% \end{macro}
+% 
+% \begin{macro}{\pdataRefFB}
+% a variant with fallback field,
+%    \begin{macrocode}
+\newcommand\pdataRefFB[4]{\@ifundefined{#1@#2@#3}%
+{\@ifundefined{#1@#2@#4}%
+{\protect\G@refundefinedtrue\@latex@warning{both #3 and its fallback #4 undefined for #1 #2}??}%
+{\hyperlink{#1@#2@target}{\csname #1@#2@#4\endcsname}}}
 {\hyperlink{#1@#2@target}{\csname #1@#2@#3\endcsname}}}
 %    \end{macrocode}
 % \end{macro}
@@ -1662,10 +1712,10 @@
 % \begin{macro}{\W*ref}
 %    \begin{macrocode}
 \newcommand\WPref[1]{\pdataRef{wp}{#1}{label}}
-\newcommand\WPtref[1]{\pdataRef{wp}{#1}{label}: \pdataRef{wp}{#1}{short}}
+\newcommand\WPtref[1]{\WPref{#1}: \pdataRefFB{wp}{#1}{short}{title}}
 \ifwork@areas
 \newcommand\WAref[1]{\pdataRef{wa}{#1}{label}}
-\newcommand\WAtref[1]{\pdataRef{wa}{#1}{label}: \pdataRef{wa}{#1}{title}}
+\newcommand\WAtref[1]{\WAref{#1}: \pdataRefFB{wa}{#1}{short}{title}}
 \fi
 %</pdata>
 %    \end{macrocode}
@@ -2188,7 +2238,7 @@ wagray,.70/.70,.70,.70/0,0,.70/0,0,0,.30}
      \@for\@@task:=\@@tasks\do{% iterate over the tasks
        \stepcounter{gantt@tasks}
        \@@line=\gantt@tasks\advance\@@line by -\thegantt@tasks
-       \node at (-1/\gantt@xscale,\@@line) [above=-2pt] {\taskreflong\@@wp\@@task};
+       \node at (-.5/\gantt@xscale,\@@line) [above=-2pt] {{\footnotesize\taskreflong\@@wp\@@task}};
        \edef\@@wphases{\pdataref@safe{task}\@@task{wphases}}
        \@for\@@ft:=\@@wphases\do{%iterate over the task-level work phases
          \decode@wphase\@@ft
@@ -2399,7 +2449,7 @@ joint&\multicolumn{\the@site}{l|}{\jpub $\hat=$ publication, \jpro $\hat=$ proje
 % LocalWords:  babel true bookmarks blue LO LE page of prop sites key site RM hypertarget
 % LocalWords:  def id title acronym discipline start months Proposal Erg by cls endinput
 % LocalWords:  empty em name affiliation Applicants Work Address email The pn Hartenstein
-% LocalWords:  curriculum vita the applicants are enclosed appendix reference Schr
+% LocalWords:  curriculum vita the applicants are enclosed appendix reference Schr doctex
 % LocalWords:  Research area and field work Scientific Fields Anticipated write botupPM
 % LocalWords:  duration Application period Summary short lead Package label task botupMP
 % LocalWords:  tasks deps number line Effort target ids count warning at pdata swsites
@@ -2456,7 +2506,7 @@ joint&\multicolumn{\the@site}{l|}{\jpub $\hat=$ publication, \jpro $\hat=$ proje
 % LocalWords:  alltasks taskreflong definecolorset leadgray wagray thewpfig fancyhfoffset
 % LocalWords:  wpfigstyle colspan keyvals gantttaskchart baselinestretch NeedsTeXFormat
 % LocalWords:  mileref mileref miletref backref firstinits wissenschaftlicher
-%  LocalWords:  wissenschaftliche startend@wphases addtocategory
+%  LocalWords:  wissenschaftliche startend@wphases addtocategory localdelivref
 
 % \endinput
 % Local Variables:
