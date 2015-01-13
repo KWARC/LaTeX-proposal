@@ -1,3 +1,9 @@
+###########################################################################
+# Automating proposal management by make.
+# The participants work on proposal.tex in "draft" mode, which gives a lot
+# of information to the developers. Variants submit.tex and public.tex are
+# used to prepare official versions (hiding development/private info). 
+###########################################################################
 # possibly customize the following variables to your setting
 PROPOSAL = propB.tex 		# the proposal
 BIB = ../lib/dummy.bib	        # bibTeX databases
@@ -14,7 +20,7 @@ PDATA 		= $(PROPOSAL:%.tex=%.pdata)       # the proposal project data
 SRC = $(filter-out $(TARGET),$(shell ls *.tex))   # included files
 PDFLATEX = pdflatex -interaction batchmode -file-line-error
 BBL.base = 1 2 3 4
-BBL = propB.bbl $(BBL.base:%=propB%-blx.bbl)
+BBL = $(PROPOSAL:%.tex=%.bbl) $(BBL.base:%=$(PROPOSAL:%.tex=%)%-blx.bbl)
 PROPCLS.dir = $(PROP.dir)/base
 PROPETC.dir = $(PROP.dir)/etc
 EUPROPCLS.dir = $(PROP.dir)/eu
@@ -27,8 +33,11 @@ PROPCLS = $(PROPCLS.clssty:%=$(PROPCLS.dir)/%) $(EUPROPCLS.clssty:%=$(EUPROPCLS.
 
 all: $(TBIB.pdf) $(TSIMP.pdf)
 
-cd: 	                                           # make cd will prepare CD for burning
-	mkdir CD;make $(TARGET.pdf); cp $(TARGET.pdf) CD
+submit:
+	$(MAKE) -w PROPOSAL=final.tex all
+
+public:
+	$(MAKE) -w PROPOSAL=public.tex all
 
 bbl:	$(BBL)
 $(BBL): %.bbl: %.aux
