@@ -16,9 +16,9 @@ ctan: all filedate checksum
 	git push
 	rm -Rf $(EXPORTED)
 	@echo "exporting a clean copy to $(EXPORTED)"
-	cd /tmp; git clone $(GITURI); mv LaTeX-proposal $(TDSCOLL)
-	find $(EXPORTED) -name ".svn" -type d -exec rm -Rf {} \;
-	cd $(EXPORTED);	$(MAKE) -$(MAKEFLAGS) ctanext
+#	cd /tmp; git clone $(GITURI); mv LaTeX-proposal $(TDSCOLL)
+	cd $(EXPORTED); rm -Rf .git; rm .gitignore
+	cd $(EXPORTED); $(MAKE) -$(MAKEFLAGS) ctanext
 	@echo "zipping the result to $(TDSCOLL).ctan.zip"
 	cd $(CTANDIR); zip -r -q $(CTANZIP) .; cd -; cp $(CTANZIP) .
 	rm -Rf $(EXPORTED) $(CTANDIR) $(CTANZIP)
