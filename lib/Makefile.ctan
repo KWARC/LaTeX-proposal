@@ -1,6 +1,5 @@
 # make a zip for CTAN submission including the TeX directory structure
-SVNEXP 		= svn export --quiet
-TDSCOLL 	?= $(shell basename $$PWD)
+TDSCOLL 	= proposal
 EXPORTED	= /tmp/$(TDSCOLL)
 TDSDIR 		= /tmp/$(TDSCOLL).tds
 TDSZIP 		= /tmp/$(TDSCOLL).tds.zip
@@ -13,10 +12,11 @@ CTANZIP 	= /tmp/$(TDSCOLL).ctan.zip
 # export a clean copy EXPORTED, on which we run the target ctanexp below,  
 # which generates a directory CTANDIR, which we zip and move into place. 
 ctan: all filedate checksum
-	svn ci -m'draining just to be sure for CTAN distribution'
+	git commit -am'draining just to be sure for CTAN distribution'
+	git push
 	rm -Rf $(EXPORTED)
 	@echo "exporting a clean copy to $(EXPORTED)"
-	$(SVNEXP) $(TDSURL) $(EXPORTED)
+	cd /tmp; git clone $(GITURI); mv LaTeX-proposal $(TDSCOLL)
 	find $(EXPORTED) -name ".svn" -type d -exec rm -Rf {} \;
 	cd $(EXPORTED);	$(MAKE) -$(MAKEFLAGS) ctanext
 	@echo "zipping the result to $(TDSCOLL).ctan.zip"
