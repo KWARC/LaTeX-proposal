@@ -16,8 +16,9 @@ ctan: all filedate checksum
 	git push
 	rm -Rf $(EXPORTED)
 	@echo "exporting a clean copy to $(EXPORTED)"
-#	cd /tmp; git clone $(GITURI); mv LaTeX-proposal $(TDSCOLL)
-	cd $(EXPORTED); rm -Rf .git; rm .gitignore
+	cd /tmp; git clone $(GITURI); mv LaTeX-proposal $(TDSCOLL)
+	rm -Rf $(EXPORTED)/.git
+	rm $(EXPORTED)/.gitignore
 	cd $(EXPORTED); $(MAKE) -$(MAKEFLAGS) ctanext
 	@echo "zipping the result to $(TDSCOLL).ctan.zip"
 	cd $(CTANDIR); zip -r -q $(CTANZIP) .; cd -; cp $(CTANZIP) .
@@ -32,7 +33,7 @@ ctanext: tdsext
 	cp $(TDSZIP) $(CTANDIR)
 	@for d in $(DTXDIRS); do (cd $$d && $(MAKE) -$(MAKEFLAGS) lctan) done
 	@for d in $(SRCDIRS) $(DOCDIRS); do (cp -R $$d $(CTANDIR)) done; 
-	cp $(TDSZIP) README Makefile $(CTANDIR)
+	cp $(TDSZIP) $(TDS.doc) Makefile $(CTANDIR)
 	rm -Rf  $(TDSZIP)
 
 # this target makes the file TDSZIP by creating and populating the directory 
