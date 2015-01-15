@@ -157,6 +157,22 @@
 % |DEM| = Demonstration; |MGT| = Management of the consortium; |OTHER| = Other specific
 % activities, if applicable in this call.
 %
+% \subsection{Milestones and Deliverables}\label{sec:user:deliverables}
+% 
+% |euproposal.cls| adds the \DescribeMacro{verif}|verif| key to \DescribeMacro{\milestone}
+% for specifying a means of verification that the milestone has been successful.
+% 
+% With this, we can generate the milestone table that is required in many EU
+% proposals. This can simply be done via the
+% \DescribeMacro{\milestonetable}|\milestonetable| macro. It takes a keyword argument with
+% the keys \DescribeMacro{caption}|caption| for specifying a different caption, and the
+% widths \DescribeMacro{wname}|wname|, \DescribeMacro{wdeliv}|wdeliv|, and
+% \DescribeMacro{wverif}|wverif| that can be used to specify different widths for the
+% name/deliverables/verification columns in the milestone table.
+% 
+% \subsection{Risks}\label{sec:user:risks}
+% \ednote{MK: document the infrastructure, make examples}
+%
 % \begin{newpart}{MK@MK: This is new, and only partially implemented}
 % \subsection{Reporting Infrastructure}\label{sec:user:report}
 % 
@@ -447,12 +463,77 @@
 %    \end{macrocode}
 % \end{macro}
 %
+% \subsection{Milestones and Deliverables}\label{sec:impl:deliverables}
+% 
 % \begin{environment}{wpdelivs}
-%  We make the deliverables boxed, this is simple with |mdframed.sty|. 
+%   We make the deliverables boxed in EU proposals, this is simple with |mdframed.sty|.
 %    \begin{macrocode}
 \surroundwithmdframed{wpdelivs}
 %    \end{macrocode}
 % \end{environment}
+%
+% \begin{macro}{\milestone}
+%    \begin{macrocode}
+\define@key{milestone}{verif}{\gdef\mile@verif{#1}\pdata@def{mile}\mile@id{verif}{#1}}
+%    \end{macrocode}
+% \end{macro}
+% 
+% \begin{macro}{milestonetable}
+% here we do the work. 
+%    \begin{macrocode}
+\define@key{mst}{caption}{\gdef\mst@caption{#1}}
+\define@key{mst}{wname}{\gdef\mst@wname{#1}}
+\define@key{mst}{wdeliv}{\gdef\mst@wdeliv{#1}}
+\define@key{mst}{wverif}{\gdef\mst@wverif{#1}}
+\newcommand\milestonetable[1][]{%
+\def\mst@caption{Milestones, Deliverables, and Verification}%
+\def\mst@wname{2.5cm}\def\mst@wdeliv{7cm}\def\mst@wverif{4cm}
+\setkeys{mst}{#1}%
+{\gdef\mst@lines{}%initialize
+\let\tabularnewline\relax\let\hline\relax% so they 
+\let\textbf\relax\let\emph\relax% do not bother us
+\edef\@@miles{\pdataref{all}{mile}{ids}}
+\@for\@I:=\@@miles\do{
+\edef\@delivs{\pdataref@safe{mile}{\@I}{delivs}}%
+\def\@@delivs{}
+\@for\@J:=\@delivs\do{\xdef\@@delivs{\@@delivs\ \pdataref{deliv}\@J{label}}}
+\def\@@line{
+\textbf{\pdataref{mile}\@I{label}}&
+\emph{\pdataref{mile}{\@I}{title}} &
+\@@delivs&
+\pdataref{mile}\@I{month} &
+\pdataref{mile}\@I{verif}}
+\xdef\mst@lines{\mst@lines\@@line\tabularnewline\hline}}}
+\begin{table}[ht]
+\begin{tabular}{|l|p{\mst@wname}|p{\mst@wdeliv}|l|p{\mst@wverif}|}\hline
+\#&\textbf{\miles@legend@name}
+&\textbf{\miles@legend@involved}
+&\textbf{\miles@legend@mo}
+&\textbf{\miles@legend@verif}\\\hline\hline
+\mst@lines
+\end{tabular}
+\caption{\mst@caption}\label{tab:milestonetable}
+\end{table}
+\footnotetext\miles@legend@footnote}
+%    \end{macrocode}
+% now the multilinguality support 
+%    \begin{macrocode}
+\newcommand\miles@legend@name{Name}
+\newcommand\miles@legend@mo{Mo}
+\newcommand\miles@legend@verif{Means of Verif.}
+\newcommand\miles@legend@involved{WPs\footnotemark/Deliverables involved}
+\newcommand\miles@legend@footnote{The work package number is the first number in the deliverable number.}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\prop@milesfor}
+%    the due date is the first argument to facilitate sorting
+%    \begin{macrocode}
+\newcommand\prop@milesfor[1]{\edef\@delivs{\pdataref@safe{mile}{#1}{delivs}}%
+\let\m@sep=\relax\def\new@sep{,\ }%
+\@for\@I:=\@delivs\do{\m@sep\pdataRef{deliv}\@I{label}\let\m@sep=\new@sep}}
+%    \end{macrocode}
+% \end{macro}
 % 
 % \subsection{Risks}\label{sec:impl:risks}
 % 

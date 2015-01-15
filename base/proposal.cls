@@ -386,62 +386,27 @@
 \newcounter{milestone}
 \define@key{milestone}{id}{\gdef\mile@id{#1}}
 \define@key{milestone}{month}{\gdef\mile@month{#1}}
-\define@key{milestone}{verif}{\gdef\mile@verif{#1}}
 \newcommand\milestone[3][]{%
 \ifdelivs%
 \setkeys{milestone}{#1}\stepcounter{milestone}%
 \pdata@def{mile}\mile@id{label}{\milestone@label{\themilestone}}%
 \pdata@def{mile}\mile@id{month}{\mile@month}%
-\pdata@def{mile}\mile@id{verif}{\mile@verif}%
 \pdata@def{mile}\mile@id{title}{#2}%
 \pdata@def{mile}\mile@id{description}{#3}%
 \@ifundefined{mile@stones}{\xdef\mile@stones{\mile@id}}{\xdef\mile@stones{\mile@stones,\mile@id}}%
 \@milestone{\mile@id}{#2}{#3}% presentation
 \else\deliv@error\fi}
 \newcommand\@milestone[3]{% id, title, description
-\item \textbf{Milestone \pdataref{mile}{#1}{label} (Month \pdataref{mile}\mile@id{month})
+\item \textbf{\miles@legend@milestone \pdataref{mile}{#1}{label} (\miles@legend@month \pdataref{mile}\mile@id{month})
 \textbf{#2}} #3}
+\newcommand\miles@legend@month{Month}
+\newcommand\miles@legend@milestone{Milestone}
 \newenvironment{milestones}%
 {\ifdelivs\begin{@milestones}\else\deliv@error\fi}
 {\ifdelivs\pdata@def{all}{mile}{ids}{\mile@stones}%
 \pdata@def{all}{mile}{count}{\themilestone}%
 \end{@milestones}\fi}
 \newenvironment{@milestones}{\begin{enumerate}}{\end{enumerate}}
-\newcommand\milestonetable{%
-{\gdef\mst@lines{}%initialize
-\let\tabularnewline\relax\let\hline\relax% so they
-\let\textbf\relax\let\emph\relax% do not bother us
-\edef\@@miles{\pdataref{all}{mile}{ids}}
-\@for\@I:=\@@miles\do{
-\edef\@delivs{\pdataref@safe{mile}{\@I}{delivs}}%
-\def\@@delivs{}
-\@for\@J:=\@delivs\do{\xdef\@@delivs{\@@delivs\ \pdataref{deliv}\@J{label}}}
-\def\@@line{
-\textbf{\pdataref{mile}\@I{label}}&
-\emph{\pdataref{mile}{\@I}{title}} &
-\@@delivs&
-\pdataref{mile}\@I{month} &
-\pdataref{mile}\@I{verif}}
-\xdef\mst@lines{\mst@lines\@@line\tabularnewline\hline}}}
-\begin{table}[ht]
-\begin{tabular}{|l|p{2.5cm}|p{7cm}|l|p{4cm}|}\hline
-\#&\textbf{\miles@legend@name}
-&\textbf{\miles@legend@involved}
-&\textbf{\miles@legend@month}
-&\textbf{\miles@legend@verif}\\\hline\hline
-\mst@lines
-\end{tabular}
-\caption{Milestones, Deliverables, and Verification}\label{tab:milestonetable}
-\end{table}
-\footnotetext\miles@legend@footnote}
-\newcommand\miles@legend@name{Name}
-\newcommand\miles@legend@month{Mo}
-\newcommand\miles@legend@verif{Means of Verif.}
-\newcommand\miles@legend@involved{WPs\footnotemark/Deliverables involved}
-\newcommand\miles@legend@footnote{The work package number is the first number in the deliverable number.}
-\newcommand\prop@milesfor[1]{\edef\@delivs{\pdataref@safe{mile}{#1}{delivs}}%
-\let\m@sep=\relax\def\new@sep{,\ }%
-\@for\@I:=\@delivs\do{\m@sep\pdataRef{deliv}\@I{label}\let\m@sep=\new@sep}}
 \newcommand{\deliverable}[9]{\pdataRef{deliv}{#4}{label}&#7&#8&#9&#6&#5&#2\\\hline}%sortkey,due,label,id,title,type,level,lead
 \newenvironment{deliverables}[1]{\ifdelivs\begin{longtable}{|l|p{#1}|l|l|l|l|l|}\hline%
 \#&\textbf{\delivs@legend@name}&%

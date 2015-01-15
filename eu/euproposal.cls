@@ -140,6 +140,49 @@
 \wp@efforts@line\\\hline%
 \end{tabular}\smallskip\par\noindent\ignorespaces}
 \surroundwithmdframed{wpdelivs}
+\define@key{milestone}{verif}{\gdef\mile@verif{#1}\pdata@def{mile}\mile@id{verif}{#1}}
+\define@key{mst}{caption}{\gdef\mst@caption{#1}}
+\define@key{mst}{wname}{\gdef\mst@wname{#1}}
+\define@key{mst}{wdeliv}{\gdef\mst@wdeliv{#1}}
+\define@key{mst}{wverif}{\gdef\mst@wverif{#1}}
+\newcommand\milestonetable[1][]{%
+\def\mst@caption{Milestones, Deliverables, and Verification}%
+\def\mst@wname{2.5cm}\def\mst@wdeliv{7cm}\def\mst@wverif{4cm}
+\setkeys{mst}{#1}%
+{\gdef\mst@lines{}%initialize
+\let\tabularnewline\relax\let\hline\relax% so they
+\let\textbf\relax\let\emph\relax% do not bother us
+\edef\@@miles{\pdataref{all}{mile}{ids}}
+\@for\@I:=\@@miles\do{
+\edef\@delivs{\pdataref@safe{mile}{\@I}{delivs}}%
+\def\@@delivs{}
+\@for\@J:=\@delivs\do{\xdef\@@delivs{\@@delivs\ \pdataref{deliv}\@J{label}}}
+\def\@@line{
+\textbf{\pdataref{mile}\@I{label}}&
+\emph{\pdataref{mile}{\@I}{title}} &
+\@@delivs&
+\pdataref{mile}\@I{month} &
+\pdataref{mile}\@I{verif}}
+\xdef\mst@lines{\mst@lines\@@line\tabularnewline\hline}}}
+\begin{table}[ht]
+\begin{tabular}{|l|p{\mst@wname}|p{\mst@wdeliv}|l|p{\mst@wverif}|}\hline
+\#&\textbf{\miles@legend@name}
+&\textbf{\miles@legend@involved}
+&\textbf{\miles@legend@mo}
+&\textbf{\miles@legend@verif}\\\hline\hline
+\mst@lines
+\end{tabular}
+\caption{\mst@caption}\label{tab:milestonetable}
+\end{table}
+\footnotetext\miles@legend@footnote}
+\newcommand\miles@legend@name{Name}
+\newcommand\miles@legend@mo{Mo}
+\newcommand\miles@legend@verif{Means of Verif.}
+\newcommand\miles@legend@involved{WPs\footnotemark/Deliverables involved}
+\newcommand\miles@legend@footnote{The work package number is the first number in the deliverable number.}
+\newcommand\prop@milesfor[1]{\edef\@delivs{\pdataref@safe{mile}{#1}{delivs}}%
+\let\m@sep=\relax\def\new@sep{,\ }%
+\@for\@I:=\@delivs\do{\m@sep\pdataRef{deliv}\@I{label}\let\m@sep=\new@sep}}
 \newenvironment{risk}[3]
 {\paragraph{Risk: #1}\hfill\emph{probability}: #2, \emph{gravity}: #3\par\noindent\ignorespaces}
 {}
