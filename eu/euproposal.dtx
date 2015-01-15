@@ -13,9 +13,9 @@
 % 
 % \iffalse
 %<cls|pdata|reporting>\NeedsTeXFormat{LaTeX2e}[1999/12/01]
-%<cls>\ProvidesClass{euproposal}[2013/01/13 v1.4 EU Proposal]
-%<pdata>\ProvidesPackage{eupdata}[2013/01/13 v1.4 EU Project Data]
-%<reporting>\ProvidesPackage{eureporting}[2013/01/13 v1.4 EU Project Reporting]
+%<cls>\ProvidesClass{euproposal}[2015/01/14 v1.5 EU Proposal]
+%<pdata>\ProvidesPackage{eupdata}[2015/01/14 v1.5 EU Project Data]
+%<reporting>\ProvidesPackage{eureporting}[2015/01/14 v1.5 EU Project Reporting]
 %<*driver>
 \documentclass[twoside]{ltxdoc}
 \DoNotIndex{\def,\long,\edef,\xdef,\gdef,\let,\global}
@@ -49,6 +49,7 @@
 % \changes{v0.3a}{2008/01/18}{error corrections and more documentation}
 % \changes{v1.3}{2011/05/18}{basing this on proposal.cls}
 % \changes{v1.4}{2012/01/18}{various tweaks for the Jan 2012 proposal deadline}
+% \changes{v1.4}{2015/01/14}{lots of tweaks}
 % 
 % \GetFileInfo{euproposal.cls}
 % 
@@ -141,6 +142,8 @@
 % \item The \DescribeMacro{coordinator}|coordinator| key gives the identifier of the
 %   proposal coordinator. The |euproposal| package uses the |workaddress| package for
 %   representation of personal metadata, see~\cite{Kohlhase:workaddress:ctan} for details.
+% \item The \DescribeMacro{coordinatorsite}|coordinatorsite| key gives the identifier of
+%   the coordinating site (for the table). 
 % \item If given, the \DescribeMacro{iconrowheight}|iconrowheight| key instructs the
 %   |euproposal| class to make a line with the logos of the participants at the bottom of
 %   the title page, and specify their heights; |1.5cm| is often a good value.
@@ -208,6 +211,12 @@
 \RequirePackage{eurosym}
 \RequirePackage{wrapfig}
 \RequirePackage{eupdata}
+%    \end{macrocode}
+% we want to change the numbering of figures and tables
+%    \begin{macrocode}
+\RequirePackage{chngcntr}
+\counterwithin{figure}{subsection}
+\counterwithin{table}{subsection}
 %</cls|reporting>
 %    \end{macrocode}
 %    
@@ -217,6 +226,7 @@
 %    \begin{macrocode}
 %<*pdata>
 \define@key{prop@gen}{coordinator}{\def\prop@gen@coordinator{#1}\pdata@def{prop}{gen}{coordinator}{#1}}
+\define@key{prop@gen}{coordinatorsite}{\def\prop@gen@coordinatorsite{#1}\pdata@def{prop}{gen}{coordinator}{#1}}
 \def\prop@gen@challenge{??}\def\prop@gen@challengeid{??}
 \define@key{prop@gen}{challenge}{\def\prop@gen@challenge{#1}\pdata@def{prop}{gen}{challenge}{#1}}
 \define@key{prop@gen}{challengeid}{\def\prop@gen@challengeid{#1}\pdata@def{prop}{gen}{challengeid}{#1}}
@@ -264,7 +274,8 @@
 \newcommand\prop@sites@table{\def\@@table{}
 {\let\tabularnewline\relax\let\hline\relax
 \@for\@I:=\prop@gen@sites\do{\xdef\@@table{\@@table\pdataref{site}\@I{number}}
-\xdef\@@table{\@@table&\@nameuse{wa@institution@\@I @name}}
+\xdef\@@table{\@@table&\@nameuse{wa@institution@\@I @name}
+\ifx\@I\prop@gen@coordinatorsite (coordinator)\fi}
 \xdef\@@table{\@@table&\@nameuse{wa@institution@\@I @acronym}}
 \xdef\@@table{\@@table&\@nameuse{wa@institution@\@I @countryshort}\tabularnewline\hline}}}
 \begin{tabular}{|l|p{8cm}|l|l|}\hline%|
@@ -279,31 +290,32 @@
 \renewenvironment{prop@proposal}
 {\thispagestyle{empty}\begin{center}
   {\Large \prop@gen@instrument}\\[.2cm]
-  {\LARGE\textbf\prop@gen@callname}\\[.4cm]
-  {\Large \prop@gen@callid}\\[.4cm]
-  {\LARGE\textbf\prop@gen@title}\\[.3cm]
-  {\LARGE Acronym: {\prop@gen@acronym}}\\[.2cm]
+  {\Large\textbf\prop@gen@callname}\\[.4cm]
+  {\LARGE \prop@gen@callid}\\[.8cm]
+  {\huge\textbf\prop@gen@title}\\[.4cm]
+  {\LARGE Acronym: {\prop@gen@acronym}}\\[2cm]
 \end{center}
-{\large\prop@gen@instrument}\\
+%{\large\prop@gen@instrument}\\
 {\large\textbf{Date of Preparation: \today}}
-\ifsubmit\else\\
-{\large\textbf{Revision}: 
-\if@svninfo\svnInfoRevision\fi\if@gitinfo\gitAbbrevHash\fi
- of 
-\if@svninfo\svnInfoDate\fi\if@gitinfo\gitAuthorDate\fi}
-\fi\\[1em]
-{\large}
+% \ifsubmit\else\if@svninfo\if@gitinfo\\
+% {\large\textbf{Revision}: 
+% \if@svninfo\svnInfoRevision\fi\if@gitinfo\gitAbbrevHash\fi
+%  of 
+% \if@svninfo\svnInfoDate\fi\if@gitinfo\gitAuthorDate\fi}
+% \fi\fi\fi
+\\[1em]
 \begin{large}
  \begin{description}
-  \item[Work program topics addressed by \pn:]
-    \@ifundefined{prop@gen@topicsaddressed}
-    {\textbf{Challenge \prop@gen@challengeid}: \prop@gen@challenge,
-    \textbf{Objective \prop@gen@objectiveid}: \prop@gen@objective,
-    \textbf{target outcome \prop@gen@outcomeid}) \prop@gen@outcome.}
-    {\prop@gen@topicsaddressed}\\[1em]
+  % \item[Work program topics addressed by \pn:]
+  %   \@ifundefined{prop@gen@topicsaddressed}
+  %   {\textbf{Challenge \prop@gen@challengeid}: \prop@gen@challenge,
+  %   \textbf{Objective \prop@gen@objectiveid}: \prop@gen@objective,
+  %   \textbf{target outcome \prop@gen@outcomeid}) \prop@gen@outcome.
+  %   {\prop@gen@topicsaddressed}\\[1em]
   \item[Coordinator:] \wa@ref{person}\prop@gen@coordinator{name}
   \item[e-mail:] \wa@ref{person}\prop@gen@coordinator{email}
   \item[tel/fax:] \wa@ref{person}\prop@gen@coordinator{worktelfax}
+    \@ifundefined{prop@gen@keywords}{}{\item[Keywords:]  \prop@gen@keywords}
   \end{description}
 \end{large}
 \vspace*{1em}

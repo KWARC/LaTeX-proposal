@@ -7,7 +7,7 @@
 %% proposal.dtx  (with options: `cls')
 %% 
 \NeedsTeXFormat{LaTeX2e}[1999/12/01]
-\ProvidesClass{proposal}[2013/02/19 v1.4 Project Proposal]
+\ProvidesClass{proposal}[2015/01/14 v1.5 Project Proposal]
 \newif\if@wpsubsection\@wpsubsectionfalse
 \newif\ifsubmit\submitfalse
 \newif\ifpublic\publicfalse
@@ -32,6 +32,7 @@
 \ProcessOptions
 \LoadClass[a4paper,twoside]{\proposal@class}
 \RequirePackage{amssymb}
+\RequirePackage{wasysym}
 \RequirePackage{url}
 \RequirePackage{graphicx}
 \RequirePackage{colortbl}
@@ -44,7 +45,7 @@
 \AtBeginDocument{\ifpublic\excludecomment{private}\fi}
 \RequirePackage{tikz}
 \RequirePackage{paralist}
-\RequirePackage{a4wide}
+\RequirePackage[a4paper,margin=18mm]{geometry}
 \RequirePackage{boxedminipage}
 \renewcommand{\thempfootnote}{\roman{mpfootnote}}
 \renewcommand{\familydefault}{\sfdefault}
@@ -393,23 +394,46 @@
 \pdata@def{mile}\mile@id{month}{\mile@month}%
 \pdata@def{mile}\mile@id{verif}{\mile@verif}%
 \pdata@def{mile}\mile@id{title}{#2}%
+\pdata@def{mile}\mile@id{description}{#3}%
 \@ifundefined{mile@stones}{\xdef\mile@stones{\mile@id}}{\xdef\mile@stones{\mile@stones,\mile@id}}%
-\@milestone{#1}{#2}{#3}% presentation
+\@milestone{\mile@id}{#2}{#3}% presentation
 \else\deliv@error\fi}
-\newcommand\@milestone[3]{%
-\pdata@target{mile}\mile@id{\textbf{\milestone@label\themilestone}}&
-\textbf{#2} &
-\prop@milesfor\mile@id &
-\pdataref{mile}\mile@id{month} &
-\pdataref{mile}\mile@id{verif}\\\hline
-\multicolumn{5}{|p{14cm}|}{#3}\\\hline\hline}
-\newenvironment{milestones}{\begin{@milestones}}{\end{@milestones}}
-\newenvironment{@milestones}
-{\ifdelivs\begin{longtable}{|l|p{4cm}|p{5cm}|l|p{2.5cm}|}\hline
-\#&\miles@legend@name&\miles@legend@involved&\miles@legend@month&\miles@legend@verif\\\hline\hline%
-\else\deliv@error\fi}
-{\ifdelivs\end{longtable}%
-\footnotetext\miles@legend@footnote\fi}
+\newcommand\@milestone[3]{% id, title, description
+\item \textbf{Milestone \pdataref{mile}{#1}{label} (Month \pdataref{mile}\mile@id{month})
+\textbf{#2}} #3}
+\newenvironment{milestones}%
+{\ifdelivs\begin{@milestones}\else\deliv@error\fi}
+{\ifdelivs\pdata@def{all}{mile}{ids}{\mile@stones}%
+\pdata@def{all}{mile}{count}{\themilestone}%
+\end{@milestones}\fi}
+\newenvironment{@milestones}{\begin{enumerate}}{\end{enumerate}}
+\newcommand\milestonetable{%
+{\gdef\mst@lines{}%initialize
+\let\tabularnewline\relax\let\hline\relax% so they
+\let\textbf\relax\let\emph\relax% do not bother us
+\edef\@@miles{\pdataref{all}{mile}{ids}}
+\@for\@I:=\@@miles\do{
+\edef\@delivs{\pdataref@safe{mile}{\@I}{delivs}}%
+\def\@@delivs{}
+\@for\@J:=\@delivs\do{\xdef\@@delivs{\@@delivs\ \pdataref{deliv}\@J{label}}}
+\def\@@line{
+\textbf{\pdataref{mile}\@I{label}}&
+\emph{\pdataref{mile}{\@I}{title}} &
+\@@delivs&
+\pdataref{mile}\@I{month} &
+\pdataref{mile}\@I{verif}}
+\xdef\mst@lines{\mst@lines\@@line\tabularnewline\hline}}}
+\begin{table}[ht]
+\begin{tabular}{|l|p{2.5cm}|p{7cm}|l|p{4cm}|}\hline
+\#&\textbf{\miles@legend@name}
+&\textbf{\miles@legend@involved}
+&\textbf{\miles@legend@month}
+&\textbf{\miles@legend@verif}\\\hline\hline
+\mst@lines
+\end{tabular}
+\caption{Milestones, Deliverables, and Verification}\label{tab:milestonetable}
+\end{table}
+\footnotetext\miles@legend@footnote}
 \newcommand\miles@legend@name{Name}
 \newcommand\miles@legend@month{Mo}
 \newcommand\miles@legend@verif{Means of Verif.}
@@ -455,27 +479,31 @@
 \def\task@set#1{\edef\task@id{task\thetask@all}
 \def\task@wphases{0-0}\def\task@partners{}\def\task@lead{}\def\task@PM{}
 \setkeys{task}{#1}}
-\def\task@post@title@space{\quad}
+\def\task@post@title@space{\;}
 \newcounter{alltasks}
 \def\task@post@title@space{\quad}
 \newcommand\task@legend@partners{Sites: }
 \newcommand\task@legend@PM{PM}
 \newenvironment{task}[1][]%
-{\stepcounter{alltasks}
+{\stepcounter{alltasks}%
 \@task{#1}\item[\pdata@target{task}{\taskin\task@id\wp@id}{\task@label\thewp\thetask@wp}]%
 \@ifundefined{task@title}{}{\textbf\task@title}\task@post@title@space%
 \def\@initial{0-0}\ifx\task@wphases\@initial\else%
 \let\@@sep=\relax\@for\@I:=\task@wphases%
-\do{\decode@wphase\@I\@@sep\show@wphase\wphase@start\wphase@end\wphase@force\let\@@sep=\sep@wphases}%
+\do{\decode@wphase\@I%
+\@@sep\show@wphase\wphase@start\wphase@end\wphase@force%
+\let\@@sep=\sep@wphases}%
 \fi% initial
 \hfill%
-\ifsubmit\else\ifx\task@PM\@empty\else\task@PM\ \task@legend@PM;\fi\fi%
+\ifsubmit\else\ifx\task@PM\@empty\else\task@PM~\task@legend@PM;\fi\fi%
 \ifx\task@lead\@empty\else\ \task@legend@partners\site\task@lead~(\legend@lead)\fi%
-\@for\@I:=\task@partners\do{, \site\@I}\\}
-{\ignorespaces}
+\@for\@I:=\task@partners\do{, \site\@I}\\%
+\ignorespaces}
+{\medskip}
 \newcommand\month@label[1]{M#1}
-\newcommand\show@wphase[3]{\def\@test{#3}\month@label{#1}-\month@label{#2}%
-\ifx\@test\@empty\@ #3}
+\newcommand\show@wphase[3]{\edef\@test{#3}\def\@one{1}%
+\month@label{#1}-\month@label{#2}%
+\ifx\@test\@empty\else\ifx\@test\@one\else @#3\fi\fi}
 \newcommand\sep@wphases{; }
 \newcommand\legend@partners{Partners}
 \newcommand\legend@lead{lead}
@@ -509,7 +537,8 @@
 {\csname wp@#1@lead\endcsname}}
 \definecolorset{gray/rgb/hsb/cmyk}{}{}%
 {leadgray,.90/.90,.90,.90/0,0,.90/0,0,0,.10;%
-wagray,.70/.70,.70,.70/0,0,.70/0,0,0,.30}
+wagray,.70/.70,.70,.70/0,0,.70/0,0,0,.30;%
+ganttgray,.60/.60,.60,.60/0,0,.60/0,0,0,.40}
 \newcommand\sum@style[1]{\cellcolor{wagray}{\textbf{#1}}}
 \newcommand\wa@style[1]{\cellcolor{wagray}{\textbf{#1}}}
 \newcommand\wp@style[1]{#1}
@@ -528,8 +557,10 @@ wagray,.70/.70,.70,.70/0,0,.70/0,0,0,.30}
 \define@key{wpfig}{length}[true]{\def\wpfig@length{#1}\stepcounter{wpfig@options}}
 \def\wpfig@end{false}
 \define@key{wpfig}{end}[true]{\def\wpfig@end{#1}\stepcounter{wpfig@options}}
+\define@key{wpfig}{label}{\def\wpfig@label{#1}}
+\define@key{wpfig}{caption}{\def\wpfig@caption{#1}}
 \def\@sw#1{\begin{sideways}#1\end{sideways}}
-\newenvironment{wp@figure}{\begin{figure}[ht]\wpfig@style\begin{center}
+\newenvironment{wp@figure}{\begin{table}[ht]\wpfig@style\begin{center}
 {\let\@sw\relax\let\textbf\relax\let\site\relax\let\pn\relax\let\sys\relax%
 \gdef\wpfig@headline{\wpfig@legend@wap&\wpfig@legend@title%
 \ifx\wpfig@type\@true&\wpfig@legend@type\fi%
@@ -552,8 +583,9 @@ wagray,.70/.70,.70,.70/0,0,.70/0,0,0,.30}
 {\end{tabular}\smallskip\\
 \wpfig@legend@RAM@expl
 \if@sites; \wpfig@legend@lead@expl\fi
-\caption{\wpfig@legend@caption}\label{fig:wplist}
-\end{center}\end{figure}}
+\@ifundefined{wpfig@label}{\caption{\wpfig@legend@caption}}{\caption{\wpfig@caption}}
+\@ifundefined{wpfig@label}{\label{fig:wplist}}{\label{\wpfig@label}}
+\end{center}\end{table}}
 \newcommand\wpfig@legend@wap{\textbf{\ifwork@areas{WA/P}\else{WP}\fi}}
 \newcommand\wpfig@legend@title{\textbf{Title}}
 \newcommand\wpfig@legend@type{\textbf{type}}
@@ -762,15 +794,17 @@ wagray,.70/.70,.70,.70/0,0,.70/0,0,0,.30}
 \newcommand\prop@legend@intendedtotals{\textbf{intended totals}}
 \newcommand\prop@legend@requestedtotals{\textbf{requested totals}}
 \newif\ifgantt@draft\gantt@draftfalse
+\newif\ifgantt@miles\gantt@milesfalse
 \define@key{gantt}{xscale}{\def\gantt@xscale{#1}}
 \define@key{gantt}{yscale}{\def\gantt@yscale{#1}}
 \define@key{gantt}{step}{\def\gantt@step{#1}}
 \define@key{gantt}{size}{\def\gantt@size{#1}}
 \define@key{gantt}{draft}[true]{\ifsubmit\else\gantt@drafttrue\fi}
+\define@key{gantt}{milestones}[true]{\gantt@milestrue}
 \def\gantt@set#1{\gantt@draftfalse\def\gantt@xscale{1}\def\gantt@yscale{.35}\def\gantt@step{3}
 \setkeys{gantt}{#1}}
 \newenvironment{gantt}[2][]
-{\gantt@set{#1}
+{\gantt@set{#1}\gdef\gantt@height{#2}
 \def\@test{\prop@gen@months@default}
 \ifx\@test\prop@gen@months
 \ClassError{proposal}{Need overall project months to draw gantt
@@ -778,20 +812,31 @@ wagray,.70/.70,.70,.70/0,0,.70/0,0,0,.30}
     \protect\begin{proposal}[...,months=??,...] to fix}\fi
 \@ifundefined{gantt@size}{}{\csname\gantt@size\endcsname}
 \newdimen\gantt@ymonths
-\gantt@ymonths=#2 cm
-\advance\gantt@ymonths by .5cm
-\begin{tikzpicture}[xscale=\gantt@xscale,yscale=\gantt@yscale]
-\draw[xstep=\gantt@step,gray,very thin] (0,0) grid (\prop@gen@months,#2);
-\foreach \x in {0,\gantt@step,...,\prop@gen@months} \node at (\x,\gantt@ymonths) {\x};}
-{\end{tikzpicture}}
+\gantt@ymonths=\gantt@height cm
+\advance\gantt@ymonths by .8cm
+\begin{tikzpicture}[xscale=\gantt@xscale,yscale=\gantt@yscale]}
+{\draw[xstep=\gantt@step,very thin] (0,0) grid (\prop@gen@months,\gantt@height);
+\foreach \x in {0,\gantt@step,...,\prop@gen@months} \node at (\x,\gantt@ymonths) {\x};
+\ifgantt@miles
+\newdimen\gantt@ymiles\gantt@ymiles=\gantt@height cm
+\advance\gantt@ymiles by 2cm
+\newdimen\gantt@ymiles@top\gantt@ymiles@top=\gantt@height cm
+\edef\@@miles{\pdataref@safe{all}{mile}{ids}}
+\@for\@I:=\@@miles\do{%
+\edef\@@month{\pdataref@safe{mile}{\@I}{month}}
+\draw[very thick,blue] (\@@month,\gantt@ymiles@top) -- (\@@month,0);
+\node[blue] at (\@@month,\gantt@ymiles) {\pdataref{mile}{\@I}{label}};}
+\fi %gantt@miles
+\end{tikzpicture}}
 \newdimen\gantt@ymid\newdimen\gantt@yinc\newdimen\gantt@xend
-\newcommand{\@action}[5]{%
-\gantt@ymid=#2 cm\gantt@yinc=\gantt@yscale cm
-\gantt@xend=#3 cm\advance\gantt@xend by #4 cm
+\newcommand{\@action}[6][]{\def\@test{#1}%
+\ifx\@test\@empty\def\@@color{ganttgray}\else\def\@@color{#1}\fi
+\gantt@ymid=#3 cm\gantt@yinc=\gantt@yscale cm
+\gantt@xend=#4 cm\advance\gantt@xend by #5 cm
 \advance\gantt@ymid by \gantt@yinc
-\fill (#3,#2) rectangle +(#4,#5);
-\node (#1@left) at (#3,\gantt@ymid) {};
-\node (#1@right) at (\gantt@xend,\gantt@ymid) {};}
+\fill[\@@color] (#4,#3) rectangle +(#5,#6);
+\node (#2@left) at (#4,\gantt@ymid) {};
+\node (#2@right) at (\gantt@xend,\gantt@ymid) {};}
 \def\@dependency#1#2{\draw[->,line width=2pt,color=red] (#1@right) -- (#2@left);}
 \newcommand\gantt@compute@effort[3]{% start, len, force
   \@@e=#1\advance\@@e by #2
@@ -861,7 +906,7 @@ wagray,.70/.70,.70,.70/0,0,.70/0,0,0,.30}
           \@for\@@ft:=\@@wphases\do{%iterate over the wp-level work phases
             \decode@wphase\@@ft
             \gantt@compute@effort\wphase@start\wphase@len\wphase@force}}}}
-      \fill  (\thegantt@month,-5) rectangle +(1,\gantt@effort);
+      \fill[ganttgray]  (\thegantt@month,-5) rectangle +(1,\gantt@effort);
       \else% ifwork@areas
       \edef\@@wps{\pdataref@safe{all}{wp}{ids}}
       \@for\@@wp:=\@@wps\do{% iterate over work packages
@@ -875,26 +920,32 @@ wagray,.70/.70,.70,.70/0,0,.70/0,0,0,.30}
           \@for\@@ft:=\@@wphases\do{%iterate over the wp-level work phases
             \decode@wphase\@@ft
             \gantt@compute@effort\wphase@start\wphase@len\wphase@force}}}
-      \fill  (\thegantt@month,-5) rectangle +(1,\gantt@effort);
+      \fill[ganttgray]  (\thegantt@month,-5) rectangle +(1,\gantt@effort);
       \fi% ifwork@areas
       \stepcounter{gantt@month}}
    \fi% ifgantt@draft
   \end{gantt}
   \caption{\gantt@caption}\label{fig:gantt}
-\end{figure}}
-\newcommand\gantt@caption@main{Overview Work Package Activities}
+\end{figure}\footnotetext\gantt@footnote}
+\newcommand\gantt@caption@main{Gantt Chart: Overview Work Package Activities}
 \newcommand\gantt@caption@lower{lower bar shows the overall effort \if@RAM (RAM only)\fi per month}
-\newcommand\gantt@caption{\gantt@caption@main\ifgantt@draft\xspace (\gantt@caption@lower)\fi}
-\newcommand{\gantttaskchart}[1][]{\begin{figure}[ht]\centering\gantt@set{#1}
-\def\gantt@tasks{\pdataref@num{all}{task}{count}}
-\begin{gantt}[#1]{\gantt@tasks}
+\newcommand\gantt@caption{\gantt@caption@main\ifgantt@draft\xspace
+  (\gantt@caption@lower)\fi}
+\newcommand\gantt@footnote{Bars shown at reduced height (e.g. 50\%) indicate reduced
+  intensity during  that work phase  (e.g. to 50\%).}
+\newcommand{\gantttaskchart}[1][]{\begin{figure}[hbtp]\centering\gantt@set{#1}
+\newcounter{gantt@all@tasks}%
+\setcounter{gantt@all@tasks}{\pdataref@num{all}{task}{count}}
+\addtocounter{gantt@all@tasks}{\pdataref@num{all}{wp}{count}}
+\begin{gantt}[#1]{\thegantt@all@tasks}
   \newcounter{gantt@tasks}\newcount\@@line
   \edef\@@wps{\pdataref@safe{all}{wp}{ids}}
    \@for\@@wp:=\@@wps\do{% iterate over work packages
+     \stepcounter{gantt@tasks}
      \edef\@@tasks{\pdataref@safe\@@wp{task}{ids}}
      \@for\@@task:=\@@tasks\do{% iterate over the tasks
        \stepcounter{gantt@tasks}
-       \@@line=\gantt@tasks\advance\@@line by -\thegantt@tasks
+       \@@line=\thegantt@all@tasks\advance\@@line by -\thegantt@tasks
        \node at (-.5/\gantt@xscale,\@@line) [above=-2pt] {{\footnotesize\taskreflong\@@wp\@@task}};
        \edef\@@wphases{\pdataref@safe{task}\@@task{wphases}}
        \@for\@@ft:=\@@wphases\do{%iterate over the task-level work phases
@@ -902,40 +953,52 @@ wagray,.70/.70,.70,.70/0,0,.70/0,0,0,.30}
          \@action\@@task\@@line\wphase@start\wphase@len\wphase@force
       }}}% end all iterations
     \end{gantt}
-    \caption{\gantt@caption@main}\label{fig:gantt}
+    \caption{\gantt@caption@main{} -- \emph{\gantt@footnote}}\label{fig:gantt}
 \end{figure}}
-\newcommand\jpub{\textcolor{\prop@link@color}{\textbf{\large{$\star$}}}}
-\newcommand\jpro{\textcolor{\prop@link@color}{\textbf{\large{$\bullet$}}}}
-\newcommand\jorga{\textcolor{\prop@link@color}{\textbf{\large{$\circ$}}}}
+\newcommand\jpub{\textcolor{\prop@link@color}{\textbf{\Large{$\star$}}}}
+\newcommand\jpro{\textcolor{\prop@link@color}{\textbf{\Large{$\bullet$}}}}
+\newcommand\jsoft{\textcolor{\prop@link@color}{\textbf{@}}}
+\newcommand\jorga{\textcolor{\prop@link@color}{\textbf{\Large{$\circ$}}}}
+\newcommand\jsup{\textcolor{\prop@link@color}{\textbf{\smiley}}}
 \newcommand\add@joint[3]{\@ifundefined{coherence@#1@#2}%
 {\@namedef{coherence@#1@#2}{#3}}%
 {\expandafter\g@addto@macro\csname coherence@#1@#2\endcsname{#3}}}
 \newcommand\prop@joint[2]{\@for\@first:=#2\do{%
 \@for\@second:=#2\do{\ifx\@first\@second\else\add@joint\@first\@second{#1}\fi}}}
 \newcommand\jointproj[1]{\prop@joint\jpro{#1}}
-\newcommand\jointpub[1]{\prop@joint\jpro{#1}}
+\newcommand\jointpub[1]{\prop@joint\jpub{#1}}
 \newcommand\jointorga[1]{\prop@joint\jorga{#1}}
+\newcommand\jointsoft[1]{\prop@joint\jsoft{#1}}
+\newcommand\jointsup[1]{\prop@joint\jsup{#1}}
 \newcommand{\coherencematrix}{
 {\let\tabularnewline\relax\let\hline\relax\let\site\relax% so they do
- \let\@sw\relax\let\jpub\relax\let\jpro\relax\let\jorga\relax% not bother us
-\gdef\@ct@head{}
-\@for\@site:=\prop@gen@sites\do{\xdef\@ct@head{\@ct@head &\site{\@site}}}
+ \let\@sw\relax\let\jpub\relax\let\jpro\relax\let\jorga\relax% not bother
+ \let\jsoft\relax\let\jsup\relax\let\cellcolor\relax% us
+\gdef\@ct@head{}%
+\@for\@site:=\prop@gen@sites\do{\xdef\@ct@head{\@ct@head%
+&\ifx\cht@swsites\@true\@sw{\site{\@site}}\else\site{\@site}\fi}}%
 \gdef\@ct@lines{\@ct@head\tabularnewline\hline\hline} %initialize with head line
-\@for\@site:=\prop@gen@sites\do{\xdef\@ct@line{\site{\@site}}
-  \@for\@@site:=\prop@gen@sites\do{
-    \xdef\@ct@line{\@ct@line&\ifx\@site\@@site{X}\fi
-      \@ifundefined{coherence@\@site @\@@site}{}{\@nameuse{coherence@\@site @\@@site}}}}
-  \xdef\@ct@lines{\@ct@lines\@ct@line\tabularnewline\hline}}}
-\begin{tabular}{|l||*{\the@site}{c|}}\hline
-\@ct@lines\hline
+\@for\@site:=\prop@gen@sites\do{\xdef\@ct@line{\site{\@site}}%
+  \@for\@@site:=\prop@gen@sites\do{%
+    \xdef\@ct@line{\@ct@line&\ifx\@site\@@site{\cellcolor{wagray}{}}\fi%
+      \@ifundefined{coherence@\@site @\@@site}{}{\@nameuse{coherence@\@site @\@@site}}}}%
+  \xdef\@ct@lines{\@ct@lines\@ct@line\tabularnewline\hline}}}%
+\begin{tabular}{|l||*{\the@site}{c|}}\hline%
+\@ct@lines\hline%
 joint&\multicolumn{\the@site}{l|}{\jpub $\hat=$ publication, \jpro $\hat=$ project,
-  \jorga $\hat=$ organization}\\\hline
+      \jorga $\hat=$ organization, \jsoft $\hat=$ software/resource dev,
+       \jsup $\hat=$ supervision}\\\hline
 \end{tabular}}
-\newcommand\coherencetable{%
-\begin{table}[ht]
-\begin{center}\small\setlength{\tabcolsep}{.5em}
-\renewcommand{\arraystretch}{.9}\coherencematrix
-\end{center}
+\define@key{coherencetable}{swsites}[true]{\def\cht@swsites{#1}}
+\define@key{coherencetable}{stretch}{\def\cht@stretch{#1}}
+\newcommand\coherencetable[1][]{%
+\def\cht@swsites{false}%
+\def\cht@stretch{1}%
+\setkeys{coherencetable}{#1}%
+\begin{table}[ht]\centering%
+\small\setlength{\tabcolsep}{.5em}%
+\renewcommand{\arraystretch}{\cht@stretch}%
+\coherencematrix%
 \caption{\coherence@caption}\label{tab:collaboration}
 \end{table}}
 \newcommand\coherence@caption{Previous Collaboration between {\pn} members}

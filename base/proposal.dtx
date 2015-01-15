@@ -13,9 +13,9 @@
 %
 % \iffalse 
 %<cls|pdata|reporting>\NeedsTeXFormat{LaTeX2e}[1999/12/01]
-%<cls>\ProvidesClass{proposal}[2013/02/19 v1.4 Project Proposal]
-%<pdata>\ProvidesPackage{pdata}[2013/02/19 v1.4 Project Data]
-%<reporting>\ProvidesPackage{reporting}[2013/02/19 v1.4 Project Reporting]
+%<cls>\ProvidesClass{proposal}[2015/01/14 v1.5 Project Proposal]
+%<pdata>\ProvidesPackage{pdata}[2015/01/14 v1.5 Project Data]
+%<reporting>\ProvidesPackage{reporting}[2015/01/14 v1.5 Project Reporting]
 %<*driver>
 \documentclass{ltxdoc}
 \DoNotIndex{\def,\long,\edef,\xdef,\gdef,\let,\global}
@@ -63,6 +63,7 @@
 % \changes{v1.4}{2012/01/18}{various extensions for the Jan 2012 EU proposals}
 % \changes{v1.4}{2012/01/28}{some localization support}
 % \changes{v1.4}{2013/01/12}{more documentation of milestones}
+% \changes{v1.5}{2014/01/14}{many layout tweaks support for CVs, milestones in gantt}
 % 
 % \GetFileInfo{proposal.cls}
 % 
@@ -469,17 +470,20 @@
 % 
 % Many proposals require ways to show coherence between the partners. The |proposal| class
 % offers the macro \DescribeMacro{\coherencematrix}|\coherencematrix| for this which
-% generates a matrix of symbols specifying joint publications and joint projects by the
-% project partners that have been declared by the \DescribeMacro{\jointpub}|\jointpub|,
-% \DescribeMacro{\jointproj}|\jointproj|, and \DescribeMacro{\jointorga}|\jointorga|
-% macros before. These macros all take a comma-separated list of site identifiers as an
+% generates a matrix of symbols specifying joint publications, project organization,
+% software/resource development, and supervision of students by the project partners that
+% have been declared by the \DescribeMacro{\jointpub}|\jointpub|,
+% \DescribeMacro{\jointsub}|\jointproj|, \DescribeMacro{\jointorga}|\jointorga|
+% \DescribeMacro{\jointsoft}|\jointsoft|, and \DescribeMacro{\jointsup}|\jointsup| macros
+% before. These macros all take a comma-separated list of site identifiers as an
 % argument. Use for instance |\jointproj{a,b,c}| to specify that the sites with the
 % identifiers |a|, |b| and |c| have a joint
 % project. \DescribeMacro{\coherencetable}|\coherencetable| is a variant which packages
 % the coherence table in a table figure with label |tab:collaboration|.
 % 
 % The symbols used an be configured by redefining \DescribeMacro{\jpub}|\jpub|,
-% \DescribeMacro{\jproj}|\jproj|, and \DescribeMacro{\jorga}|\jorga|.
+% \DescribeMacro{\jproj}|\jproj|, and \DescribeMacro{\jorga}|\jorga|,
+% \DescribeMacro{\jsoft}|\jsoft|, and \DescribeMacro{\jsup}|\jsup|.
 %
 % \subsection{Localization}\label{sec:use:localization}
 %
@@ -566,6 +570,7 @@
 %    \begin{macrocode}
 \LoadClass[a4paper,twoside]{\proposal@class}
 \RequirePackage{amssymb}
+\RequirePackage{wasysym}
 \RequirePackage{url}
 \RequirePackage{graphicx}
 \RequirePackage{colortbl}
@@ -578,7 +583,7 @@
 \AtBeginDocument{\ifpublic\excludecomment{private}\fi}
 \RequirePackage{tikz}
 \RequirePackage{paralist}
-\RequirePackage{a4wide}
+\RequirePackage[a4paper,margin=18mm]{geometry}
 \RequirePackage{boxedminipage}
 % so that ednotes in wps do not run out of symbols
 \renewcommand{\thempfootnote}{\roman{mpfootnote}}
@@ -722,6 +727,7 @@
 \pdata@def{prop}{gen}{fundsuntil}{#1}}
 \define@key{prop@gen}{topdownPM}[true]{\def\prop@gen@topdownPM{#1}}
 \define@key{prop@gen}{botupPM}[true]{\def\prop@gen@botupPM{#1}}
+\define@key{prop@gen}{keywords}{\def\prop@gen@keywords{#1}}
 %    \end{macrocode}
 % and the default values, these will be used, if the author does not specify something
 % better.
@@ -1391,8 +1397,9 @@
 \pdata@def{mile}\mile@id{month}{\mile@month}%
 \pdata@def{mile}\mile@id{verif}{\mile@verif}%
 \pdata@def{mile}\mile@id{title}{#2}%
+\pdata@def{mile}\mile@id{description}{#3}%
 \@ifundefined{mile@stones}{\xdef\mile@stones{\mile@id}}{\xdef\mile@stones{\mile@stones,\mile@id}}%
-\@milestone{#1}{#2}{#3}% presentation
+\@milestone{\mile@id}{#2}{#3}% presentation
 \else\deliv@error\fi}
 %    \end{macrocode}
 % \end{macro}
@@ -1400,30 +1407,62 @@
 % \begin{macro}{\@milestone}
 %   the corresponding presentation macro.
 %    \begin{macrocode}
-\newcommand\@milestone[3]{%
-\pdata@target{mile}\mile@id{\textbf{\milestone@label\themilestone}}&
-\textbf{#2} &
-\prop@milesfor\mile@id &
-\pdataref{mile}\mile@id{month} &
-\pdataref{mile}\mile@id{verif}\\\hline
-\multicolumn{5}{|p{14cm}|}{#3}\\\hline\hline}
+\newcommand\@milestone[3]{% id, title, description
+\item \textbf{Milestone \pdataref{mile}{#1}{label} (Month \pdataref{mile}\mile@id{month})
+\textbf{#2}} #3}
 %    \end{macrocode}
 % \end{macro}
 % 
 % \begin{environment}{milestones}
+%   This does the metadata bookkeeping, the layout is delegated to the presentation
+%   environment |@milestones| and the legend macros that can be customized for specific
+%   proposals.
 %    \begin{macrocode}
-\newenvironment{milestones}{\begin{@milestones}}{\end{@milestones}}
+\newenvironment{milestones}%
+{\ifdelivs\begin{@milestones}\else\deliv@error\fi}
+{\ifdelivs\pdata@def{all}{mile}{ids}{\mile@stones}%
+\pdata@def{all}{mile}{count}{\themilestone}%
+\end{@milestones}\fi}
 %    \end{macrocode}
 % \end{environment}
 %
 % \begin{environment}{@milestones}
+% here we do the work. 
 %    \begin{macrocode}
-\newenvironment{@milestones}
-{\ifdelivs\begin{longtable}{|l|p{4cm}|p{5cm}|l|p{2.5cm}|}\hline
-\#&\miles@legend@name&\miles@legend@involved&\miles@legend@month&\miles@legend@verif\\\hline\hline%
-\else\deliv@error\fi}
-{\ifdelivs\end{longtable}%
-\footnotetext\miles@legend@footnote\fi}
+\newenvironment{@milestones}{\begin{enumerate}}{\end{enumerate}}
+%    \end{macrocode}
+% \end{environment}
+%
+% \begin{macro}{milestonetable}
+% here we do the work. 
+%    \begin{macrocode}
+\newcommand\milestonetable{%
+{\gdef\mst@lines{}%initialize
+\let\tabularnewline\relax\let\hline\relax% so they 
+\let\textbf\relax\let\emph\relax% do not bother us
+\edef\@@miles{\pdataref{all}{mile}{ids}}
+\@for\@I:=\@@miles\do{
+\edef\@delivs{\pdataref@safe{mile}{\@I}{delivs}}%
+\def\@@delivs{}
+\@for\@J:=\@delivs\do{\xdef\@@delivs{\@@delivs\ \pdataref{deliv}\@J{label}}}
+\def\@@line{
+\textbf{\pdataref{mile}\@I{label}}&
+\emph{\pdataref{mile}{\@I}{title}} &
+\@@delivs&
+\pdataref{mile}\@I{month} &
+\pdataref{mile}\@I{verif}}
+\xdef\mst@lines{\mst@lines\@@line\tabularnewline\hline}}}
+\begin{table}[ht]
+\begin{tabular}{|l|p{2.5cm}|p{7cm}|l|p{4cm}|}\hline
+\#&\textbf{\miles@legend@name}
+&\textbf{\miles@legend@involved}
+&\textbf{\miles@legend@month}
+&\textbf{\miles@legend@verif}\\\hline\hline
+\mst@lines
+\end{tabular}
+\caption{Milestones, Deliverables, and Verification}\label{tab:milestonetable}
+\end{table}
+\footnotetext\miles@legend@footnote}
 %    \end{macrocode}
 % now the multilinguality support 
 %    \begin{macrocode}
@@ -1433,7 +1472,7 @@
 \newcommand\miles@legend@involved{WPs\footnotemark/Deliverables involved}
 \newcommand\miles@legend@footnote{The work package number is the first number in the deliverable number.}
 %    \end{macrocode}
-% \end{environment}
+% \end{macro}
 %
 % \begin{macro}{\prop@milesfor}
 %    the due date is the first argument to facilitate sorting
@@ -1522,7 +1561,7 @@
 % \begin{macro}{\task@post@title@space}
 %   make the space after the title tweakable
 %    \begin{macrocode}
-\def\task@post@title@space{\quad}
+\def\task@post@title@space{\;}
 %    \end{macrocode}
 % \end{macro}
 % 
@@ -1533,24 +1572,28 @@
 \newcommand\task@legend@partners{Sites: }
 \newcommand\task@legend@PM{PM}
 \newenvironment{task}[1][]%
-{\stepcounter{alltasks}
+{\stepcounter{alltasks}%
 \@task{#1}\item[\pdata@target{task}{\taskin\task@id\wp@id}{\task@label\thewp\thetask@wp}]%
 \@ifundefined{task@title}{}{\textbf\task@title}\task@post@title@space%
 \def\@initial{0-0}\ifx\task@wphases\@initial\else%
 \let\@@sep=\relax\@for\@I:=\task@wphases%
-\do{\decode@wphase\@I\@@sep\show@wphase\wphase@start\wphase@end\wphase@force\let\@@sep=\sep@wphases}%
+\do{\decode@wphase\@I%
+\@@sep\show@wphase\wphase@start\wphase@end\wphase@force%
+\let\@@sep=\sep@wphases}%
 \fi% initial
 \hfill%
-\ifsubmit\else\ifx\task@PM\@empty\else\task@PM\ \task@legend@PM;\fi\fi%
+\ifsubmit\else\ifx\task@PM\@empty\else\task@PM~\task@legend@PM;\fi\fi%
 \ifx\task@lead\@empty\else\ \task@legend@partners\site\task@lead~(\legend@lead)\fi%
-\@for\@I:=\task@partners\do{, \site\@I}\\}
-{\ignorespaces}
+\@for\@I:=\task@partners\do{, \site\@I}\\%
+\ignorespaces}
+{\medskip}
 %    \end{macrocode}
 % now the multilingual support and presentation configuration
 %    \begin{macrocode}
 \newcommand\month@label[1]{M#1}
-\newcommand\show@wphase[3]{\def\@test{#3}\month@label{#1}-\month@label{#2}%
-\ifx\@test\@empty\@ #3}
+\newcommand\show@wphase[3]{\edef\@test{#3}\def\@one{1}%
+\month@label{#1}-\month@label{#2}%
+\ifx\@test\@empty\else\ifx\@test\@one\else @#3\fi\fi}
 \newcommand\sep@wphases{; }
 \newcommand\legend@partners{Partners}
 \newcommand\legend@lead{lead}
@@ -1737,7 +1780,8 @@
 %    \begin{macrocode}
 \definecolorset{gray/rgb/hsb/cmyk}{}{}%
 {leadgray,.90/.90,.90,.90/0,0,.90/0,0,0,.10;%
-wagray,.70/.70,.70,.70/0,0,.70/0,0,0,.30}
+wagray,.70/.70,.70,.70/0,0,.70/0,0,0,.30;%
+ganttgray,.60/.60,.60,.60/0,0,.60/0,0,0,.40}
 \newcommand\sum@style[1]{\cellcolor{wagray}{\textbf{#1}}}
 \newcommand\wa@style[1]{\cellcolor{wagray}{\textbf{#1}}}
 \newcommand\wp@style[1]{#1}
@@ -1761,8 +1805,10 @@ wagray,.70/.70,.70,.70/0,0,.70/0,0,0,.30}
 \define@key{wpfig}{length}[true]{\def\wpfig@length{#1}\stepcounter{wpfig@options}}
 \def\wpfig@end{false}
 \define@key{wpfig}{end}[true]{\def\wpfig@end{#1}\stepcounter{wpfig@options}}
+\define@key{wpfig}{label}{\def\wpfig@label{#1}}
+\define@key{wpfig}{caption}{\def\wpfig@caption{#1}}
 \def\@sw#1{\begin{sideways}#1\end{sideways}}
-\newenvironment{wp@figure}{\begin{figure}[ht]\wpfig@style\begin{center}
+\newenvironment{wp@figure}{\begin{table}[ht]\wpfig@style\begin{center}
 {\let\@sw\relax\let\textbf\relax\let\site\relax\let\pn\relax\let\sys\relax%
 \gdef\wpfig@headline{\wpfig@legend@wap&\wpfig@legend@title%
 \ifx\wpfig@type\@true&\wpfig@legend@type\fi%
@@ -1785,8 +1831,9 @@ wagray,.70/.70,.70,.70/0,0,.70/0,0,0,.30}
 {\end{tabular}\smallskip\\
 \wpfig@legend@RAM@expl
 \if@sites; \wpfig@legend@lead@expl\fi
-\caption{\wpfig@legend@caption}\label{fig:wplist}
-\end{center}\end{figure}}
+\@ifundefined{wpfig@label}{\caption{\wpfig@legend@caption}}{\caption{\wpfig@caption}}
+\@ifundefined{wpfig@label}{\label{fig:wplist}}{\label{\wpfig@label}}
+\end{center}\end{table}}
 %    \end{macrocode}
 % and now multilinguality support 
 %    \begin{macrocode}
@@ -2051,11 +2098,13 @@ wagray,.70/.70,.70,.70/0,0,.70/0,0,0,.30}
 % We define the keys for Gantt tables
 %    \begin{macrocode}
 \newif\ifgantt@draft\gantt@draftfalse
+\newif\ifgantt@miles\gantt@milesfalse
 \define@key{gantt}{xscale}{\def\gantt@xscale{#1}}
 \define@key{gantt}{yscale}{\def\gantt@yscale{#1}}
 \define@key{gantt}{step}{\def\gantt@step{#1}}
 \define@key{gantt}{size}{\def\gantt@size{#1}}
 \define@key{gantt}{draft}[true]{\ifsubmit\else\gantt@drafttrue\fi}
+\define@key{gantt}{milestones}[true]{\gantt@milestrue}
 %    \end{macrocode}
 % Then we define an auxiliary function that provides defaults for these keys and sets the
 % internal macros.
@@ -2071,7 +2120,7 @@ wagray,.70/.70,.70,.70/0,0,.70/0,0,0,.30}
 %   for a gantt chart. The grid is |\prop@gen@months| wide and \meta{height} high. 
 %    \begin{macrocode}
 \newenvironment{gantt}[2][]
-{\gantt@set{#1}
+{\gantt@set{#1}\gdef\gantt@height{#2}
 \def\@test{\prop@gen@months@default}
 \ifx\@test\prop@gen@months
 \ClassError{proposal}{Need overall project months to draw gantt
@@ -2079,12 +2128,23 @@ wagray,.70/.70,.70,.70/0,0,.70/0,0,0,.30}
     \protect\begin{proposal}[...,months=??,...] to fix}\fi
 \@ifundefined{gantt@size}{}{\csname\gantt@size\endcsname}
 \newdimen\gantt@ymonths
-\gantt@ymonths=#2 cm
-\advance\gantt@ymonths by .5cm
-\begin{tikzpicture}[xscale=\gantt@xscale,yscale=\gantt@yscale]
-\draw[xstep=\gantt@step,gray,very thin] (0,0) grid (\prop@gen@months,#2);
-\foreach \x in {0,\gantt@step,...,\prop@gen@months} \node at (\x,\gantt@ymonths) {\x};}
-{\end{tikzpicture}}
+\gantt@ymonths=\gantt@height cm
+\advance\gantt@ymonths by .8cm
+\begin{tikzpicture}[xscale=\gantt@xscale,yscale=\gantt@yscale]}
+{\draw[xstep=\gantt@step,very thin] (0,0) grid (\prop@gen@months,\gantt@height);
+\foreach \x in {0,\gantt@step,...,\prop@gen@months} \node at (\x,\gantt@ymonths) {\x};
+\ifgantt@miles
+\newdimen\gantt@ymiles\gantt@ymiles=\gantt@height cm
+\advance\gantt@ymiles by 2cm
+\newdimen\gantt@ymiles@top\gantt@ymiles@top=\gantt@height cm
+%\advance\gantt@ymiles@top by 2cm
+\edef\@@miles{\pdataref@safe{all}{mile}{ids}}
+\@for\@I:=\@@miles\do{%
+\edef\@@month{\pdataref@safe{mile}{\@I}{month}}
+\draw[very thick,blue] (\@@month,\gantt@ymiles@top) -- (\@@month,0);
+\node[blue] at (\@@month,\gantt@ymiles) {\pdataref{mile}{\@I}{label}};}
+\fi %gantt@miles
+\end{tikzpicture}}
 %    \end{macrocode}
 % \end{environment}
 %
@@ -2095,13 +2155,14 @@ wagray,.70/.70,.70,.70/0,0,.70/0,0,0,.30}
 %   \meta{month} with length \meta{len} that is \meta{force} thick.
 %    \begin{macrocode}
 \newdimen\gantt@ymid\newdimen\gantt@yinc\newdimen\gantt@xend
-\newcommand{\@action}[5]{%
-\gantt@ymid=#2 cm\gantt@yinc=\gantt@yscale cm
-\gantt@xend=#3 cm\advance\gantt@xend by #4 cm
+\newcommand{\@action}[6][]{\def\@test{#1}%
+\ifx\@test\@empty\def\@@color{ganttgray}\else\def\@@color{#1}\fi
+\gantt@ymid=#3 cm\gantt@yinc=\gantt@yscale cm
+\gantt@xend=#4 cm\advance\gantt@xend by #5 cm
 \advance\gantt@ymid by \gantt@yinc
-\fill (#3,#2) rectangle +(#4,#5);
-\node (#1@left) at (#3,\gantt@ymid) {};
-\node (#1@right) at (\gantt@xend,\gantt@ymid) {};}
+\fill[\@@color] (#4,#3) rectangle +(#5,#6);
+\node (#2@left) at (#4,\gantt@ymid) {};
+\node (#2@right) at (\gantt@xend,\gantt@ymid) {};}
 %    \end{macrocode}
 % \end{macro}
 % 
@@ -2193,7 +2254,7 @@ wagray,.70/.70,.70,.70/0,0,.70/0,0,0,.30}
           \@for\@@ft:=\@@wphases\do{%iterate over the wp-level work phases
             \decode@wphase\@@ft
             \gantt@compute@effort\wphase@start\wphase@len\wphase@force}}}}
-      \fill  (\thegantt@month,-5) rectangle +(1,\gantt@effort);
+      \fill[ganttgray]  (\thegantt@month,-5) rectangle +(1,\gantt@effort);
       \else% ifwork@areas
       \edef\@@wps{\pdataref@safe{all}{wp}{ids}}
       \@for\@@wp:=\@@wps\do{% iterate over work packages
@@ -2207,19 +2268,22 @@ wagray,.70/.70,.70,.70/0,0,.70/0,0,0,.30}
           \@for\@@ft:=\@@wphases\do{%iterate over the wp-level work phases
             \decode@wphase\@@ft
             \gantt@compute@effort\wphase@start\wphase@len\wphase@force}}}
-      \fill  (\thegantt@month,-5) rectangle +(1,\gantt@effort);
+      \fill[ganttgray]  (\thegantt@month,-5) rectangle +(1,\gantt@effort);
       \fi% ifwork@areas
       \stepcounter{gantt@month}}
    \fi% ifgantt@draft
   \end{gantt}
   \caption{\gantt@caption}\label{fig:gantt}
-\end{figure}}
+\end{figure}\footnotetext\gantt@footnote}
 %    \end{macrocode}
 % now the multilingual support
 %    \begin{macrocode}
-\newcommand\gantt@caption@main{Overview Work Package Activities} 
+\newcommand\gantt@caption@main{Gantt Chart: Overview Work Package Activities} 
 \newcommand\gantt@caption@lower{lower bar shows the overall effort \if@RAM (RAM only)\fi per month}
-\newcommand\gantt@caption{\gantt@caption@main\ifgantt@draft\xspace (\gantt@caption@lower)\fi} 
+\newcommand\gantt@caption{\gantt@caption@main\ifgantt@draft\xspace
+  (\gantt@caption@lower)\fi} 
+\newcommand\gantt@footnote{Bars shown at reduced height (e.g. 50\%) indicate reduced 
+  intensity during  that work phase  (e.g. to 50\%).}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -2228,16 +2292,20 @@ wagray,.70/.70,.70,.70/0,0,.70/0,0,0,.30}
 %   useful for EU projects\ednote{this should be incorporated with the gantt chart above,
 %   but I am currently to scared to do it so close to the deadline}
 %    \begin{macrocode}
-\newcommand{\gantttaskchart}[1][]{\begin{figure}[ht]\centering\gantt@set{#1}
-\def\gantt@tasks{\pdataref@num{all}{task}{count}}
-\begin{gantt}[#1]{\gantt@tasks}
+\newcommand{\gantttaskchart}[1][]{\begin{figure}[hbtp]\centering\gantt@set{#1}
+\newcounter{gantt@all@tasks}%
+\setcounter{gantt@all@tasks}{\pdataref@num{all}{task}{count}}
+\addtocounter{gantt@all@tasks}{\pdataref@num{all}{wp}{count}}
+\begin{gantt}[#1]{\thegantt@all@tasks}
   \newcounter{gantt@tasks}\newcount\@@line
   \edef\@@wps{\pdataref@safe{all}{wp}{ids}}
    \@for\@@wp:=\@@wps\do{% iterate over work packages
+     \stepcounter{gantt@tasks}
+%     \@action[white]{}\@@line0{48}1
      \edef\@@tasks{\pdataref@safe\@@wp{task}{ids}}
      \@for\@@task:=\@@tasks\do{% iterate over the tasks
        \stepcounter{gantt@tasks}
-       \@@line=\gantt@tasks\advance\@@line by -\thegantt@tasks
+       \@@line=\thegantt@all@tasks\advance\@@line by -\thegantt@tasks
        \node at (-.5/\gantt@xscale,\@@line) [above=-2pt] {{\footnotesize\taskreflong\@@wp\@@task}};
        \edef\@@wphases{\pdataref@safe{task}\@@task{wphases}}
        \@for\@@ft:=\@@wphases\do{%iterate over the task-level work phases
@@ -2245,7 +2313,7 @@ wagray,.70/.70,.70,.70/0,0,.70/0,0,0,.30}
          \@action\@@task\@@line\wphase@start\wphase@len\wphase@force
       }}}% end all iterations
     \end{gantt}
-    \caption{\gantt@caption@main}\label{fig:gantt}
+    \caption{\gantt@caption@main{} -- \emph{\gantt@footnote}}\label{fig:gantt}
 \end{figure}}
 %    \end{macrocode}
 % \end{macro}
@@ -2254,9 +2322,11 @@ wagray,.70/.70,.70,.70/0,0,.70/0,0,0,.30}
 %
 % \begin{macro}{\j*}
 %    \begin{macrocode}
-\newcommand\jpub{\textcolor{\prop@link@color}{\textbf{\large{$\star$}}}}
-\newcommand\jpro{\textcolor{\prop@link@color}{\textbf{\large{$\bullet$}}}}
-\newcommand\jorga{\textcolor{\prop@link@color}{\textbf{\large{$\circ$}}}}
+\newcommand\jpub{\textcolor{\prop@link@color}{\textbf{\Large{$\star$}}}}
+\newcommand\jpro{\textcolor{\prop@link@color}{\textbf{\Large{$\bullet$}}}}
+\newcommand\jsoft{\textcolor{\prop@link@color}{\textbf{@}}}
+\newcommand\jorga{\textcolor{\prop@link@color}{\textbf{\Large{$\circ$}}}}
+\newcommand\jsup{\textcolor{\prop@link@color}{\textbf{\smiley}}}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -2283,8 +2353,10 @@ wagray,.70/.70,.70,.70/0,0,.70/0,0,0,.30}
 %   Now, some instances that use these.
 %    \begin{macrocode}
 \newcommand\jointproj[1]{\prop@joint\jpro{#1}}
-\newcommand\jointpub[1]{\prop@joint\jpro{#1}}
+\newcommand\jointpub[1]{\prop@joint\jpub{#1}}
 \newcommand\jointorga[1]{\prop@joint\jorga{#1}}
+\newcommand\jointsoft[1]{\prop@joint\jsoft{#1}}
+\newcommand\jointsup[1]{\prop@joint\jsup{#1}}
 %    \end{macrocode}
 % \end{macro}
 % 
@@ -2292,30 +2364,38 @@ wagray,.70/.70,.70,.70/0,0,.70/0,0,0,.30}
 %    \begin{macrocode}
 \newcommand{\coherencematrix}{
 {\let\tabularnewline\relax\let\hline\relax\let\site\relax% so they do
- \let\@sw\relax\let\jpub\relax\let\jpro\relax\let\jorga\relax% not bother us
-\gdef\@ct@head{}
-\@for\@site:=\prop@gen@sites\do{\xdef\@ct@head{\@ct@head &\site{\@site}}}
+ \let\@sw\relax\let\jpub\relax\let\jpro\relax\let\jorga\relax% not bother
+ \let\jsoft\relax\let\jsup\relax\let\cellcolor\relax% us
+\gdef\@ct@head{}%
+\@for\@site:=\prop@gen@sites\do{\xdef\@ct@head{\@ct@head% 
+&\ifx\cht@swsites\@true\@sw{\site{\@site}}\else\site{\@site}\fi}}%
 \gdef\@ct@lines{\@ct@head\tabularnewline\hline\hline} %initialize with head line
-\@for\@site:=\prop@gen@sites\do{\xdef\@ct@line{\site{\@site}}
-  \@for\@@site:=\prop@gen@sites\do{
-    \xdef\@ct@line{\@ct@line&\ifx\@site\@@site{X}\fi
-      \@ifundefined{coherence@\@site @\@@site}{}{\@nameuse{coherence@\@site @\@@site}}}}
-  \xdef\@ct@lines{\@ct@lines\@ct@line\tabularnewline\hline}}}
-\begin{tabular}{|l||*{\the@site}{c|}}\hline
-\@ct@lines\hline
+\@for\@site:=\prop@gen@sites\do{\xdef\@ct@line{\site{\@site}}%
+  \@for\@@site:=\prop@gen@sites\do{%
+    \xdef\@ct@line{\@ct@line&\ifx\@site\@@site{\cellcolor{wagray}{}}\fi%
+      \@ifundefined{coherence@\@site @\@@site}{}{\@nameuse{coherence@\@site @\@@site}}}}%
+  \xdef\@ct@lines{\@ct@lines\@ct@line\tabularnewline\hline}}}%
+\begin{tabular}{|l||*{\the@site}{c|}}\hline%
+\@ct@lines\hline%
 joint&\multicolumn{\the@site}{l|}{\jpub $\hat=$ publication, \jpro $\hat=$ project,
-  \jorga $\hat=$ organization}\\\hline
+      \jorga $\hat=$ organization, \jsoft $\hat=$ software/resource dev, 
+       \jsup $\hat=$ supervision}\\\hline
 \end{tabular}}
 %    \end{macrocode}
 % \end{macro}
 % 
 % \begin{macro}{\coherencetable}
 %    \begin{macrocode}
-\newcommand\coherencetable{%
-\begin{table}[ht]
-\begin{center}\small\setlength{\tabcolsep}{.5em}
-\renewcommand{\arraystretch}{.9}\coherencematrix
-\end{center}
+\define@key{coherencetable}{swsites}[true]{\def\cht@swsites{#1}}
+\define@key{coherencetable}{stretch}{\def\cht@stretch{#1}}
+\newcommand\coherencetable[1][]{%
+\def\cht@swsites{false}%
+\def\cht@stretch{1}%
+\setkeys{coherencetable}{#1}%
+\begin{table}[ht]\centering%
+\small\setlength{\tabcolsep}{.5em}%
+\renewcommand{\arraystretch}{\cht@stretch}%
+\coherencematrix%
 \caption{\coherence@caption}\label{tab:collaboration}
 \end{table}}
 %    \end{macrocode}
@@ -2455,15 +2535,15 @@ joint&\multicolumn{\the@site}{l|}{\jpub $\hat=$ publication, \jpro $\hat=$ proje
 % LocalWords:  tasks deps number line Effort target ids count warning at pdata swsites
 % LocalWords:  for undefined safe zero one two three four five six seven eight swsites
 % LocalWords:  nine ten eleven twelve style lines totals Packages xscale yscale wphrases
-% LocalWords:  step set gray very thin grid workphase len force phase length to
-% LocalWords:  taskdep from rectangle left right width pt color red above dep
-% LocalWords:  Overview Activities Signatures Date paralist ymonths ymid yinc
-% LocalWords:  xend effort month iffalse eustrep.dtx fileversion maketitle Antr
-% LocalWords:  tableofcontents DescribeEnv ifpublic ifpublic compactitem wpfig
-% LocalWords:  wpfig workplan workplan bookeeping wissenchaftliche tasklist dmp
-% LocalWords:  tasklist taskin taskref taskref tasktref tasktref localtaskref
-% LocalWords:  localtaskref ganttchart biblatex ifx dfgproposal.dtx newpage pn
-% LocalWords:  bibtex proposal1-blx.aux pdataref WPtref WPtref WAref WAref WAtref
+% LocalWords:  step set gray very thin grid workphase len force phase length to endhead
+% LocalWords:  taskdep from rectangle left right width pt color red above dep jointsub
+% LocalWords:  Overview Activities Signatures Date paralist ymonths ymid yinc jointsoft
+% LocalWords:  xend effort month iffalse eustrep.dtx fileversion maketitle Antr jointsoft
+% LocalWords:  tableofcontents DescribeEnv ifpublic ifpublic compactitem wpfig jointsup
+% LocalWords:  wpfig workplan workplan bookeeping wissenchaftliche tasklist dmp jointsup
+% LocalWords:  tasklist taskin taskref taskref tasktref tasktref localtaskref jsoft jsoft
+% LocalWords:  localtaskref ganttchart biblatex ifx dfgproposal.dtx newpage pn jsup jsup
+% LocalWords:  bibtex proposal1-blx.aux pdataref WPtref WPtref WAref WAref WAtref wasysym
 % LocalWords:  WAtref protectmacro thebibliography bibitem newblock newif inst
 % LocalWords:  ifsubmit submitfalse publicfalse ifkeys keysfalse ifwork RAMtrue
 % LocalWords:  submittrue publictrue excludecomment RAMfalse keystrue sfdefault

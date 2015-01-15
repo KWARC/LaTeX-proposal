@@ -7,7 +7,7 @@
 %% euproposal.dtx  (with options: `cls')
 %% 
 \NeedsTeXFormat{LaTeX2e}[1999/12/01]
-\ProvidesClass{euproposal}[2013/01/13 v1.4 EU Proposal]
+\ProvidesClass{euproposal}[2015/01/14 v1.5 EU Proposal]
 \newif\ifpartB\partBfalse
 \DeclareOption{partB}{\partBtrue}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{proposal}}
@@ -17,6 +17,9 @@
 \RequirePackage{eurosym}
 \RequirePackage{wrapfig}
 \RequirePackage{eupdata}
+\RequirePackage{chngcntr}
+\counterwithin{figure}{subsection}
+\counterwithin{table}{subsection}
 \ifpartB
 \def\thepart{\Alph{part}}
 \setcounter{part}{2}
@@ -26,7 +29,8 @@
 \newcommand\prop@sites@table{\def\@@table{}
 {\let\tabularnewline\relax\let\hline\relax
 \@for\@I:=\prop@gen@sites\do{\xdef\@@table{\@@table\pdataref{site}\@I{number}}
-\xdef\@@table{\@@table&\@nameuse{wa@institution@\@I @name}}
+\xdef\@@table{\@@table&\@nameuse{wa@institution@\@I @name}
+\ifx\@I\prop@gen@coordinatorsite (coordinator)\fi}
 \xdef\@@table{\@@table&\@nameuse{wa@institution@\@I @acronym}}
 \xdef\@@table{\@@table&\@nameuse{wa@institution@\@I @countryshort}\tabularnewline\hline}}}
 \begin{tabular}{|l|p{8cm}|l|l|}\hline%|
@@ -36,31 +40,25 @@
 \renewenvironment{prop@proposal}
 {\thispagestyle{empty}\begin{center}
   {\Large \prop@gen@instrument}\\[.2cm]
-  {\LARGE\textbf\prop@gen@callname}\\[.4cm]
-  {\Large \prop@gen@callid}\\[.4cm]
-  {\LARGE\textbf\prop@gen@title}\\[.3cm]
-  {\LARGE Acronym: {\prop@gen@acronym}}\\[.2cm]
+  {\Large\textbf\prop@gen@callname}\\[.4cm]
+  {\LARGE \prop@gen@callid}\\[.8cm]
+  {\huge\textbf\prop@gen@title}\\[.4cm]
+  {\LARGE Acronym: {\prop@gen@acronym}}\\[2cm]
 \end{center}
-{\large\prop@gen@instrument}\\
 {\large\textbf{Date of Preparation: \today}}
-\ifsubmit\else\\
-{\large\textbf{Revision}:
-\if@svninfo\svnInfoRevision\fi\if@gitinfo\gitAbbrevHash\fi
- of
-\if@svninfo\svnInfoDate\fi\if@gitinfo\gitAuthorDate\fi}
-\fi\\[1em]
-{\large}
+\\[1em]
 \begin{large}
  \begin{description}
-  \item[Work program topics addressed by \pn:]
-    \@ifundefined{prop@gen@topicsaddressed}
-    {\textbf{Challenge \prop@gen@challengeid}: \prop@gen@challenge,
-    \textbf{Objective \prop@gen@objectiveid}: \prop@gen@objective,
-    \textbf{target outcome \prop@gen@outcomeid}) \prop@gen@outcome.}
-    {\prop@gen@topicsaddressed}\\[1em]
+  % \item[Work program topics addressed by \pn:]
+  %   \@ifundefined{prop@gen@topicsaddressed}
+  %   {\textbf{Challenge \prop@gen@challengeid}: \prop@gen@challenge,
+  %   \textbf{Objective \prop@gen@objectiveid}: \prop@gen@objective,
+  %   \textbf{target outcome \prop@gen@outcomeid}) \prop@gen@outcome.
+  %   {\prop@gen@topicsaddressed}\\[1em]
   \item[Coordinator:] \wa@ref{person}\prop@gen@coordinator{name}
   \item[e-mail:] \wa@ref{person}\prop@gen@coordinator{email}
   \item[tel/fax:] \wa@ref{person}\prop@gen@coordinator{worktelfax}
+    \@ifundefined{prop@gen@keywords}{}{\item[Keywords:]  \prop@gen@keywords}
   \end{description}
 \end{large}
 \vspace*{1em}

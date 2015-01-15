@@ -7,7 +7,7 @@
 %% proposal.dtx  (with options: `reporting')
 %% 
 \NeedsTeXFormat{LaTeX2e}[1999/12/01]
-\ProvidesPackage{reporting}[2013/02/19 v1.4 Project Reporting]
+\ProvidesPackage{reporting}[2015/01/14 v1.5 Project Reporting]
 \newif\if@wpsubsection\@wpsubsectionfalse
 \newif\ifsubmit\submitfalse
 \newif\ifpublic\publicfalse
@@ -32,6 +32,7 @@
 \ProcessOptions
 \LoadClass[a4paper,twoside]{\proposal@class}
 \RequirePackage{amssymb}
+\RequirePackage{wasysym}
 \RequirePackage{url}
 \RequirePackage{graphicx}
 \RequirePackage{colortbl}
@@ -44,7 +45,7 @@
 \AtBeginDocument{\ifpublic\excludecomment{private}\fi}
 \RequirePackage{tikz}
 \RequirePackage{paralist}
-\RequirePackage{a4wide}
+\RequirePackage[a4paper,margin=18mm]{geometry}
 \RequirePackage{boxedminipage}
 \renewcommand{\thempfootnote}{\roman{mpfootnote}}
 \renewcommand{\familydefault}{\sfdefault}
