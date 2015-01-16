@@ -1,4 +1,5 @@
 # make a zip for CTAN submission including the TeX directory structure
+HERE   	        = $(shell pwd)
 TMP    	        = /tmp
 TDSCOLL 	= proposal
 EXPORTED	= $(TMP)/$(TDSCOLL).exp
@@ -17,13 +18,13 @@ ctan: all filedate checksum
 	git push
 	rm -Rf $(EXPORTED)
 	@echo "exporting a clean copy to $(EXPORTED)"
-	cd /tmp; git clone $(GITURI); mv LaTeX-proposal $(TDSCOLL)
+	cd /tmp; git clone $(HERE); mv LaTeX-proposal $(EXPORTED)
 	rm -Rf $(EXPORTED)/.git
-	rm $(EXPORTED)/.gitignore
-	cd $(EXPORTED); $(MAKE) -$(MAKEFLAGS) ctanext
-	@echo "zipping the result to $(TDSCOLL).ctan.zip"
-	cd $(TMP); zip -r -q $(CTANZIP) $(CTANCOLL); cd -; cp $(CTANZIP) .
-	rm -Rf $(EXPORTED) $(CTANDIR) $(CTANZIP)
+#	rm $(EXPORTED)/.gitignore
+#	cd $(EXPORTED); $(MAKE) -$(MAKEFLAGS) ctanext
+#	@echo "zipping the result to $(TDSCOLL).ctan.zip"
+#	cd $(TMP); zip -r -q $(CTANZIP) $(CTANCOLL); cd -; cp $(CTANZIP) .
+#	rm -Rf $(EXPORTED) $(CTANDIR) $(CTANZIP)
 
 # this target is run on EXPORTED. It first makes the target tdsext below, 
 # and then copies all necessary stuff into CTANDIR. 
