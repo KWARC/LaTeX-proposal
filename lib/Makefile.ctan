@@ -33,7 +33,8 @@ ctanext: tdsext
 	cp $(TDSZIP) $(CTANDIR)
 	@for d in $(DTXDIRS); do (cd $$d && $(MAKE) -$(MAKEFLAGS) lctan) done
 	@for d in $(SRCDIRS) $(DOCDIRS); do (cp -R $$d $(CTANDIR)) done; 
-	cp $(TDSZIP) $(TDS.doc) Makefile $(CTANDIR)
+	cp $(TDSZIP) Makefile $(CTANDIR)
+	cp $(TDS.doc) $(CTANDIR)/README
 	rm -Rf  $(TDSZIP)
 
 # this target makes the file TDSZIP by creating and populating the directory 
