@@ -6,7 +6,7 @@ EXPORTED	= $(TMP)/$(TDSCOLL).exp
 TDSDIR 		= $(TMP)/$(TDSCOLL).tds
 TDSZIP 		= $(TMP)/$(TDSCOLL).tds.zip
 CTANDIR 	= $(TMP)/$(TDSCOLL)
-CTANZIP 	= $(TMP)/$(TDSCOLL).ctan.zip
+CTANZIP		= $(TMP)/$(TDSCOLL).ctan.zip
 
 # this target makes the file CTANZIP by creating and populating the directory 
 # CTANDIR and zipping it. To be current, we first make all, and update 
@@ -24,7 +24,7 @@ ctan: all filedate checksum
 	cd $(EXPORTED); $(MAKE) -$(MAKEFLAGS) ctanext
 	@echo "zipping the result to $(TDSCOLL).ctan.zip"
 	cd $(TMP); zip -r -q $(CTANZIP) $(TDSCOLL); cp $(CTANZIP) $(HERE)
-	rm -Rf $(EXPORTED) $(CTANDIR) $(CTANZIP)
+#	rm -Rf $(EXPORTED) $(CTANDIR) $(CTANZIP)
 
 # this target is run on EXPORTED. It first makes the target tdsext below, 
 # and then copies all necessary stuff into CTANDIR. 
