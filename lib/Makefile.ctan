@@ -24,7 +24,7 @@ ctan: all filedate checksum
 	cd $(EXPORTED); $(MAKE) -$(MAKEFLAGS) ctanext
 	@echo "zipping the result to $(TDSCOLL).ctan.zip"
 	cd $(TMP); zip -r -q $(CTANZIP) $(TDSCOLL); cp $(CTANZIP) $(HERE)
-#	rm -Rf $(EXPORTED) $(CTANDIR) $(CTANZIP)
+	rm -Rf $(EXPORTED) $(CTANDIR) $(CTANZIP)
 
 # this target is run on EXPORTED. It first makes the target tdsext below, 
 # and then copies all necessary stuff into CTANDIR. 
@@ -63,7 +63,6 @@ ltds:
 	cp $(TDS.doc) $(TDSDIR)/doc/latex/$(TDSCOLL)
 
 # copy stuff around for a CTAN submission in the DTX dirs
-CTANDIR = $(TMP)/$(TDSCOLL).ctan
 lctan: 
 	mkdir -p $(CTANDIR)/sty;
 	@for d in $(DISTDIRS); do (cp -R $$d $(CTANDIR)/sty) done
