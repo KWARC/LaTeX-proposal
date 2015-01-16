@@ -22,7 +22,7 @@ ctan: all filedate checksum
 	rm $(EXPORTED)/.gitignore
 	cd $(EXPORTED); $(MAKE) -$(MAKEFLAGS) ctanext
 	@echo "zipping the result to $(TDSCOLL).ctan.zip"
-	cd $(TMP); zip -r -q $(CTANZIP) .; cd -; cp $(CTANZIP) .
+	cd $(TMP); zip -r -q $(CTANZIP) $(CTANDIR); cd -; cp $(CTANZIP) .
 	rm -Rf $(EXPORTED) $(CTANDIR) $(CTANZIP)
 
 # this target is run on EXPORTED. It first makes the target tdsext below, 
