@@ -58,7 +58,7 @@ tdsext:
 # copy stuff around for the TDS in the DTX dirs
 ltds: 
 	@echo "copying stuff for the subdirs"
-	@for d in $(DISTDIRS); do (cd $$d; $(MAKE) -$(MAKEFLAGS) $@) done
+3	@for d in $(DISTDIRS); do (cd $$d; $(MAKE) -$(MAKEFLAGS) $@) done
 	cp $(TDS.tex) $(TDSDIR)/tex/latex/$(TDSCOLL)
 	cp $(TDS.doc) $(TDSDIR)/doc/latex/$(TDSCOLL)
 
