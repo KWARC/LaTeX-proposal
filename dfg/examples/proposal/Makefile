@@ -31,7 +31,7 @@ PROPCLS = $(PROPCLS.clssty:%=$(PROPCLS.dir)/%) $(DFGPROPCLS.clssty:%=$(DFGPROPCL
 all: $(TARGET.pdf)
 
 submit:
-	$(MAKE) -w PROPOSAL=final.tex all
+	$(MAKE) -w PROPOSAL=submit.tex all
 
 public:
 	$(MAKE) -w PROPOSAL=public.tex all
