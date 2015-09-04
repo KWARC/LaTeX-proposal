@@ -283,7 +283,7 @@ def make_task_issue(github, repo, task, options)
     body = TASK_TPL % {
       lead: task['lead'],
       wphases: task['wphases'],
-      partners: (task['partners'] or ['None']).join(' ')
+      partners: (task['partners'] or ['None']).join(', ')
     }
     puts "\n\nMaking Issue on #{repo}: #{title}"
     puts body
