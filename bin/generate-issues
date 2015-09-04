@@ -159,7 +159,7 @@ END
 
 $deliv_milestone_tpl = "# %{title}\n\n#{$deliv_tpl}"
 
-def make_task_issue(github, repo, task)
+def make_task_issue(github, repo, task, options)
   title = "#{task['label']}: #{task['title']}"
   issues = get_issues(github, repo)
   issue = issues.find { |i| i.title.start_with?(task['label'] + ':') }
@@ -172,7 +172,7 @@ def make_task_issue(github, repo, task)
     puts "\n\nMaking Issue on #{repo}: #{title}"
     puts body
   
-    github.create_issue(repo, title, body)
+    github.create_issue(repo, title, body, options)
     # throttle creation calls to avoid flags for abuse
     sleep THROTTLE_SECONDS
   else
@@ -180,7 +180,7 @@ def make_task_issue(github, repo, task)
   end
 end
 
-def make_deliverable_issue(github, repo, deliverable, milestone)
+def make_deliverable_issue(github, repo, deliverable, options)
   title = "#{deliverable['label']}: #{deliverable['title']}"
   issues = get_issues(github, repo)
   issue = issues.find { |i| i.title.start_with?(deliverable['label'] + ':') }
@@ -193,7 +193,7 @@ def make_deliverable_issue(github, repo, deliverable, milestone)
     }
     puts "\n\nMaking Issue on #{repo}: #{title}"
     puts body
-    github.create_issue(repo, title, body, :milestone => milestone)
+    github.create_issue(repo, title, body, options)
     # throttle creation calls to avoid flags for abuse
     sleep THROTTLE_SECONDS
   else
@@ -249,11 +249,22 @@ def populate_workpackage(github, repo, workpackage)
   end
   
   workpackage['tasks'].each_value do |task|
-    make_task_issue(github, repo, task)
+    make_task_issue(github, repo, task, {
+      :labels => [
+        'task',
+        workpackage['label'],
+      ].join(',')
+    })
   end
   workpackage['deliverables'].each do |deliverable|
     milestone = make_deliverable_milestone(github, repo, deliverable)
-    make_deliverable_issue(github, repo, deliverable, milestone)
+    make_deliverable_issue(github, repo, deliverable, {
+      :milestone => milestone,
+      :labels => [
+        'deliverable',
+        workpackage['label'],
+      ].join(',')
+    })
   end
 end
 
