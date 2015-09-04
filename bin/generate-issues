@@ -14,10 +14,10 @@ require 'netrc'
 proposal_dir = '.'
 
 $start_date = Date::new(2015, 9, 1) # start date of the project
-$github_org = 'minrk-odktest'
 $homepage = "http://opendreamkit.org"
 $proposal_url = "https://github.com/OpenDreamKit/OpenDreamKit"
 $project = "OpenDreamKit"
+$repo = "minrk/odktest"
 
 # throttle github creation requests to 5 Hz to avoid getting flagged for abuse
 THROTTLE_SECONDS = 5
@@ -134,14 +134,11 @@ end
 
 
 $readme_tpl = <<-END
-
 # %{title}
-
-This is a Work Package for [#{$project}](#{$homepage}).
 
 Lead institution: %{lead}
 
-Page in the [proposal](#{$proposal_url}) for the full description: %{page}
+See page %{page} of the [proposal](#{$proposal_url}) for the full description.
 END
 
 $task_tpl = <<-END
@@ -230,28 +227,13 @@ def make_deliverable_milestone(github, repo, deliverable)
   return milestone.number
 end
 
-def make_repo(github, workpackage)
-  repo_name = workpackage['label']
-  # repo_name = "WP" # single-repo
-  repo = "#{$github_org}/#{repo_name}"
-  # ensure the repo exists:
+def populate_workpackage(github, repo, workpackage)
+  # populate issues for a given workpackage
+  label = workpackage['label']
+
+  readme_path = "#{label}/README.md"
   begin
-    github.repository(repo)
-    puts "Found repo: #{repo}"
-  rescue Octokit::NotFound
-    puts "Creating repo: #{repo}"
-    github.create_repository(repo_name,
-      :organization => $github_org,
-      :description => workpackage['title'],
-      :has_downloads => false,
-      :has_wiki => false,
-    )
-    # throttle creation to avoid flags for abuse
-    sleep THROTTLE_SECONDS
-  end
-  
-  begin
-    github.readme(repo)
+    github.contents(repo, :path => readme_path)
   rescue Octokit::NotFound
     readme = $readme_tpl % {
       title: "#{workpackage['label']}: #{workpackage['title']}",
@@ -259,9 +241,9 @@ def make_repo(github, workpackage)
       page: workpackage['page'],
     }
     
-    puts "Creating Readme on #{repo}"
+    puts "Creating readme at #{repo}/#{readme_path}"
     puts readme
-    github.create_contents(repo, 'README.md', 'Creating README', readme)
+    github.create_contents(repo, readme_path, "Creating #{readme_path}", readme)
     # throttle creation calls to avoid flags for abuse
     sleep THROTTLE_SECONDS
   end
@@ -303,31 +285,11 @@ def load_pdata(proposal_dir)
   deliv_data = File.join(proposal_dir, 'proposal.deliverables')
   
   workpackages = {} # mapping of workpackage id => wp info
-  deliverables = {} # mapping of deliv id => deliv info
-  milestones = {} # mapping of milestone id => milestone info
   
   File.readlines(pdata).each do |line|
     key, *args = split_line line
   
     case key
-    when 'mile'
-      # milestones are unused
-      name, key, value = args
-      value = transform_value(key, value)
-      # puts "     milestone: #{key} => #{value}"
-      if not milestones.include? name
-        milestones[name] = {}
-      end
-      milestones[name][key] = value
-      if key == 'delivs'
-        value.each do |deliv|
-          if not deliverables.include? deliv
-            deliverables[deliv] = {}
-          end
-          deliverables[deliv]['milestone'] = name
-        end
-      end
-
     when 'wp'
       name, key, value = args
       value = transform_value(key, value)
@@ -366,28 +328,6 @@ def load_pdata(proposal_dir)
       end
       tasks[name][key] = value
 
-    when 'deliv'
-      # get deliverable data from proposal.deliverables
-      next
-      name, key, value = args
-      value = transform_value(key, value)
-    
-    
-      if not deliverables.include? name
-        deliverables[name] = {}
-      end
-      deliverables[name][key] = value
-    
-      # find my workpackage
-      if name.index('@')
-        wpkey = name.split('@').first
-      else
-        wpkey = workpackages.keys.select { |wpkey| name.start_with? wpkey }.first
-      end
-      wp = workpackages[wpkey]
-      if not wp['deliverables'].include? name
-        wp['deliverables'][name] = deliverables[name]
-      end
     else
       puts "    Ignored: #{args}"
     end
@@ -412,9 +352,10 @@ def load_pdata(proposal_dir)
     }
     wp = workpackages.values.find {|wp| wp['label'] == wpid}
     wp['deliverables'].push(deliverable)
+    wp['deliverables'].sort_by! {|d| d['label']}
   end
   
-  return workpackages
+  return workpackages.values.sort_by {|wp| wp['label']}
 end
 
 
@@ -425,7 +366,6 @@ check_token
 github = Octokit::Client.new(:netrc => true)
 github.auto_paginate = true
 
-load_pdata(proposal_dir).each_value do |wp|
-  # puts JSON.pretty_generate(wp)
-  make_repo(github, wp)
+load_pdata(proposal_dir).each do |wp|
+  populate_workpackage(github, $repo, wp)
 end
