@@ -15,7 +15,7 @@ proposal_dir = '.'
 
 $start_date = Date::new(2015, 9, 1) # start date of the project
 $homepage = "http://opendreamkit.org"
-$proposal_url = "https://github.com/OpenDreamKit/OpenDreamKit"
+$proposal_url = "https://github.com/OpenDreamKit/OpenDreamKit/tree/master/Proposal/proposal-www.pdf"
 $project = "OpenDreamKit"
 $repo = "minrk/odktest"
 
