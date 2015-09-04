@@ -262,6 +262,8 @@ See page %{page} of the [proposal](#{PROPOSAL_URL}) for the full description.
 END
 
 TASK_TPL = <<-END
+Work Package %{wptitle}
+
 Lead Institution: %{lead}
 
 Partners: %{partners}
@@ -270,6 +272,8 @@ Work phases: %{wphases}
 END
 
 DELIV_TPL = <<-END
+Work Package %{wptitle}
+
 Lead Institution: %{lead}
 
 Due: %{date} (month %{month})
@@ -280,12 +284,13 @@ END
 DELIV_MILESTONE_TPL = "# %{title}\n\n#{DELIV_TPL}"
 
 
-def make_task_issue(github, repo, task, options)
+def make_task_issue(github, repo, task, workpackage, options)
   title = "#{task['label']}: #{task['title']}"
   issues = get_issues(github, repo)
   issue = issues.find { |i| i.title.start_with?(task['label'] + ':') }
   if issue.nil?
     body = TASK_TPL % {
+      wptitle: "#{workpackage['label']}: #{workpackage['title']}",
       lead: task['lead'],
       wphases: task['wphases'],
       partners: (task['partners'] or ['None']).join(', ')
@@ -309,12 +314,13 @@ def make_task_issue(github, repo, task, options)
 end
 
 
-def make_deliverable_issue(github, repo, deliverable, options)
+def make_deliverable_issue(github, repo, deliverable, workpackage, options)
   title = "#{deliverable['label']}: #{deliverable['title']}"
   issues = get_issues(github, repo)
   issue = issues.find { |i| i.title.start_with?(deliverable['label'] + ':') }
   if issue.nil?
     body = DELIV_TPL % {
+      wptitle: "#{workpackage['label']}: #{workpackage['title']}",
       lead: deliverable['lead'],
       date: deliverable['due_date'],
       month: deliverable['month'],
@@ -338,13 +344,14 @@ def make_deliverable_issue(github, repo, deliverable, options)
 end
 
 
-def make_deliverable_milestone(github, repo, deliverable)
+def make_deliverable_milestone(github, repo, deliverable, workpackage)
   title = deliverable['label']
   
   milestone = get_milestones(github, repo).find { |ms| ms.title == title }
   if milestone.nil?
     puts "Making milestone on #{repo}: #{title}"
     body = DELIV_MILESTONE_TPL % {
+      wptitle: "#{workpackage['label']}: #{workpackage['title']}",
       title: deliverable['title'],
       lead: deliverable['lead'],
       date: deliverable['due_date'],
@@ -390,16 +397,16 @@ def populate_workpackage(github, repo, workpackage)
     org_labels = [REVERSE_SITES[task['lead']]] + \
       (task['partners'] or []).map {|site| REVERSE_SITES[site]}
     
-    make_task_issue(github, repo, task, {
+    make_task_issue(github, repo, task, workpackage,
       :labels => [
         'task',
         workpackage['label'],
       ] + org_labels
-    })
+    )
   end
   workpackage['deliverables'].each do |deliverable|
-    milestone = make_deliverable_milestone(github, repo, deliverable)
-    make_deliverable_issue(github, repo, deliverable, {
+    milestone = make_deliverable_milestone(github, repo, deliverable, workpackage)
+    make_deliverable_issue(github, repo, deliverable, workpackage, {
       :milestone => milestone,
       :labels => [
         'deliverable',
