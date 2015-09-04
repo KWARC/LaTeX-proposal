@@ -58,6 +58,11 @@ SITES = {
   'SR'  => 'Simula Research Laboratory',
 }
 
+REVERSE_SITES = {}
+SITES.each_pair do |key, name|
+  REVERSE_SITES[name] = key
+end
+
 #------------------- Parsing proposal.pdata ---------------------
 
 def split_line(line)
@@ -382,11 +387,14 @@ def populate_workpackage(github, repo, workpackage)
   end
   
   workpackage['tasks'].each_value do |task|
+    org_labels = [REVERSE_SITES[task['lead']]] + \
+      (task['partners'] or []).map {|site| REVERSE_SITES[site]}
+    
     make_task_issue(github, repo, task, {
       :labels => [
         'task',
         workpackage['label'],
-      ]
+      ] + org_labels
     })
   end
   workpackage['deliverables'].each do |deliverable|
@@ -396,6 +404,7 @@ def populate_workpackage(github, repo, workpackage)
       :labels => [
         'deliverable',
         workpackage['label'],
+        REVERSE_SITES[deliverable['lead']]
       ]
     })
   end
