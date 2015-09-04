@@ -1,23 +1,28 @@
 #!/usr/bin/env ruby
-# Generate GitHub repos and issues for the tasks and deliverables
+# Generate GitHub Issues for tasks and deliverables
+# - Each work package gets a WPX/README.md file
 # - Each task gets an Issue
 # - Each deliverable gets a Milestone
 # - Each deliverable gets an Issue associated with its Milestone
+# - Each deliverable Issue gets 'deliverable', 'WPX' tags
+# - Each task Issue gets 'task', 'WPX' tags
 
-# Run me from the proposal dir containing proposal.pdata
+# Run me from the proposal dir containing proposal.pdata:
+# cd ~/OpenDreamKit/Proposal
+# ~/path/to/LaTeX-Proposal/bin/generate-issues
 
 require 'date'
 require 'Octokit'
 require 'netrc'
 
-# constants for running the script
-proposal_dir = '.'
+# constants for running the script are for OpenDreamKit
+# update these for your own proposal
 
-$start_date = Date::new(2015, 9, 1) # start date of the project
-$homepage = "http://opendreamkit.org"
-$proposal_url = "https://github.com/OpenDreamKit/OpenDreamKit/tree/master/Proposal/proposal-www.pdf"
-$project = "OpenDreamKit"
-$repo = "minrk/odktest"
+START_DATE = Date::new(2015, 9, 1) # start date of the project
+HOMEPAGE = "http://opendreamkit.org"
+PROPOSAL_URL = "https://github.com/OpenDreamKit/OpenDreamKit/tree/master/Proposal/proposal-www.pdf"
+PROJECT = "OpenDreamKit"
+REPO = "minrk/odktest"
 
 # throttle github creation requests to 5 Hz to avoid getting flagged for abuse
 THROTTLE_SECONDS = 5
@@ -53,6 +58,8 @@ SITES = {
   'SR'  => 'Simula Research Laboratory',
 }
 
+#------------------- Parsing proposal.pdata ---------------------
+
 def split_line(line)
   # super primitive state-machine line split (not going to regex this)
   parts = []
@@ -83,12 +90,14 @@ def split_line(line)
   return parts
 end
 
+
 def scrub_tex(text)
   # scrub some latex markup from text
   text.gsub!(/\\\w+/, '')
   text.gsub!(/[{}]/, '')
   text.strip.split.join(' ')
 end
+
 
 def transform_value(key, value)
   case key
@@ -109,201 +118,6 @@ def transform_value(key, value)
   end
 end
 
-
-def check_token
-  # get GitHub auth token, creating one if we don't find it.
-  rc = Netrc.read Netrc.default_path
-  if not rc['api.github.com'].nil?
-    return
-  end
-  puts "We need your password to generate an OAuth token. The password will not be stored."
-  username = ask "Username: "
-  password = ask("Password:  ") { |q| q.echo = '*' }
-  client = Octokit::Client.new(
-    :login => username,
-    :password => password,
-  )
-  reply = client.create_authorization(
-    :scopes => ["public_repo"],
-    :note => "Issue Migration",
-  )
-  token = reply.token
-  rc['api.github.com'] = username, token
-  rc.save
-end
-
-
-$readme_tpl = <<-END
-# %{title}
-
-Lead institution: %{lead}
-
-See page %{page} of the [proposal](#{$proposal_url}) for the full description.
-END
-
-$task_tpl = <<-END
-Lead Institution: %{lead}
-
-Partners: %{partners}
-
-Work phases: %{wphases}
-END
-
-$deliv_tpl = <<-END
-Lead Institution: %{lead}
-
-Due: %{date} (month %{month})
-
-Nature: %{nature}
-END
-
-$deliv_milestone_tpl = "# %{title}\n\n#{$deliv_tpl}"
-
-def make_task_issue(github, repo, task, options)
-  title = "#{task['label']}: #{task['title']}"
-  issues = get_issues(github, repo)
-  issue = issues.find { |i| i.title.start_with?(task['label'] + ':') }
-  if issue.nil?
-    body = $task_tpl % {
-      lead: task['lead'],
-      wphases: task['wphases'],
-      partners: (task['partners'] or ['None']).join(' ')
-    }
-    puts "\n\nMaking Issue on #{repo}: #{title}"
-    puts body
-  
-    github.create_issue(repo, title, body, options)
-    # throttle creation calls to avoid flags for abuse
-    sleep THROTTLE_SECONDS
-  else
-    puts "Found Issue #{repo}##{issue.number}: #{issue.title}"
-    existing_labels = issue.labels.map { |label| label['name']}
-    missing_labels = options[:labels].reject { |label| existing_labels.include? label }
-    if not missing_labels.empty?
-      puts "Updating milestone, labels on #{repo}##{issue.number}"
-      github.update_issue(repo, issue.number, options)
-      sleep THROTTLE_SECONDS
-    end
-  end
-end
-
-def make_deliverable_issue(github, repo, deliverable, options)
-  title = "#{deliverable['label']}: #{deliverable['title']}"
-  issues = get_issues(github, repo)
-  issue = issues.find { |i| i.title.start_with?(deliverable['label'] + ':') }
-  if issue.nil?
-    body = $deliv_tpl % {
-      lead: deliverable['lead'],
-      date: deliverable['due_date'],
-      month: deliverable['month'],
-      nature: deliverable['nature'],
-    }
-    puts "\n\nMaking Issue on #{repo}: #{title}"
-    puts body
-    github.create_issue(repo, title, body, options)
-    # throttle creation calls to avoid flags for abuse
-    sleep THROTTLE_SECONDS
-  else
-    puts "Found Issue #{repo}##{issue.number}: #{issue.title}"
-    existing_labels = issue.labels.map { |label| label['name']}
-    missing_labels = options[:labels].reject { |label| existing_labels.include? label }
-    if issue.milestone.nil? or not missing_labels.empty?
-      puts "Updating milestone, labels on #{repo}##{issue.number}"
-      github.update_issue(repo, issue.number, options)
-      sleep THROTTLE_SECONDS
-    end
-  end
-end
-
-def make_deliverable_milestone(github, repo, deliverable)
-  title = deliverable['label']
-  
-  milestone = get_milestones(github, repo).find { |ms| ms.title == title }
-  if milestone.nil?
-    puts "Making milestone on #{repo}: #{title}"
-    body = $deliv_milestone_tpl % {
-      title: deliverable['title'],
-      lead: deliverable['lead'],
-      date: deliverable['due_date'],
-      month: deliverable['month'],
-      nature: deliverable['nature'],
-    }
-  
-    milestone = github.create_milestone(repo, title,
-        :due_on => deliverable['due_date'],
-        :description => body,
-    )
-    # throttle creation calls to avoid flags for abuse
-    sleep THROTTLE_SECONDS
-  else
-    puts "Milestone #{repo}@#{title} exists"
-  end
-  return milestone.number
-end
-
-def populate_workpackage(github, repo, workpackage)
-  # populate issues for a given workpackage
-  label = workpackage['label']
-
-  readme_path = "#{label}/README.md"
-  begin
-    github.contents(repo, :path => readme_path)
-  rescue Octokit::NotFound
-    readme = $readme_tpl % {
-      title: "#{workpackage['label']}: #{workpackage['title']}",
-      lead: workpackage['lead'],
-      page: workpackage['page'],
-    }
-    
-    puts "Creating readme at #{repo}/#{readme_path}"
-    puts readme
-    github.create_contents(repo, readme_path, "Creating #{readme_path}", readme)
-    # throttle creation calls to avoid flags for abuse
-    sleep THROTTLE_SECONDS
-  end
-  
-  workpackage['tasks'].each_value do |task|
-    make_task_issue(github, repo, task, {
-      :labels => [
-        'task',
-        workpackage['label'],
-      ]
-    })
-  end
-  workpackage['deliverables'].each do |deliverable|
-    milestone = make_deliverable_milestone(github, repo, deliverable)
-    make_deliverable_issue(github, repo, deliverable, {
-      :milestone => milestone,
-      :labels => [
-        'deliverable',
-        workpackage['label'],
-      ]
-    })
-  end
-end
-
-$cache = {
-  'issues' => {},
-  'milestones' => {},
-}
-
-def get_issues(github, repo)
-  # get issues for a repo (cached)
-  cache = $cache['issues']
-  if not cache.include? repo
-    cache[repo] = github.issues(repo)
-  end
-  return cache[repo]
-end
-
-def get_milestones(github, repo)
-  # get issues for a repo (cached)
-  cache = $cache['milestones']
-  if not cache.include? repo
-    cache[repo] = github.list_milestones(repo)
-  end
-  return cache[repo]
-end
 
 def load_pdata(proposal_dir)
   pdata = File.join(proposal_dir, 'proposal.pdata')
@@ -354,6 +168,7 @@ def load_pdata(proposal_dir)
       tasks[name][key] = value
 
     else
+      # DEBUG:
       # puts "    Ignored: #{args}"
     end
   end
@@ -367,7 +182,7 @@ def load_pdata(proposal_dir)
       "month" => month,
       # deliverables[deliv_id]['month'] = month
       # due date is last day of the given month, so subtract one day
-      "due_date" => ($start_date >> month) - 1,
+      "due_date" => (START_DATE >> month) - 1,
       "label" => scrub_tex(args[2]),
       "deliv_id" => args[3],
       "dissem" => transform_value('dissem', args[4]),
@@ -384,13 +199,230 @@ def load_pdata(proposal_dir)
 end
 
 
-# verify that there's a GitHub token in .netrc
-check_token
+#--------------- GitHub-related ---------------------
 
-# create client
-github = Octokit::Client.new(:netrc => true)
-github.auto_paginate = true
+def check_token
+  # get GitHub auth token, creating one if we don't find it.
+  rc = Netrc.read Netrc.default_path
+  if not rc['api.github.com'].nil?
+    return
+  end
+  puts "We need your password to generate an OAuth token. The password will not be stored."
+  username = ask "Username: "
+  password = ask("Password:  ") { |q| q.echo = '*' }
+  client = Octokit::Client.new(
+    :login => username,
+    :password => password,
+  )
+  reply = client.create_authorization(
+    :scopes => ["public_repo"],
+    :note => "Issue Migration",
+  )
+  token = reply.token
+  rc['api.github.com'] = username, token
+  rc.save
+end
 
-load_pdata(proposal_dir).each do |wp|
-  populate_workpackage(github, $repo, wp)
+$cache = {
+  'issues' => {},
+  'milestones' => {},
+}
+
+def get_issues(github, repo)
+  # get issues for a repo (cached)
+  cache = $cache['issues']
+  if not cache.include? repo
+    cache[repo] = github.issues(repo)
+  end
+  return cache[repo]
+end
+
+def get_milestones(github, repo)
+  # get issues for a repo (cached)
+  cache = $cache['milestones']
+  if not cache.include? repo
+    cache[repo] = github.list_milestones(repo)
+  end
+  return cache[repo]
+end
+
+# Templates for making readmes, issues
+
+README_TPL = <<-END
+# %{title}
+
+Lead institution: %{lead}
+
+See page %{page} of the [proposal](#{PROPOSAL_URL}) for the full description.
+END
+
+TASK_TPL = <<-END
+Lead Institution: %{lead}
+
+Partners: %{partners}
+
+Work phases: %{wphases}
+END
+
+DELIV_TPL = <<-END
+Lead Institution: %{lead}
+
+Due: %{date} (month %{month})
+
+Nature: %{nature}
+END
+
+DELIV_MILESTONE_TPL = "# %{title}\n\n#{DELIV_TPL}"
+
+
+def make_task_issue(github, repo, task, options)
+  title = "#{task['label']}: #{task['title']}"
+  issues = get_issues(github, repo)
+  issue = issues.find { |i| i.title.start_with?(task['label'] + ':') }
+  if issue.nil?
+    body = TASK_TPL % {
+      lead: task['lead'],
+      wphases: task['wphases'],
+      partners: (task['partners'] or ['None']).join(' ')
+    }
+    puts "\n\nMaking Issue on #{repo}: #{title}"
+    puts body
+  
+    github.create_issue(repo, title, body, options)
+    # throttle creation calls to avoid flags for abuse
+    sleep THROTTLE_SECONDS
+  else
+    puts "Found Issue #{repo}##{issue.number}: #{issue.title}"
+    existing_labels = issue.labels.map { |label| label['name']}
+    missing_labels = options[:labels].reject { |label| existing_labels.include? label }
+    if not missing_labels.empty?
+      puts "Updating milestone, labels on #{repo}##{issue.number}"
+      github.update_issue(repo, issue.number, options)
+      sleep THROTTLE_SECONDS
+    end
+  end
+end
+
+
+def make_deliverable_issue(github, repo, deliverable, options)
+  title = "#{deliverable['label']}: #{deliverable['title']}"
+  issues = get_issues(github, repo)
+  issue = issues.find { |i| i.title.start_with?(deliverable['label'] + ':') }
+  if issue.nil?
+    body = DELIV_TPL % {
+      lead: deliverable['lead'],
+      date: deliverable['due_date'],
+      month: deliverable['month'],
+      nature: deliverable['nature'],
+    }
+    puts "\n\nMaking Issue on #{repo}: #{title}"
+    puts body
+    github.create_issue(repo, title, body, options)
+    # throttle creation calls to avoid flags for abuse
+    sleep THROTTLE_SECONDS
+  else
+    puts "Found Issue #{repo}##{issue.number}: #{issue.title}"
+    existing_labels = issue.labels.map { |label| label['name']}
+    missing_labels = options[:labels].reject { |label| existing_labels.include? label }
+    if issue.milestone.nil? or not missing_labels.empty?
+      puts "Updating milestone, labels on #{repo}##{issue.number}"
+      github.update_issue(repo, issue.number, options)
+      sleep THROTTLE_SECONDS
+    end
+  end
+end
+
+
+def make_deliverable_milestone(github, repo, deliverable)
+  title = deliverable['label']
+  
+  milestone = get_milestones(github, repo).find { |ms| ms.title == title }
+  if milestone.nil?
+    puts "Making milestone on #{repo}: #{title}"
+    body = DELIV_MILESTONE_TPL % {
+      title: deliverable['title'],
+      lead: deliverable['lead'],
+      date: deliverable['due_date'],
+      month: deliverable['month'],
+      nature: deliverable['nature'],
+    }
+  
+    milestone = github.create_milestone(repo, title,
+        :due_on => deliverable['due_date'],
+        :description => body,
+    )
+    # throttle creation calls to avoid flags for abuse
+    sleep THROTTLE_SECONDS
+  else
+    puts "Milestone #{repo}@#{title} exists"
+  end
+  return milestone.number
+end
+
+
+def populate_workpackage(github, repo, workpackage)
+  # populate issues for a given workpackage
+  label = workpackage['label']
+
+  readme_path = "#{label}/README.md"
+  begin
+    github.contents(repo, :path => readme_path)
+  rescue Octokit::NotFound
+    readme = README_TPL % {
+      title: "#{workpackage['label']}: #{workpackage['title']}",
+      lead: workpackage['lead'],
+      page: workpackage['page'],
+    }
+    
+    puts "Creating readme at #{repo}/#{readme_path}"
+    puts readme
+    github.create_contents(repo, readme_path, "Creating #{readme_path}", readme)
+    # throttle creation calls to avoid flags for abuse
+    sleep THROTTLE_SECONDS
+  end
+  
+  workpackage['tasks'].each_value do |task|
+    make_task_issue(github, repo, task, {
+      :labels => [
+        'task',
+        workpackage['label'],
+      ]
+    })
+  end
+  workpackage['deliverables'].each do |deliverable|
+    milestone = make_deliverable_milestone(github, repo, deliverable)
+    make_deliverable_issue(github, repo, deliverable, {
+      :milestone => milestone,
+      :labels => [
+        'deliverable',
+        workpackage['label'],
+      ]
+    })
+  end
+end
+
+
+def main(proposal_dir)
+  # run the whole thing
+
+  # verify that there's a GitHub token in .netrc
+  check_token
+
+  # create client
+  github = Octokit::Client.new(:netrc => true)
+  github.auto_paginate = true
+
+  load_pdata(proposal_dir).each do |wp|
+    populate_workpackage(github, REPO, wp)
+  end
+end
+
+if __FILE__ == $0
+  puts ARGV
+  if ARGV.length > 1
+    proposal_dir = ARGV[1]
+  else
+    proposal_dir = '.'
+  end
+  main(proposal_dir)
 end
