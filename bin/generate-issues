@@ -177,6 +177,13 @@ def make_task_issue(github, repo, task, options)
     sleep THROTTLE_SECONDS
   else
     puts "Found Issue #{repo}##{issue.number}: #{issue.title}"
+    existing_labels = issue.labels.map { |label| label['name']}
+    missing_labels = options[:labels].reject { |label| existing_labels.include? label }
+    if not missing_labels.empty?
+      puts "Updating milestone, labels on #{repo}##{issue.number}"
+      github.update_issue(repo, issue.number, options)
+      sleep THROTTLE_SECONDS
+    end
   end
 end
 
@@ -198,6 +205,13 @@ def make_deliverable_issue(github, repo, deliverable, options)
     sleep THROTTLE_SECONDS
   else
     puts "Found Issue #{repo}##{issue.number}: #{issue.title}"
+    existing_labels = issue.labels.map { |label| label['name']}
+    missing_labels = options[:labels].reject { |label| existing_labels.include? label }
+    if issue.milestone.nil? or not missing_labels.empty?
+      puts "Updating milestone, labels on #{repo}##{issue.number}"
+      github.update_issue(repo, issue.number, options)
+      sleep THROTTLE_SECONDS
+    end
   end
 end
 
@@ -253,7 +267,7 @@ def populate_workpackage(github, repo, workpackage)
       :labels => [
         'task',
         workpackage['label'],
-      ].join(',')
+      ]
     })
   end
   workpackage['deliverables'].each do |deliverable|
@@ -263,7 +277,7 @@ def populate_workpackage(github, repo, workpackage)
       :labels => [
         'deliverable',
         workpackage['label'],
-      ].join(',')
+      ]
     })
   end
 end
@@ -340,7 +354,7 @@ def load_pdata(proposal_dir)
       tasks[name][key] = value
 
     else
-      puts "    Ignored: #{args}"
+      # puts "    Ignored: #{args}"
     end
   end
   
