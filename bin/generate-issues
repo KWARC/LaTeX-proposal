@@ -20,9 +20,9 @@ require 'netrc'
 
 START_DATE = Date::new(2015, 9, 1) # start date of the project
 HOMEPAGE = "http://opendreamkit.org"
-PROPOSAL_URL = "https://github.com/OpenDreamKit/OpenDreamKit/tree/master/Proposal/proposal-www.pdf"
+PROPOSAL_URL = "https://github.com/OpenDreamKit/OpenDreamKit/raw/master/Proposal/proposal-www.pdf"
 PROJECT = "OpenDreamKit"
-REPO = "minrk/odktest"
+REPO = "minrk/odktest2"
 
 # throttle github creation requests to 5 Hz to avoid getting flagged for abuse
 THROTTLE_SECONDS = 5
@@ -30,7 +30,7 @@ THROTTLE_SECONDS = 5
 NATURES = {
   'R'     => 'Report',
   'DEM'   => 'Demonstrator',
-  'DEC'   => 'Websites, patents filing, press & media actions, videos, etc.',
+  'DEC'   => 'Websites, Media, etc.',
   'OTHER' => 'Other',
 }
 
@@ -256,29 +256,25 @@ end
 README_TPL = <<-END
 # %{title}
 
-Lead institution: %{lead}
+Lead Institution: %{lead}
 
 See page %{page} of the [proposal](#{PROPOSAL_URL}) for the full description.
 END
 
 TASK_TPL = <<-END
-Work Package %{wptitle}
+- **%{wplabel}:** [%{wptitle}](https://github.com/#{REPO}/tree/master/%{wplabel})
+- **Lead Institution:** %{lead}
+- **Partners:** %{partners}
+- **Work phases:** %{wphases}
 
-Lead Institution: %{lead}
-
-Partners: %{partners}
-
-Work phases: %{wphases}
+See page %{page} of the [proposal](#{PROPOSAL_URL}) for the full description.
 END
 
 DELIV_TPL = <<-END
-Work Package %{wptitle}
-
-Lead Institution: %{lead}
-
-Due: %{date} (month %{month})
-
-Nature: %{nature}
+- **%{wplabel}:** [%{wptitle}](https://github.com/#{REPO}/tree/master/%{wplabel})
+- **Lead Institution:** %{lead}
+- **Due:** %{date} (month %{month})
+- **Nature:** %{nature}
 END
 
 DELIV_MILESTONE_TPL = "# %{title}\n\n#{DELIV_TPL}"
@@ -290,8 +286,10 @@ def make_task_issue(github, repo, task, workpackage, options)
   issue = issues.find { |i| i.title.start_with?(task['label'] + ':') }
   if issue.nil?
     body = TASK_TPL % {
-      wptitle: "#{workpackage['label']}: #{workpackage['title']}",
+      wplabel: workpackage['label'],
+      wptitle: workpackage['title'],
       lead: task['lead'],
+      page: task['page'],
       wphases: task['wphases'],
       partners: (task['partners'] or ['None']).join(', ')
     }
@@ -320,7 +318,8 @@ def make_deliverable_issue(github, repo, deliverable, workpackage, options)
   issue = issues.find { |i| i.title.start_with?(deliverable['label'] + ':') }
   if issue.nil?
     body = DELIV_TPL % {
-      wptitle: "#{workpackage['label']}: #{workpackage['title']}",
+      wplabel: workpackage['label'],
+      wptitle: workpackage['title'],
       lead: deliverable['lead'],
       date: deliverable['due_date'],
       month: deliverable['month'],
@@ -351,7 +350,8 @@ def make_deliverable_milestone(github, repo, deliverable, workpackage)
   if milestone.nil?
     puts "Making milestone on #{repo}: #{title}"
     body = DELIV_MILESTONE_TPL % {
-      wptitle: "#{workpackage['label']}: #{workpackage['title']}",
+      wplabel: workpackage['label'],
+      wptitle: workpackage['title'],
       title: deliverable['title'],
       lead: deliverable['lead'],
       date: deliverable['due_date'],
