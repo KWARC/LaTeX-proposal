@@ -63,6 +63,10 @@ SITES.each_pair do |key, name|
   REVERSE_SITES[name] = key
 end
 
+# Some sites would prefer alternative abbreviations
+REVERSE_SITES['University of St Andrews'] = 'USTAN'
+REVERSE_SITES['Université de Versailles Saint-Quentin'] = 'UVSQ'
+
 #------------------- Parsing proposal.pdata ---------------------
 
 def split_line(line)
