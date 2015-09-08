@@ -134,6 +134,7 @@ def load_pdata(proposal_dir)
   deliv_data = File.join(proposal_dir, "#{TARGET}.deliverables")
   
   workpackages = {} # mapping of workpackage id => wp info
+  deliverables = {}
   
   File.readlines(pdata).each do |line|
     key, *args = split_line line
@@ -176,6 +177,14 @@ def load_pdata(proposal_dir)
         tasks[name] = {}
       end
       tasks[name][key] = value
+    when 'deliv'
+      name, key, value = args
+      
+      value = transform_value(key, value)
+      if not deliverables.include? name
+        deliverables[name] = {}
+      end
+      deliverables[name][key] = value
 
     else
       # DEBUG:
@@ -183,14 +192,18 @@ def load_pdata(proposal_dir)
     end
   end
   
-  # get deliverable data from proposal.deliverables
+  # get deliverable data, workpackage id from proposal.deliverables
   File.readlines(deliv_data).each do |line|
     args = split_line line
+    name = args[3]
+    if deliverables.include? name
+      deliverable = deliverables[name]
+    else
+      deliverable = {}
+    end
     month = args[0].to_i
-    wpid = scrub_tex(args[7])
-    deliverable = {
+    deliverable = (deliverables[name] or {}).merge({
       "month" => month,
-      # deliverables[deliv_id]['month'] = month
       # due date is last day of the given month, so subtract one day
       "due_date" => (START_DATE >> month) - 1,
       "label" => scrub_tex(args[2]),
@@ -199,9 +212,13 @@ def load_pdata(proposal_dir)
       "nature" => transform_value('nature', args[5]),
       "title" => scrub_tex(args[6]),
       "lead" => SITES[scrub_tex(args[8])],
-    }
+    })
+    wpid = scrub_tex(args[7])
     wp = workpackages.values.find {|wp| wp['label'] == wpid}
     wp['deliverables'].push(deliverable)
+  end
+  
+  workpackages.values.each do |wp|
     wp['deliverables'].sort_by! {|d| d['label']}
   end
   
@@ -280,6 +297,8 @@ DELIV_TPL = <<-END
 - **Lead Institution:** %{lead}
 - **Due:** %{date} (month %{month})
 - **Nature:** %{nature}
+
+See page %{page} of the [proposal](#{PROPOSAL_URL}) for the full description.
 END
 
 DELIV_MILESTONE_TPL = "# %{title}\n\n#{DELIV_TPL}"
@@ -329,6 +348,7 @@ def make_deliverable_issue(github, repo, deliverable, workpackage, options)
       date: deliverable['due_date'],
       month: deliverable['month'],
       nature: deliverable['nature'],
+      page: deliverable['page'],
     }
     puts "\n\nMaking Issue on #{repo}: #{title}"
     puts body
@@ -362,6 +382,7 @@ def make_deliverable_milestone(github, repo, deliverable, workpackage)
       date: deliverable['due_date'],
       month: deliverable['month'],
       nature: deliverable['nature'],
+      page: deliverable['page'],
     }
   
     milestone = github.create_milestone(repo, title,
