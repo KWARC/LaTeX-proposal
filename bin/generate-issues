@@ -22,8 +22,8 @@ START_DATE = Date::new(2015, 9, 1) # start date of the project
 HOMEPAGE = "http://opendreamkit.org"
 PROPOSAL_URL = "https://github.com/OpenDreamKit/OpenDreamKit/raw/master/Proposal/proposal-www.pdf"
 PROJECT = "OpenDreamKit"
-REPO = "minrk/odktest2"
-TARGET = "final" # or 'proposal
+REPO = "OpenDreamKit/OpenDreamKit"
+TARGET = "final" # or 'proposal'
 
 # throttle github creation requests to 5 Hz to avoid getting flagged for abuse
 THROTTLE_SECONDS = 5
