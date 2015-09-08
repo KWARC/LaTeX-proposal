@@ -23,6 +23,7 @@ HOMEPAGE = "http://opendreamkit.org"
 PROPOSAL_URL = "https://github.com/OpenDreamKit/OpenDreamKit/raw/master/Proposal/proposal-www.pdf"
 PROJECT = "OpenDreamKit"
 REPO = "minrk/odktest2"
+TARGET = "final" # or 'proposal
 
 # throttle github creation requests to 5 Hz to avoid getting flagged for abuse
 THROTTLE_SECONDS = 5
@@ -129,8 +130,8 @@ end
 
 
 def load_pdata(proposal_dir)
-  pdata = File.join(proposal_dir, 'proposal.pdata')
-  deliv_data = File.join(proposal_dir, 'proposal.deliverables')
+  pdata = File.join(proposal_dir, "#{TARGET}.pdata")
+  deliv_data = File.join(proposal_dir, "#{TARGET}.deliverables")
   
   workpackages = {} # mapping of workpackage id => wp info
   
