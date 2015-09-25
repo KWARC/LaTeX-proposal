@@ -1286,7 +1286,7 @@
 %   This macro is generally useful to put a comment at the end of the line, possibly
 %   making a new one if there is not enough space.
 %    \begin{macrocode}
-\newcommand\delivref[2]{\pdataRef{deliv}{#1#2}{label}}
+\newcommand\delivref[2]{\pdataRef{deliv}{#1@#2}{label}}
 \newcommand\localdelivref[1]{\delivref{\wp@id}{#1}}
 \newcommand\delivtref[2]{\delivref{#1}{#2}: \pdataRefFB{deliv}{#1#2}{short}{title}}
 \newcommand\localdelivtref[1]{\delivtref{\wp@id}{#1}}
