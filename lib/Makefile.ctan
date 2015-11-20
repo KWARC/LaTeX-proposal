@@ -54,7 +54,7 @@ tdsext:
 	cp $(TDS.doc) $(TDSDIR)/doc/latex/$(TDSCOLL)
 	@echo "zipping the result to $(TDSCOLL).tds.zip"
 	cd $(TDSDIR); zip -r -q $(TDSZIP) .; cd -
-	rm -Rf $(TDSDIR)
+#	rm -Rf $(TDSDIR)
 
 # copy stuff around for the TDS in the DTX dirs
 ltds: 
