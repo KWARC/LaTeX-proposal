@@ -18,7 +18,8 @@
 
 HERE   	        = $(shell pwd)
 TMP    	        = /tmp
-TDSCOLL 	?= $(shell basename $$PWD)
+#TDSCOLL 	?= $(shell basename $$PWD)
+TDSCOLL 	= proposal
 EXPORTED	= $(TMP)/$(TDSCOLL).exp
 TDSDIR 		= $(TMP)/$(TDSCOLL).tds
 TDSZIP 		= $(TMP)/$(TDSCOLL).tds.zip
