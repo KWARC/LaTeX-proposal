@@ -48,9 +48,13 @@ tdsext:
 	@echo "  enabling checksums"
 #	$(MAKE) -$(MAKEFLAGS) enablechecksum *******
 	@echo "  copying over stuff to $(TDSDIR)"
+	@echo "     ... from  $(DTXDIRS)"     
 	@for d in $(DTXDIRS); do (cd $$d && $(MAKE) -$(MAKEFLAGS) ltds) done
+	@echo "     ... and  $(SRCDIRS)"     
 	@for d in $(SRCDIRS); do (cp -R $$d $(TDSDIR)/source/latex/$(TDSCOLL)) done; 
+	@echo "     ... and  $(DOCDIRS)"     
 	@for d in $(DOCDIRS); do (cp -R $$d $(TDSDIR)/doc/latex/$(TDSCOLL)) done; 
+	@echo "     ... and  finally $(TDS.doc)"     
 	cp $(TDS.doc) $(TDSDIR)/doc/latex/$(TDSCOLL)
 	@echo "zipping the result to $(TDSCOLL).tds.zip"
 	cd $(TDSDIR); zip -r -q $(TDSZIP) .; cd -
