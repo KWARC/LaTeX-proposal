@@ -73,16 +73,4 @@ tdsext:
 	cd $(TDSDIR); zip -r -q $(TDSZIP) .; cd -
 #	rm -Rf $(TDSDIR)
 
-# copy stuff around for the TDS in the DTX dirs
-ltds: 
-	@echo "copying stuff for the subdirs"
-	@for d in $(DISTDIRS); do (cd $$d; $(MAKE) -$(MAKEFLAGS) $@) done
-	cp $(TDS.tex) $(TDSDIR)/tex/latex/$(TDSCOLL)
-	cp $(TDS.doc) $(TDSDIR)/doc/latex/$(TDSCOLL)
-
-# copy stuff around for a CTAN submission in the DTX dirs
-lctan: 
-	mkdir -p $(CTANDIR)/sty;
-	@for d in $(DISTDIRS); do (cp -R $$d $(CTANDIR)/sty) done
-	cp $(TDS.tex) $(TDS.doc) Makefile $(CTANDIR)/sty
 
