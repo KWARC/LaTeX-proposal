@@ -31,7 +31,7 @@ filedate checksum enablechecksum disablechecksum:
 
 GITURI = git@github.com:KWARC/LaTeX-proposal.git 
 TDS.src = 
-TDS.doc = README
+TDS.doc = README.md
 TDS.src = 
 include lib/Makefile.ctan
 
