@@ -45,6 +45,7 @@ ctan: #all filedate checksum *******
 # this target is run on EXPORTED. It first makes the target tdsext below, 
 # and then copies all necessary stuff into CTANDIR. 
 ctanext: tdsext
+	@echo "making a CTAN compliant archive"
 	rm -Rf $(CTANDIR) $(CTANZIP)
 	@echo "  preparing a copy $(CTANDIR) from $(EXPORTED)"
 	mkdir -p $(CTANDIR) 
