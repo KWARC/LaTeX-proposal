@@ -34,6 +34,3 @@ TDS.src =
 TDS.doc = README.md
 TDS.src = 
 include lib/Makefile.ctan
-
-echo:
-	echo $(DISTDIRS)
