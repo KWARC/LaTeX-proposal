@@ -18,7 +18,7 @@
 
 HERE   	        = $(shell pwd)
 TMP    	        = /tmp
-TDSCOLL 	= proposal
+TDSCOLL 	?= $(shell basename $$PWD)
 EXPORTED	= $(TMP)/$(TDSCOLL).exp
 TDSDIR 		= $(TMP)/$(TDSCOLL).tds
 TDSZIP 		= $(TMP)/$(TDSCOLL).tds.zip
@@ -31,7 +31,7 @@ MAKE		= make
 # the filedates and the checksums. To get rid of all the junk we commit and 
 # export a clean copy EXPORTED, on which we run the target ctanexp below,  
 # which generates a directory CTANDIR, which we zip and move into place. 
-ctan: all # filedate checksum
+ctan: all  #filedate checksum
 	git commit -am'draining just to be sure for CTAN distribution'
 	rm -Rf $(EXPORTED)
 	@echo "exporting a clean copy to $(EXPORTED)"
