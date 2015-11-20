@@ -76,5 +76,5 @@ tdsext:
 #	rm -Rf $(TDSDIR)
 
 echo:
-	@echo $(TDSDIRS)
+	@echo $(DTXDIRS)
 
