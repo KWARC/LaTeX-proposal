@@ -15,7 +15,7 @@ CTANZIP		= $(TMP)/$(TDSCOLL).ctan.zip
 # which generates a directory CTANDIR, which we zip and move into place. 
 ctan: all# filedate checksum *******
 	git commit -am'draining just to be sure for CTAN distribution'
-	git push
+#	git push
 	rm -Rf $(EXPORTED)
 	@echo "exporting a clean copy to $(EXPORTED)"
 	cd $(TMP); git clone $(HERE); mv LaTeX-proposal $(EXPORTED)
