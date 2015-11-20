@@ -1,7 +1,6 @@
 all: package doc
 
 package: $(DTX.sty) $(DTX.cls)
-
 doc: $(DTX.pdf) $(EXAMPLE.pdf)
 
 $(EXAMPLE.pdf): %.pdf: %.tex $(DTX.sty) $(DTX.cls) $(IMG) $(EXAMPLE.deps) 
