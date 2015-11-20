@@ -14,8 +14,6 @@ GITURI = git@github.com:KWARC/LaTeX-proposal.git
 TDS.src = 
 TDS.doc = README.md
 TDS.src = 
-include lib/Makefile.vars
-include lib/Makefile.in
 include lib/Makefile.ctan
 
 echo:
