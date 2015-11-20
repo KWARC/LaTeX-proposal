@@ -7,6 +7,7 @@ TDSDIR 		= $(TMP)/$(TDSCOLL).tds
 TDSZIP 		= $(TMP)/$(TDSCOLL).tds.zip
 CTANDIR 	= $(TMP)/$(TDSCOLL)
 CTANZIP		= $(TMP)/$(TDSCOLL).ctan.zip
+MAKE		= make
 
 # this target makes the file CTANZIP by creating and populating the directory 
 # CTANDIR and zipping it. To be current, we first make all, and update 
