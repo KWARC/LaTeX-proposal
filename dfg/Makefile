@@ -3,6 +3,7 @@ PACKAGE = dfg
 TDSCOLL = proposal
 DTX.cls.base = dfgproposal
 TDS.tex = dfgreporting.cls dfgpdata.sty
+TDS.exdirs = examples/proposal
 CTAN = $(TDS.tex)
 EXDIRS = examples
 
