@@ -13,9 +13,9 @@
 %
 % \iffalse 
 %<cls|pdata|reporting>\NeedsTeXFormat{LaTeX2e}[1999/12/01]
-%<cls>\ProvidesClass{proposal}[2015/11/20 v1.5 Project Proposal]
-%<pdata>\ProvidesPackage{pdata}[2015/11/20 v1.5 Project Data]
-%<reporting>\ProvidesPackage{reporting}[2015/11/20 v1.5 Project Reporting]
+%<cls>\ProvidesClass{proposal}[2015/11/22 v1.5 Project Proposal]
+%<pdata>\ProvidesPackage{pdata}[2015/11/22 v1.5 Project Data]
+%<reporting>\ProvidesPackage{reporting}[2015/11/22 v1.5 Project Reporting]
 %<*driver>
 \documentclass{ltxdoc}
 \DoNotIndex{\def,\long,\edef,\xdef,\gdef,\let,\global}
@@ -35,6 +35,7 @@
  breaklinks=true, bookmarksopen=true]{hyperref}
 \makeindex
 \def\subversion{\textsc{Subversion}\xspace}
+\def\git{\textsc{Git}\xspace}
 \begin{document}
 \DocInput{proposal.dtx}
 \end{document}
@@ -86,19 +87,38 @@
 %
 % Writing grant proposals is a collaborative effort that requires the integration of
 % contributions from many individuals. The use of an ASCII-based format like {\LaTeX}
-% allows to coordinate the process via a source code control system like
-% \subversion, allowing the proposal writing team to concentrate on the contents
-% rather than the mechanics of wrangling with text fragments and revisions.
+% allows to coordinate the process via a source code control system like \git or
+% \subversion, allowing the proposal writing team to concentrate on the contents rather
+% than the mechanics of wrangling with text fragments and revisions. In fact the
+% |proposal| package has evolved out of a series of collaborative proposal writing
+% efforts, where large teams (up to 30 individuals from up to 20 sites) have written a
+% 100-page proposal in three weeks (with over 2000 commits). Such collaborative writing
+% sprints are impossible without a revision control system and a ``semantic'' document
+% class that generates tables, charts, and deliverable lists from content markup and thus
+% takes care of many of the routine tasks of keeping information consistent.
 % 
 % The |proposal| class supports many of the generic elements of Grant Proposals. The
 % package documentation is still preliminary, fragmented and incomplete. 
 %
 % The |proposal| class is distributed under the terms of the LaTeX Project Public License
 % from CTAN archives in directory |macros/latex/base/lppl.txt|.  Either version 1.0 or, at
-% your option, any later version. The CTAN archive always contains the latest stable
-% version, the development version can be found on GitHub at
-% \url{https://github.com/KWARC/LaTeX-proposal}. For bug reports please use the issue
-% tracker there.
+% your option, any later version. 
+% 
+% The CTAN archive always contains the latest stable version, the development version can
+% be found on GitHub at \url{https://github.com/KWARC/LaTeX-proposal}. For bug reports
+% please use the issue tracker there. Please feel free to fork the repository and provide
+% extensions and improvements. 
+% 
+% The development version also contains example proposals and a very useful script that
+% generates GitHub issues for all the workpackages, tasks, and deliverables. This is a
+% great way of starting up a project and controlling its progress. The OpenDreamKit EU
+% project (see \url{http://opendreamkit.org}) uses this for its (very public) project
+% planning on the issue tracker at \url{https://github.com/OpenDreamKit} after (also
+% publicly) developing the proposal on GitHub.
+% 
+% Finally, the GitHub reposistory contains example project proposals and specialized
+% Makefiles that help start off the proposal development process. These are not part of
+% the CTAN/TeXLive distributions.
 %
 % \section{The User Interface}\label{sec:user-interface}
 % 

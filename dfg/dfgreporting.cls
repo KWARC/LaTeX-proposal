@@ -7,7 +7,7 @@
 %% dfgproposal.dtx  (with options: `reporting')
 %% 
 \NeedsTeXFormat{LaTeX2e}[1999/12/01]
-\ProvidesPackage{dfgreporting}[2015/11/20 v1.4 DFG Project Reporting]
+\ProvidesPackage{dfgreporting}[2015/11/22 v1.4 DFG Project Reporting]
 \DeclareOption{german}{\PassOptionsToPackage{\CurrentOption}{dfgpdata}}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{reporting}}
 \ProcessOptions

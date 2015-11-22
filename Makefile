@@ -22,7 +22,7 @@ package doc:
 # - tex    (*.sty and *.cls, etc that LaTeX reads)
 # of the CTAN and TDS submissions
 SRCDIRS 	=
-DOCDIRS 	= #eu/examples dfg/examples 
+DOCDIRS 	= eu/examples/strep dfg/examples/proposal 
 DTXDIRS 	= base dfg eu
 
 # targets for CTAN. 
