@@ -7,7 +7,7 @@
 %% euproposal.dtx  (with options: `cls')
 %% 
 \NeedsTeXFormat{LaTeX2e}[1999/12/01]
-\ProvidesClass{euproposal}[// v1.5 EU Proposal]
+\ProvidesClass{euproposal}[2015/11/20 v1.5 EU Proposal]
 \newif\ifpartB\partBfalse
 \DeclareOption{partB}{\partBtrue}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{proposal}}

@@ -14,9 +14,9 @@ use Pod::Usage;
 use Cwd qw(abs_path);
 
 my ($file) = @ARGV;
-my $date = `svn info $file`;
-$date =~ /Last Changed Date: (\d+)-(\d+)-(\d+)/;
-$date = $1.'/'.$2.'/'.$3;
+my $date = `git log --format='%ai' $file`;
+$date = substr($date, 0, index($date, ' '));
+$date =~ s/-/\//g;
 $file = abs_path($file);
 open(IN,"<$file");
 my @lines = ();
