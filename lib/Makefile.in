@@ -89,7 +89,7 @@ ltds:
 	cp $(DTX.sty.ltxml) $(DTX.cls.ltxml) $(TDSDIR.tex) || echo "omitting ltxml files"
 	cp README $(DTX.pdf) $(EXAMPLE.tex) $(EXAMPLE.pdf) $(TDS.doc) $(TDSDIR.doc)
 	@echo "*********"
-	@if $(findstring $(TDS.exdirs),"") then else cp -R $(TDS.exdirs) $(TDSDIR.doc); fi
+	@if $(findstring $(TDS.exdirs),""); then cp -R $(TDS.exdirs) $(TDSDIR.doc); fi
 
 lctan:
 	mkdir -p $(CTANDIR)
