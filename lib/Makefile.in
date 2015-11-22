@@ -95,4 +95,4 @@ lctan:
 	cp $(DTX) $(TDS.src) $(DTX.sty) $(DTX.cls) $(TDS.tex) $(CTANDIR)
 	cp $(DTX.sty.ltxml) $(DTX.cls.ltxml) $(CTANDIR) || echo "omitting ltxml files"
 	cp README $(DTX.pdf) $(EXAMPLE.tex) $(EXAMPLE.pdf) $(TDS.doc) $(CTANDIR)
-	@for d in $(TDS.exdirs); do cp -R $(TDS.exdirs) $(TDSDIR.doc); done
+	@for d in $(TDS.exdirs); do cp -R $(TDS.exdirs) $(CTANDIR); done
