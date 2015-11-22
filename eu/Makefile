@@ -3,6 +3,7 @@ PACKAGE = eu
 TDSCOLL = proposal
 DTX.cls.base = euproposal
 TDS.tex = eureporting.cls eupdata.sty
+TDS.exdirs = examples/strep
 EXDIRS = examples
 
 all: package doc
