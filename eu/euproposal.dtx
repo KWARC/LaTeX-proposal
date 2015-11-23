@@ -149,7 +149,7 @@
 %   the title page, and specify their heights; |1.5cm| is often a good value.
 % \end{compactitem}
 % 
-% \subsection{Work Packages and Work Areas}\label{sec:wpwa}
+% \subsection{Work Packages and Work Areas}\label{sec:user:wpwa}
 % 
 % \DescribeMacro{type} The |type| key specifies the activity type of the work package:
 % |RTD| = Research and technological development (including any activities to prepare for
@@ -171,7 +171,14 @@
 % name/deliverables/verification columns in the milestone table.
 % 
 % \subsection{Risks}\label{sec:user:risks}
-% \ednote{MK: document the infrastructure, make examples}
+% In some EU proposals (e.g. FET), we need to identify risks and contingency and specify
+% mitigation plans for them. In the |euproposal| we use two environments to mark them up.
+% 
+% \DescribeMacro{risk}|\begin{risk}{|\meta{title}|}{|\meta{prob}|}{|\meta{grav}|}|\ldots|\end{risk}|
+% makes a paragraph no a risk \meta{title} with gravity \meta{grav} and probability
+% \meta{prob}, where the body of the environment contains a description of the risk. The
+% \DescribeMacro{riskcont}|riskcont| is a variant, where \meta{title} names a risk and the
+% body is a description of the contingency plan.
 %
 % \begin{newpart}{MK@MK: This is new, and only partially implemented}
 % \subsection{Reporting Infrastructure}\label{sec:user:report}
@@ -427,7 +434,7 @@
 %    \end{macrocode}
 % \end{environment}
 % 
-% \subsection{Work Packages, Work Areas, and Deliverables}\label{sec:wpwa}
+% \subsection{Work Packages, Work Areas, and Deliverables}\label{sec::impl:wpwa}
 %
 % \begin{environment}{wp*}
 %    \begin{macrocode}
@@ -554,17 +561,6 @@
 {\end{risk}}
 %    \end{macrocode}
 % \end{environment}
-%
-% \subsection{Risks}\label{sec:impl:risks}
-%
-% In some EU proposals (e.g. FET), we need to identify risks and contingency and specify
-% mitigation plans for them. In the |euproposal| we use two environments to mark them up.
-% 
-% \DescribeMacro{risk}|\begin{risk}{|\meta{title}|}{|\meta{prob}|}{|\meta{grav}|}|\ldots|\end{risk}|
-% makes a paragraph no a risk \meta{title} with gravity \meta{grav} and probability
-% \meta{prob}, where the body of the environment contains a description of the risk. The
-% \DescribeMacro{riskcont}|riskcont| is a variant, where \meta{title} names a risk and the
-% body is a description of the contingency plan.
 %
 % \subsection{Relevant Papers}\label{sec:impl:papers}
 % 
