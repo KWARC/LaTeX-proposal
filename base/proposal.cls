@@ -109,8 +109,8 @@
 \begin{itemize}
 \@for\@I:=\prop@gen@PIs\do{%
 \item Curriculum Vitae and list of publications for
-  \wa@ref{person}\@I{personaltitle} \wa@ref{person}\@I{name}
-\end{itemize}}\newpage
+  \wa@ref{person}\@I{personaltitle} \wa@ref{person}\@I{name}}
+\end{itemize}\newpage
 \printbibliography[heading=warnpubs]}
 \newenvironment{proposal}[1][]{\readpdata\jobname
 \ofpagetrue\setkeys{prop@gen}{#1}
@@ -125,7 +125,7 @@
 \@ifundefined{prop@gen@sites}{}{\@for\@I:=\prop@gen@sites\do{\stepcounter{@sites}}}
 \setcounter{page}{0}
 \begin{prop@proposal}}
-{\end{prop@proposal}
+{\end{prop@proposal}\message{*************}
 \pdata@def{prop}{page}{last}{\thepage}\ofpagefalse
 \pdata@close}
 \newcommand\site[1]{\hyperlink{site@#1@target}{\wa@ref{institution}{#1}{acronym}}}
