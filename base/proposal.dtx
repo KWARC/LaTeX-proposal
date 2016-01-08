@@ -29,7 +29,7 @@
 \usepackage{textcomp,url,paralist,a4wide,xspace}
 \usepackage[show]{ed}
 \usepackage[maxbibnames=6,hyperref=auto,style=alphabetic]{biblatex}
-\bibliography{kwarc}
+\bibliography{proposal}
 \usepackage[bookmarks=true,linkcolor=blue,
  citecolor=blue,urlcolor=blue,colorlinks=true,
  breaklinks=true, bookmarksopen=true]{hyperref}
@@ -1817,8 +1817,7 @@ ganttgray,.60/.60,.60,.60/0,0,.60/0,0,0,.40}
 \else\begin{tabular}{|l|l|*{\thewpfig@options}{r|}|*{\the@sites}{r|}|r|}\hline\fi%|
 \wpfig@headline\\\hline\hline}
 {\end{tabular}\smallskip\\
-\wpfig@legend@RAM@expl
-\if@sites; \wpfig@legend@lead@expl\fi
+\wpfig@legend@RAM@expl\if@sites; \wpfig@legend@lead@expl\fi
 \@ifundefined{wpfig@label}{\caption{\wpfig@legend@caption}}{\caption{\wpfig@caption}}
 \@ifundefined{wpfig@label}{\label{fig:wplist}}{\label{\wpfig@label}}
 \end{center}\end{table}}

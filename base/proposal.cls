@@ -564,8 +564,7 @@ ganttgray,.60/.60,.60,.60/0,0,.60/0,0,0,.40}
 \else\begin{tabular}{|l|l|*{\thewpfig@options}{r|}|*{\the@sites}{r|}|r|}\hline\fi%|
 \wpfig@headline\\\hline\hline}
 {\end{tabular}\smallskip\\
-\wpfig@legend@RAM@expl
-\if@sites; \wpfig@legend@lead@expl\fi
+\wpfig@legend@RAM@expl\if@sites; \wpfig@legend@lead@expl\fi
 \@ifundefined{wpfig@label}{\caption{\wpfig@legend@caption}}{\caption{\wpfig@caption}}
 \@ifundefined{wpfig@label}{\label{fig:wplist}}{\label{\wpfig@label}}
 \end{center}\end{table}}

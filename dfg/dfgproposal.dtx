@@ -29,7 +29,7 @@
 \usepackage{textcomp,url,paralist,a4wide,xspace}
 \usepackage[show]{ed}
 \usepackage[maxnames=6,hyperref=auto,style=alphabetic]{biblatex}
-\bibliography{kwarc}
+\bibliography{proposal}
 \usepackage[bookmarks=true,linkcolor=blue,
  citecolor=blue,urlcolor=blue,colorlinks=true,
  breaklinks=true, bookmarksopen=true]{hyperref}
@@ -72,10 +72,10 @@
 % \subversion, allowing the proposal writing team to concentrate on the contents
 % rather than the mechanics of wrangling with text fragments and revisions.
 % 
-% The |dfgproposal| class extends the |proposal| class~\cite{Kohlhase:pplp:svn} and
+% The |dfgproposal| class extends the |proposal| class~\cite{Kohlhase:pplp:ctan} and
 % supports many of the specific elements of a DFG Proposal. The package documentation 
 % is still preliminary, fragmented and incomplete and only dwells on the particulars of
-% DFG proposals, so we treat~\cite{Kohlhase:pplp:svn} as a prerequisite. Please consult
+% DFG proposals, so we treat~\cite{Kohlhase:pplp:ctan} as a prerequisite. Please consult
 % the example proposal |dfg/proposal.tex|, which comes with the package and shows the usage of
 % the class in action. It is intended as a template for your proposal, but please bear in
 % mind that the DFG guidelines may change, if in doubt, please consult the DFG guide for
@@ -106,7 +106,7 @@
 %
 % As usual in {\LaTeX}, the package is loaded by
 % |\documentclass[|\meta{options}|]{dfgproposal}|, where |[|\meta{options}|]| is optional
-% and gives a comma separated list of options specified in~\cite{Kohlhase:pplp:svn}. The
+% and gives a comma separated list of options specified in~\cite{Kohlhase:pplp:ctan}. The
 % |dfgproposal| class adds the two options  
 % \begin{compactenum}
 % \item \DescribeMacro{general}|general|, which allows generates a first section with
@@ -507,9 +507,13 @@ Applicant\if@sites\ifnum\the@PIs>1{s}\fi\fi\ \deu{(Antragsteller)}}%
 % \subsection{German Reports}\label{sec:impl:german}
 % 
 % We have to redefine some macros for German reports.
+% 
 %    \begin{macrocode}
 %<*pdata>
 \ifdeutsch
+\newcommand\prop@count[1]{\ifcase #1 null\or ein\or zwei\or drei\or vier\or f"unf\or sechs\or sieben\or
+  acht\or neun\or zehn\or elf\or zw"olf\else#1\fi}
+
 \renewcommand\prop@of@pages[2]{Seite~#1\ifofpage~von~#2\fi}
 \renewcommand\wp@mk@title[1]{Arbeitspaket {#1}}
 \renewcommand\wp@label[1]{AP{#1}}
@@ -532,9 +536,9 @@ Applicant\if@sites\ifnum\the@PIs>1{s}\fi\fi\ \deu{(Antragsteller)}}%
 \renewcommand\wpfig@legend@totalRAM{Summe HM}
 \renewcommand\wpfig@legend@RM{PM}
 \renewcommand\wpfig@legend@RAM{HM}
-\renewcommand\wpfig@legend@RAM@expl{\if@RAM P/HM $\widehat=$ Personen/Hilfskraft Monate\else\ Aufw\"ande in Personenmonaten\\\fi}
-\renewcommand\wpfig@legend@lead@expl{(Arbeitspaketleiter sind \wp@lead@style@explained}
-\renewcommand\wp@lead@style@explained{grau und kursiv markiert)}
+\renewcommand\wpfig@legend@RAM@expl{\if@RAM P/HM $\widehat=$ Personen/Hilfskraft Monate\else\ Aufw\"ande in Personenmonaten\fi}
+\renewcommand\wpfig@legend@lead@expl{Arbeitspaketleiter sind \wp@lead@style@explained}
+\renewcommand\wp@lead@style@explained{grau und kursiv markiert}
 \renewcommand\wpfig@legend@caption{{\ifwork@areas Arbeitsbereiche und \fi}Arbeitspakete}
 \renewcommand\wp@legend@site{Partner}
 \renewcommand\wp@legend@effort{Aufwand\if@RAM{ (PM+HM)}\fi}
