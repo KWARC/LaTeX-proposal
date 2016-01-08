@@ -40,9 +40,8 @@ Applicant\if@sites\ifnum\the@PIs>1{s}\fi\fi\ \deu{(Antragsteller)}}%
 \ifdeutsch Arbeitsgebiet\else Fields of work\fi:  \prop@gen@areas}
 \newcommand\dfgprojpapers[2][]{\prop@paperlist[#1]{#2}}
 \ifdeutsch
-\newcommand\prop@count[1]{\ifcase #1 null\or ein\or zwei\or drei\or vier\or f"unf\or sechs\or sieben\or
+\renewcommand\prop@count[1]{\ifcase #1 null\or ein\or zwei\or drei\or vier\or f"unf\or sechs\or sieben\or
   acht\or neun\or zehn\or elf\or zw"olf\else#1\fi}
-
 \renewcommand\prop@of@pages[2]{Seite~#1\ifofpage~von~#2\fi}
 \renewcommand\wp@mk@title[1]{Arbeitspaket {#1}}
 \renewcommand\wp@label[1]{AP{#1}}
