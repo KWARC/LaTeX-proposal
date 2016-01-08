@@ -117,7 +117,7 @@
 \pdata@open\jobname
 \if@sites\else
 \define@key{workpackage}{RM}{\pdata@def{wp}\wp@id{RM}{##1}\@dmp{RM=##1}}
-\if@RAM\define@key{workpackage}{RAM}{\pdata@def{wp}\wp@id{RAM}{##1}\@dmp{RAM=##1}}\fi
+\define@key{workpackage}{RAM}{\pdata@def{wp}\wp@id{RAM}{##1}\@dmp{RAM=##1}}
 \fi
 \newcounter{@PIs}
 \@ifundefined{prop@gen@PIs}{}{\@for\@I:=\prop@gen@PIs\do{\stepcounter{@PIs}}}
@@ -125,7 +125,7 @@
 \@ifundefined{prop@gen@sites}{}{\@for\@I:=\prop@gen@sites\do{\stepcounter{@sites}}}
 \setcounter{page}{0}
 \begin{prop@proposal}}
-{\end{prop@proposal}\message{*************}
+{\end{prop@proposal}
 \pdata@def{prop}{page}{last}{\thepage}\ofpagefalse
 \pdata@close}
 \newcommand\site[1]{\hyperlink{site@#1@target}{\wa@ref{institution}{#1}{acronym}}}
