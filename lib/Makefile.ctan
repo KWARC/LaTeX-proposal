@@ -17,6 +17,8 @@
 ################################################################
 
 HERE   	        = $(shell pwd)
+GITREPOS	  	= $(HERE)
+REPOSNAME	= LaTeX-proposal
 TMP    	        = /tmp
 #TDSCOLL 	?= $(shell basename $$PWD)
 TDSCOLL 	= proposal
@@ -36,7 +38,7 @@ ctan: all  filedate checksum
 	git commit -am'draining just to be sure for CTAN distribution'
 	rm -Rf $(EXPORTED)
 	@echo "exporting a clean copy to $(EXPORTED)"
-	cd $(TMP); git clone $(HERE); mv LaTeX-proposal $(EXPORTED)
+	cd $(TMP); git clone $(GITREPOS); mv $(REPOSNAME) $(EXPORTED)
 	rm -Rf $(EXPORTED)/.git
 	rm $(EXPORTED)/.gitignore
 	cd $(EXPORTED); $(MAKE) -$(MAKEFLAGS) ctanext
@@ -54,8 +56,8 @@ ctanext: tdsext
 	cp $(TDSZIP) $(CTANDIR)
 	@for d in $(DTXDIRS); do (cd $$d && $(MAKE) -$(MAKEFLAGS) lctan) done
 	@for d in $(SRCDIRS) $(DOCDIRS); do (cp -R $$d $(CTANDIR)) done; 
-	cp $(TDSZIP) Makefile $(CTANDIR)
-	cp $(TDS.doc) $(CTANDIR)/README
+	cp $(TDSZIP) $(CTANDIR)
+	cp $(TDS.README) $(CTANDIR)/README
 	rm -Rf  $(TDSZIP)
 
 # this target makes the file TDSZIP by creating and populating the directory 
@@ -65,11 +67,14 @@ tdsext:
 	rm -Rf $(TDSDIR) $(TDSZIP)
 	@echo "  enabling checksums"
 	$(MAKE) -$(MAKEFLAGS) enablechecksum
-	@echo "  copying over stuff to $(TDSDIR)"
+	@echo "  copying LaTeX Sources stuff to $(TDSDIR)"
 	@for d in $(DTXDIRS); do (cd $$d && $(MAKE) -$(MAKEFLAGS) ltds) done
+	@echo "  copying binary dir to $(TDSDIR)"
 	@for d in $(SRCDIRS); do (cp -R $$d $(TDSDIR)/source/latex/$(TDSCOLL)) done; 
+	@echo "  copying documentation to $(TDSDIR)"
 	@for d in $(DOCDIRS); do (cp -R $$d $(TDSDIR)/doc/latex/$(TDSCOLL)) done; 
-	cp $(TDS.doc) $(TDSDIR)/doc/latex/$(TDSCOLL)
+	@for d in $(TDS.doc); do (cp -R $$d $(TDSDIR)/doc/latex/$(TDSCOLL)) done;
 	@echo "zipping the result to $(TDSCOLL).tds.zip"
 	cd $(TDSDIR); zip -r -q $(TDSZIP) .; cd -
+	@echo "and removing the temporary directory $(TDSDIR)"
 	rm -Rf $(TDSDIR)
