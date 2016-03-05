@@ -53,7 +53,7 @@
 \renewcommand{\familydefault}{\sfdefault}
 \RequirePackage[scaled=.90]{helvet}
 \RequirePackage{textcomp}
-\RequirePackage[hyperref=auto,style=numeric,defernumbers=true,backend=bibtex,backref=true,firstinits=true,maxbibnames=6]{biblatex}[2010/11-19]
+\RequirePackage[hyperref=auto,style=alphabetic,defernumbers=true,backend=bibtex,backref=true,firstinits=true,maxbibnames=6]{biblatex}[2010/11-19]
 \RequirePackage{csquotes}
 \RequirePackage{mdframed}
 \RequirePackage{pdata}
@@ -135,16 +135,14 @@
 \define@key{paperlist}{techreports}[true]{\prop@ppl{techreport}{Technical Reports}}
 \DeclareBibliographyCategory{featured}
 \newcommand\prop@paperlist[2][]{%
-\begin{refsection}%
-\nocite{#2}\addtocategory{featured}{#2}%
 \let\biboldfont\bibfont%
 \renewcommand{\bibfont}{\footnotesize}%
 \renewcommand{\baselinestretch}{.9}
+\def\do##1{\addtocategory{featured}{##1}}\docsvlist{#2}%
 \setkeys{paperlist}{#1}
 \@ifundefined{prop@rl}{}{\@latex@warning{some papers are not classified!}}
-\if@allpapers\printbibliography[heading=empty]\fi%
-\let\bibfont\biboldfont%
-\end{refsection}}
+\if@allpapers\printbibliography[category=featured,heading=empty]\fi%
+\let\bibfont\biboldfont}
 \def\prop@warnpubs@message{Many of the proposers' publications are online at one of the following URIs:}
 \def\prop@warnpubs@title{References}
 \defbibheading{warnpubs}{\section*{\prop@warnpubs@title}%
