@@ -6,7 +6,7 @@
 MAKEDIRS 	= $(DTXDIRS)
 TDSCOLL 	?= $(shell basename $$PWD)
 DISTDIRS	= $(DTXDIRS)
-TDS.README 	= README
+TDS.README 	= README.ctan
 
 # targets for repository maintenance
 all clean distclean: 
