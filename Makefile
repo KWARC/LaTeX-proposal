@@ -27,7 +27,7 @@ DOCDIRS 	= #eu/examples/strep dfg/examples/proposal
 DTXDIRS 	= base dfg eu
 
 # targets for CTAN. 
-pfiledate checksum filedate enablechecksum disablechecksum: 
+filedate checksum enablechecksum disablechecksum: 
 	@for d in $(DTXDIRS); do (cd $$d && $(MAKE) -$(MAKEFLAGS) $@) done
 
 GITURI = git@github.com:KWARC/LaTeX-proposal.git 
