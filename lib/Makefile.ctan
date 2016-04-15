@@ -74,7 +74,7 @@ tdsext:
 	rm -Rf $(TDSDIR) $(TDSZIP)
 	@echo "  enabling checksums"
 	$(MAKE) -$(MAKEFLAGS) enablechecksum
-	@echo "  copying LaTeX Sources stuff to $(TDSDIR)"
+	@echo "  copying LaTeX Sources to $(TDSDIR)"
 	@for d in $(DTXDIRS); do (cd $$d && $(MAKE) -$(MAKEFLAGS) ltds) done
 	@echo "  copying binary dir to $(TDSDIR)"
 	@for d in $(SRCDIRS); do (cp -R $$d $(TDSDIR)/source/latex/$(TDSCOLL)) done; 
