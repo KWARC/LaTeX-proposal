@@ -80,7 +80,7 @@ ltds:
 
 lctan:
 	mkdir -p $(CTANDIR)
-	cp $(DTX.src) $(TDS.src) $(TDS.tex) $(CTANDIR)
+	cp $(DTX.src) $(DTX.sty) $(DTX.cls) $(TDS.src) $(TDS.tex) $(CTANDIR)
 	cp README $(DTX.pdf) $(EXAMPLE.tex) $(EXAMPLE.pdf) $(TDS.doc) $(CTANDIR)
 	@for d in $(TDS.exdirs); do cp -R $(TDS.exdirs) $(CTANDIR); done
 
