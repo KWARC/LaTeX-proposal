@@ -2,6 +2,7 @@ PREFIX = ../lib
 PACKAGE = dfg
 TDSCOLL = proposal
 DTX.cls.base = dfgproposal
+DTX = dfgproposal.dtx
 TDS.tex = dfgreporting.cls dfgpdata.sty
 TDS.exdirs = examples/proposal examples/report
 CTAN = $(TDS.tex)

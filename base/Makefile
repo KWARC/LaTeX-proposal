@@ -2,6 +2,7 @@ PREFIX = ../lib
 PACKAGE = base
 TDSCOLL = proposal
 DTX.cls.base = proposal
+DTX = proposal.dtx
 TDS.tex = reporting.cls pdata.sty
 CTAN = $(TDS.tex)
 REDUNDANT = dcm.sty metakeys.sty sref.sty
