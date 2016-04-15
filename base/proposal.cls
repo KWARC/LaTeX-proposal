@@ -7,7 +7,7 @@
 %% proposal.dtx  (with options: `cls')
 %% 
 \NeedsTeXFormat{LaTeX2e}[1999/12/01]
-\ProvidesClass{proposal}[2016/03/05 v1.5 Project Proposal]
+\ProvidesClass{proposal}[2016/04/15 v1.5 Project Proposal]
 \newif\if@wpsubsection\@wpsubsectionfalse
 \newif\ifsubmit\submitfalse
 \newif\ifgrantagreement\grantagreementfalse
