@@ -22,12 +22,12 @@ package doc:
 # - doc    (package/class documentation), and 
 # - tex    (*.sty and *.cls, etc that LaTeX reads)
 # of the CTAN and TDS submissions
-SRCDIRS 	=
+SRCDIRS 	= bin lib
 DOCDIRS 	= #eu/examples/strep dfg/examples/proposal 
 DTXDIRS 	= base dfg eu
 
 # targets for CTAN. 
-filedate checksum enablechecksum disablechecksum: 
+pfiledate checksum filedate enablechecksum disablechecksum: 
 	@for d in $(DTXDIRS); do (cd $$d && $(MAKE) -$(MAKEFLAGS) $@) done
 
 GITURI = git@github.com:KWARC/LaTeX-proposal.git 
