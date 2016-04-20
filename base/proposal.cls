@@ -411,11 +411,14 @@
 \pdata@def{mile}\mile@id{verif}{\mile@verif}%
 \pdata@def{mile}\mile@id{title}{#2}%
 \pdata@def{mile}\mile@id{description}{#3}%
-\@ifundefined{mile@stones}{\xdef\mile@stones{\mile@id}}{\xdef\mile@stones{\mile@stones,\mile@id}}%
+\@ifundefined{mile@stones}%
+{\xdef\mile@stones{\mile@id}}%
+{\xdef\mile@stones{\mile@stones,\mile@id}}%
 \@milestone{\mile@id}{#2}{#3}% presentation
 \else\deliv@error\fi}
 \newcommand\@milestone[3]{% id, title, description
-\item \textbf{\miles@legend@milestone \pdataref{mile}{#1}{label} (\miles@legend@month \pdataref{mile}\mile@id{month})
+\item \textbf{\miles@legend@milestone \pdata@target{mile}\mile@id{\pdataref{mile}{#1}{label}}
+(\miles@legend@month \pdataref{mile}\mile@id{month})
 \textbf{#2}} #3}
 \newcommand\miles@legend@month{Month}
 \newcommand\miles@legend@milestone{Milestone}
