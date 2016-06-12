@@ -45,7 +45,7 @@ clean:
 	rm -f *~ *.log *.ilg *.out *.glo *.idx *.ilg *.blg 
 
 distclean: 	clean
-	rm -f *.aux *.ind *.gls *.ps *.dvi *.toc *.thm
+	rm -f *.aux *.ind *.gls *.ps *.dvi *.toc *.thm *.bbl *.bcf
 	rm -Rf auto	
 
 filedate:
