@@ -179,6 +179,20 @@
 % \meta{prob}, where the body of the environment contains a description of the risk. The
 % \DescribeMacro{riskcont}|riskcont| is a variant, where \meta{title} names a risk and the
 % body is a description of the contingency plan.
+% 
+% \subsection{Relevant Papers}\label{sec:user:papers}
+% 
+% Sometimes we want to list the relevant papers in the site descriptions.  We use the
+% |biblatex| package to automate this. We only need to use
+% \DescribeMacro{\keypubs}|\keypubs[|\meta{keys}|]{|\meta{refs}|}|, where \meta{keys} that
+% specify what papers are selected and \meta{refs} is a comma-separated list of bibtex
+% keys from the bibTeX database used in the proposal.
+% 
+% The papers listed in |\keypubs| are put into a special bib\LaTeX category
+% \DescribeMacro{featured}|featured|, and can thus be excluded from the general
+% bibliography by adding |notcategory=featured| to the final |\printbibliography|.
+% 
+
 %
 % \begin{newpart}{MK@MK: This is new, and only partially implemented}
 % \subsection{Reporting Infrastructure}\label{sec:user:report}
@@ -565,13 +579,10 @@
 % \subsection{Relevant Papers}\label{sec:impl:papers}
 % 
 % \begin{macro}{\keypubs}
-% \ednote{MK: the baselinestretch manipulation does not work here, since
-% \texttt{prop@paperslist} makes its own provisions. We should provide a way of
-% manipulating sizes here.}
 %    \begin{macrocode}
-\newcommand\keypubs[1]{%
+\newcommand\keypubs[2][]{%
 \paragraph{Key publications relevant to the project}%
-{\renewcommand{\baselinestretch}{.9}\prop@paperlist{#1}}}
+{\prop@paperlist[#1]{#2}}}
 %</cls>
 %    \end{macrocode}
 % \end{macro}

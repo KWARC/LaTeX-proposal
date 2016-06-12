@@ -8,6 +8,7 @@
 %% 
 \NeedsTeXFormat{LaTeX2e}[1999/12/01]
 \ProvidesClass{euproposal}[2016/04/15 v1.5 EU Proposal]
+
 \newif\ifpartB\partBfalse
 \DeclareOption{partB}{\partBtrue}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{proposal}}
@@ -191,9 +192,9 @@
 \newenvironment{riskcont}[3]
 {\begin{risk}{#1}{#2}{#3}\textbf{Contingency:} }
 {\end{risk}}
-\newcommand\keypubs[1]{%
+\newcommand\keypubs[2][]{%
 \paragraph{Key publications relevant to the project}%
-{\renewcommand{\baselinestretch}{.9}\prop@paperlist{#1}}}
+{\prop@paperlist[#1]{#2}}}
 \endinput
 %%
 %% End of file `euproposal.cls'.
