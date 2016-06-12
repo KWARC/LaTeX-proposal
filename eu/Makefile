@@ -14,3 +14,6 @@ include $(PREFIX)/Makefile.vars
 TEXINPUTS = .:
 include $(PREFIX)/Makefile.in
 
+clean distclean:
+	@for d in $(EXDIRS); do (cd $$d && $(MAKE) -$(MAKEFLAGS) $@); done;
+
