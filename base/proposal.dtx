@@ -2444,15 +2444,18 @@ joint&\multicolumn{\the@site}{l|}{\jpub $\hat=$ publication, \jpro $\hat=$ proje
 % \end{macro}
 %
 % \begin{macro}{\prop@paperlist}
-%   We generate a subsection with a |refsection| (this makes a separate bibliography for
-%   this section) and activate the keys via |\nocite|. Then we just print the bibliography
-%   with the empty header we created before.
+%   |\prop@paperlist{|\meta{keys}|}{|\meta{refs}|}| generates a paper list from a list
+%   \meta{keys} of bibliography keys. It makes some local adaptions to the appearance of
+%   the bibliography, and then adds \meta{refs} to the citable papers marks them as
+%   |featured|. Then it uses |\printbibliography| to make a bibliography of the cited
+%   papers. Note that these are not cited again in the main bibliography\ednote{MK: we may
+%   want to make this optional controlled by a package option eventually.}
 %    \begin{macrocode}
 \newcommand\prop@paperlist[2][]{%
 \let\biboldfont\bibfont%
 \renewcommand{\bibfont}{\footnotesize}%
-\renewcommand{\baselinestretch}{.9}
-\def\do##1{\addtocategory{featured}{##1}}\docsvlist{#2}%
+\renewcommand{\baselinestretch}{.9}%
+\nocite{#2}\def\do##1{\addtocategory{featured}{##1}}\docsvlist{#2}%
 \setkeys{paperlist}{#1}
 \@ifundefined{prop@rl}{}{\@latex@warning{some papers are not classified!}}
 \if@allpapers\printbibliography[category=featured,heading=empty]\fi%
