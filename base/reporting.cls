@@ -151,7 +151,6 @@
                    use the pubspage key in the proposal environment!}}
   {\prop@warnpubs@message%
  \@for\@I:=\prop@gen@pubspages\do{\par\noindent\csname\@I\endcsname}}}
-\defbibheading{empty}{}
 \endinput
 %%
 %% End of file `reporting.cls'.

@@ -16,8 +16,7 @@ TARGET.aux 	= $(TARGET:%.tex=%.aux)             # their aux files.
 PDATA 		= $(PROPOSAL:%.tex=%.pdata)       # the proposal project data
 SRC = $(filter-out $(TARGET),$(shell ls *.tex))   # included files
 PDFLATEX = pdflatex -interaction batchmode -file-line-error
-BBL.base = 1 
-BBL = $(PROPOSAL:%.tex=%.bbl) $(BBL.base:%=$(PROPOSAL:%.tex=%)%-blx.bbl)
+BBL = $(PROPOSAL:%.tex=%.bbl) 
 PROPCLS.dir = $(PROP.dir)/base
 PROPETC.dir = $(PROP.dir)/etc
 DFGPROPCLS.dir = $(PROP.dir)/dfg
@@ -64,11 +63,11 @@ $(TARGET.pdf): %.pdf: %.tex $(SRC) $(BIB) $(PROPCLS)
 	    then $(PDFLATEX)  $<  || $(RM) $@; fi
 
 clean: 
-	rm -f *.log *.blg *~ *.synctex.gz *.cut
+	rm -f *~ *.log *.ilg *.out *.glo *.idx *.ilg *.blg *.run.xml *.synctex.gz *.cut
 
 distclean: clean
-	rm -f *.aux *.out *.run.xml *.bbl *.toc *.deliv* *.pdata
+	rm -f *.aux *.ind *.gls *.ps *.dvi *.thm *.out *.run.xml *.bbl *.toc *.deliv* *.pdata *-blx.bib
 	rm -Rf auto
 
 echo:
-	echo $(BIBINPUTS)
+	@echo $(BIBINPUTS)

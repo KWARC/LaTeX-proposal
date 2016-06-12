@@ -133,12 +133,9 @@
 % 
 % Since August 2010, DFG requests list of ``project-related papers'' as section 2.2. We
 % use the |biblatex| package to automate this. We only need to use
-% \DescribeMacro{\dfgprojpapers}|\dfgprojpapers{|\meta{keys}|}|, where \meta{keys} is a
-% comma-separated list of keys from the bibTeX database used in the proposal. Note that
-% you will have to run |bibtex -min-crossrefs=999 proposal1-blx.aux| to generate file
-% |proposal1.bbl| that generates the bibliography list. To automate this (at least on Unix
-% systems), we have added the field |Makefile.template|, which allows you do do any
-% necessary steps by just typing |make|. 
+% \DescribeMacro{\dfgprojpapers}|\dfgprojpapers[|\meta{keys}|]{|\meta{refs}|}|, where
+% \meta{keys} that specify what papers are selected and \meta{refs} is a comma-separated
+% list of bibtex keys from the bibTeX database used in the proposal. 
 % 
 % The papers listed in |\dfgprojpapers| are put into a special bib\LaTeX category
 % \DescribeMacro{featured}|featured|, and can thus be excluded from the general

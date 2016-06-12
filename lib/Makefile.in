@@ -41,11 +41,11 @@ $(DTX.pdf): %.pdf: %.dtx $(DTX.sty) $(DTX.cls)
 	@if (grep Rerun $(patsubst %.dtx, %.log, $(firstword $<)) > /dev/null);\
 	    then $(PDFLATEX) $(firstword $<); fi
 
-clean:     
-	rm -f *~ *.log *.ilg *.out *.glo *.idx *.ilg *.blg 
+clean-local:     
+	rm -f *~ *.log *.ilg *.out *.glo *.idx *.ilg *.blg *.run.xml *.synctex.gz
 
-distclean: 	clean
-	rm -f *.aux *.ind *.gls *.ps *.dvi *.toc *.thm
+distclean-local: clean-local
+	rm -f *.aux *.ind *.gls *.ps *.dvi *.toc *.thm *.bbl *.bcf *-blx.bib
 	rm -Rf auto	
 
 filedate:

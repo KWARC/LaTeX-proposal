@@ -67,11 +67,11 @@ $(TBIB.pdf): %.pdf: %.tex $(SRC) $(BIB) $(PROPCLS)
 	    then $(PDFLATEX)  $<  || $(RM) $@; fi
 
 clean: 
-	rm -f *.log *.blg *~ *.synctex.gz *.cut
+	rm -f *~ *.log *.ilg *.out *.glo *.idx *.ilg *.blg *.run.xml *.synctex.gz *.cut
 
 distclean: clean
-	rm -f *.aux *.out *.run.xml *.bbl *.toc *.deliv* *.pdata
+	rm -f *.aux *.ind *.gls *.ps *.dvi *.thm *.out *.run.xml *.bbl *.toc *.deliv* *.pdata *-blx.bib
 	rm -Rf auto
 
 echo:
-	echo $(BBL)
+	@echo $(BBL)
