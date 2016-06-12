@@ -42,7 +42,7 @@ $(DTX.pdf): %.pdf: %.dtx $(DTX.sty) $(DTX.cls)
 	    then $(PDFLATEX) $(firstword $<); fi
 
 clean:     
-	rm -f *~ *.log *.ilg *.out *.glo *.idx *.ilg *.blg 
+	rm -f *~ *.log *.ilg *.out *.glo *.idx *.ilg *.blg *.run.xml *.synctex.gz
 
 distclean: 	clean
 	rm -f *.aux *.ind *.gls *.ps *.dvi *.toc *.thm *.bbl *.bcf

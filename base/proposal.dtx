@@ -4,7 +4,7 @@
 % Copyright (c) 2011 Michael Kohlhase, all rights reserved
 %
 % This file is distributed under the terms of the LaTeX Project Public
-% License from CTAN archives in directory  macros/latex/base/lppl.txt.
+% License from CTAN archives in directory  macros/latex/base/lppl.txt.la
 % Either version 1.0 or, at your option, any later version.
 %
 % The development version of this file can be found at
@@ -30,6 +30,8 @@
 \usepackage[show]{ed}
 \usepackage[maxbibnames=6,hyperref=auto,style=alphabetic,backend=bibtex]{biblatex}
 \addbibresource{../lib/proposal.bib}
+% temporary fix due to http://tex.stackexchange.com/questions/311426/bibliography-error-use-of-blxbblverbaddi-doesnt-match-its-definition-ve
+\makeatletter\def\blx@maxline{77}\makeatother
 \usepackage[bookmarks=true,linkcolor=blue,
  citecolor=blue,urlcolor=blue,colorlinks=true,
  breaklinks=true, bookmarksopen=true]{hyperref}
