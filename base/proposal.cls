@@ -1007,8 +1007,8 @@ joint&\multicolumn{\the@site}{l|}{\jpub $\hat=$ publication, \jpro $\hat=$ proje
 \newcommand\prop@paperlist[2][]{%
 \let\biboldfont\bibfont%
 \renewcommand{\bibfont}{\footnotesize}%
-\renewcommand{\baselinestretch}{.9}
-\def\do##1{\addtocategory{featured}{##1}}\docsvlist{#2}%
+\renewcommand{\baselinestretch}{.9}%
+\nocite{#2}\def\do##1{\addtocategory{featured}{##1}}\docsvlist{#2}%
 \setkeys{paperlist}{#1}
 \@ifundefined{prop@rl}{}{\@latex@warning{some papers are not classified!}}
 \if@allpapers\printbibliography[category=featured,heading=empty]\fi%
