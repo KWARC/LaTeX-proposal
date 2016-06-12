@@ -2460,7 +2460,7 @@ joint&\multicolumn{\the@site}{l|}{\jpub $\hat=$ publication, \jpro $\hat=$ proje
 %    \end{macrocode}
 % \end{macro}
 %
-% We only have to define the |warnpubs| and |empty| heading constructors
+% We define the |warnpubs| heading constructor. 
 %
 %    \begin{macrocode}
 \def\prop@warnpubs@message{Many of the proposers' publications are online at one of the following URIs:}
@@ -2471,7 +2471,6 @@ joint&\multicolumn{\the@site}{l|}{\jpub $\hat=$ publication, \jpro $\hat=$ proje
                    use the pubspage key in the proposal environment!}}
   {\prop@warnpubs@message%
  \@for\@I:=\prop@gen@pubspages\do{\par\noindent\csname\@I\endcsname}}}
-\defbibheading{empty}{}
 %</cls|reporting>
 %    \end{macrocode}
 %
