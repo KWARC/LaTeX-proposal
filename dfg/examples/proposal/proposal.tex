@@ -7,6 +7,9 @@
 \addbibresource{../lib/dummy}
 \usepackage[utf8]{inputenc}
 \input{../lib/WApersons}
+% temporary fix for biblatex in TeXLive 2016, 
+% see  http://tex.stackexchange.com/questions/311426/bibliography-error-use-of-blxbblverbaddi-doesnt-match-its-definition-ve
+\makeatletter\def\blx@maxline{77}\makeatother
 
 \begin{document}
 
