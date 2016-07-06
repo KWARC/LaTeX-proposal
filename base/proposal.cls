@@ -100,8 +100,8 @@
   {\LARGE Acronym: {\prop@gen@acronym}}\\[.2cm]
   {\large\today}\\[1em]
   \begin{tabular}{c*{\the@PIs}{c}}
-    \prop@tl\prop@gen@PIs{\wa@ref{person}\tl@ext{name}}\\
-    \prop@tl\prop@gen@PIs{\wa@ref{institution}{\wa@ref{person}\tl@ext{affiliation}}{name}}
+    \prop@tl\prop@gen@PIs{\wa@ref3{person}\tl@ext{name}}\\
+    \prop@tl\prop@gen@PIs{\wa@ref3{institution}{\wa@ref3{person}\tl@ext{affiliation}}{name}}
  \end{tabular}\\[2cm]
 \end{center}
 \setcounter{tocdepth}{2}\tableofcontents\newpage\setcounter{page}{1}}
@@ -109,7 +109,7 @@
 \begin{itemize}
 \@for\@I:=\prop@gen@PIs\do{%
 \item Curriculum Vitae and list of publications for
-  \wa@ref{person}\@I{personaltitle} \wa@ref{person}\@I{name}}
+  \wa@ref3{person}\@I{personaltitle} \wa@ref3{person}\@I{name}}
 \end{itemize}\newpage
 \printbibliography[heading=warnpubs]}
 \newenvironment{proposal}[1][]{\readpdata\jobname
@@ -128,8 +128,8 @@
 {\end{prop@proposal}
 \pdata@def{prop}{page}{last}{\thepage}\ofpagefalse
 \pdata@close}
-\newcommand\site[1]{\hyperlink{site@#1@target}{\wa@ref{institution}{#1}{acronym}}}
-\newcommand\sitename[1]{\hyperlink{site@#1@target}{\wa@ref{institution}{#1}{name}}}
+\newcommand\site[1]{\hyperlink{site@#1@target}{\wa@ref3{institution}{#1}{acronym}}}
+\newcommand\sitename[1]{\hyperlink{site@#1@target}{\wa@ref3{institution}{#1}{name}}}
 \newcommand\objective@label[1]{O#1}
 \define@key{obj}{id}{\def\obj@id{#1}\@dmp{id=#1}}
 \define@key{obj}{title}{\def\obj@title{#1}\@dmp{title=#1}}

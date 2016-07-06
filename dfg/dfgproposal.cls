@@ -19,8 +19,8 @@
 \ifdeutsch\RequirePackage[ngerman]{babel}
 \else\RequirePackage[ngerman,USenglish]{babel}\fi
 \newenvironment{sitedescription}[2][]%
-{\def\@test{#1}\def\@@title{\ifx\@test\@empty\wa@ref{institution}{#2}{acronym}\else #1\fi:
-\textsc{\wa@ref{institution}{#2}{name}}}
+{\def\@test{#1}\def\@@title{\ifx\@test\@empty\wa@ref3{institution}{#2}{acronym}\else #1\fi:
+\textsc{\wa@ref3{institution}{#2}{name}}}
 \@for\@I:=#2\do{\pdata@target{site}\@I{}}\subsubsection\@@title}
 {}
 \newlength\applicants@table@columnwidth

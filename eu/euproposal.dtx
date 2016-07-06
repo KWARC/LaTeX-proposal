@@ -350,9 +350,9 @@
   %   \textbf{Objective \prop@gen@objectiveid}: \prop@gen@objective,
   %   \textbf{target outcome \prop@gen@outcomeid}) \prop@gen@outcome.
   %   {\prop@gen@topicsaddressed}\\[1em]
-  \item[Coordinator:] \wa@ref{person}\prop@gen@coordinator{name}
-  \item[e-mail:] \wa@ref{person}\prop@gen@coordinator{email}
-  \item[tel/fax:] \wa@ref{person}\prop@gen@coordinator{worktelfax}
+  \item[Coordinator:] \wa@ref3{person}\prop@gen@coordinator{name}
+  \item[e-mail:] \wa@ref3{person}\prop@gen@coordinator{email}
+  \item[tel/fax:] \wa@ref3{person}\prop@gen@coordinator{worktelfax}
     \@ifundefined{prop@gen@keywords}{}{\item[Keywords:]  \prop@gen@keywords}
   \end{description}
 \end{large}
@@ -406,14 +406,14 @@
 \ifx\@site@desc@logo\@true% if we want a logo 
 \wa@institution@logo[height=\site@desc@width]{#2}\\[1ex]%
 \fi% end logo 
-\textbf{\wa@ref{institution}{#2}{type}.\hfill \wa@ref{institution}{#2}{country}}\\%
-\small\wa@ref{institution}{#2}{streetaddress}, \wa@ref{institution}{#2}{townzip}\\\hline%
+\textbf{\wa@ref3{institution}{#2}{type}.\hfill \wa@ref3{institution}{#2}{country}}\\%
+\small\wa@ref3{institution}{#2}{streetaddress}, \wa@ref3{institution}{#2}{townzip}\\\hline%
 \end{tabular}\vspace{-2.5ex}%
 \end{wrapfigure}%
 \fi% end box
 \pdata@target{site}{#2}%
-{\subsubsection{\wa@ref{institution}{#2}{acronym}: % space here
-{\textsc{\wa@ref{institution}{#2}{name}}  (\wa@ref{institution}{#2}{countryshort})}}}%
+{\subsubsection{\wa@ref3{institution}{#2}{acronym}: % space here
+{\textsc{\wa@ref3{institution}{#2}{name}}  (\wa@ref3{institution}{#2}{countryshort})}}}%
 \small%
 \renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
                                     {0.25ex \@plus1ex \@minus.2ex}%

@@ -685,7 +685,7 @@
 % |workaddress| package from sTeX and supplies the Euro symbol. 
 %    \begin{macrocode}
 %<*pdata>
-\RequirePackage{workaddress}[2011/05/03]
+\RequirePackage{workaddress}[2016/07/06]
 \RequirePackage{eurosym}
 %    \end{macrocode}
 % We define the keys for metadata declarations in the |proposal| environment, they park
@@ -706,8 +706,8 @@
 \define@key{workpackage}{#1RAM}{\pdata@def\wp@id{#1}{RAM}{##1}}
 \define@key{prop@gen}{#1employed}{{\let\tabularnewline\relax\let\hline\relax\let\wa@ref\relax%
 \@ifundefined{prop@gen@employed@lines}%
-{\xdef\prop@gen@employed@lines{\wa@ref{institution}{#1}{shortname} & ##1\tabularnewline\hline}}%
-{\xdef\prop@gen@employed@lines{\prop@gen@employed@lines \wa@ref{institution}{#1}{shortname} & ##1\tabularnewline\hline}}}}}
+{\xdef\prop@gen@employed@lines{\wa@ref3{institution}{#1}{shortname} & ##1\tabularnewline\hline}}%
+{\xdef\prop@gen@employed@lines{\prop@gen@employed@lines \wa@ref3{institution}{#1}{shortname} & ##1\tabularnewline\hline}}}}}
 %    \end{macrocode}
 % If there are no sites, then we have to define keys |RM| and |RAM| that store the
 % intended research (assistant months). Unfortunately, we cannot just include this in the
@@ -818,8 +818,8 @@
   {\LARGE Acronym: {\prop@gen@acronym}}\\[.2cm]
   {\large\today}\\[1em]
   \begin{tabular}{c*{\the@PIs}{c}}
-    \prop@tl\prop@gen@PIs{\wa@ref{person}\tl@ext{name}}\\
-    \prop@tl\prop@gen@PIs{\wa@ref{institution}{\wa@ref{person}\tl@ext{affiliation}}{name}}
+    \prop@tl\prop@gen@PIs{\wa@ref3{person}\tl@ext{name}}\\
+    \prop@tl\prop@gen@PIs{\wa@ref3{institution}{\wa@ref3{person}\tl@ext{affiliation}}{name}}
  \end{tabular}\\[2cm]
 \end{center}
 \setcounter{tocdepth}{2}\tableofcontents\newpage\setcounter{page}{1}}
@@ -830,7 +830,7 @@
 \begin{itemize}
 \@for\@I:=\prop@gen@PIs\do{%
 \item Curriculum Vitae and list of publications for
-  \wa@ref{person}\@I{personaltitle} \wa@ref{person}\@I{name}}
+  \wa@ref3{person}\@I{personaltitle} \wa@ref3{person}\@I{name}}
 \end{itemize}\newpage 
 \printbibliography[heading=warnpubs]}
 %    \end{macrocode}
@@ -899,8 +899,8 @@
   {\LARGE Acronym: {\prop@gen@acronym}}\\[.2cm]
   {\large\today}\\[1em]
   \begin{tabular}{c*{\the@PIs}{c}}
-    \prop@tl\prop@gen@PIs{\wa@ref{person}\tl@ext{name}}\\
-    \prop@tl\prop@gen@PIs{\wa@ref{institution}{\wa@ref{person}\tl@ext{affiliation}}{name}}
+    \prop@tl\prop@gen@PIs{\wa@ref3{person}\tl@ext{name}}\\
+    \prop@tl\prop@gen@PIs{\wa@ref3{institution}{\wa@ref3{person}\tl@ext{affiliation}}{name}}
  \end{tabular}\\[2cm]
 \end{center}
 \setcounter{tocdepth}{2}\tableofcontents\newpage\setcounter{page}{1}}
@@ -912,8 +912,8 @@
 % \begin{macro}{\site*}
 %    \begin{macrocode}
 %<*cls>
-\newcommand\site[1]{\hyperlink{site@#1@target}{\wa@ref{institution}{#1}{acronym}}}
-\newcommand\sitename[1]{\hyperlink{site@#1@target}{\wa@ref{institution}{#1}{name}}}
+\newcommand\site[1]{\hyperlink{site@#1@target}{\wa@ref3{institution}{#1}{acronym}}}
+\newcommand\sitename[1]{\hyperlink{site@#1@target}{\wa@ref3{institution}{#1}{name}}}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -2485,7 +2485,7 @@ joint&\multicolumn{\the@site}{l|}{\jpub $\hat=$ publication, \jpro $\hat=$ proje
 \newcommand{\signatures}[1]{\section{#1}
 \qquad\number\day. \number\month. \number\year\\[6ex]
 \strut\qquad Date\hfill\@for\@p:=\prop@gen@PIs\do{%
-\wa@ref{person}\@p{personaltitle}~\wa@ref{person}\@p{name}\hfill}}
+\wa@ref3{person}\@p{personaltitle}~\wa@ref3{person}\@p{name}\hfill}}
 %    \end{macrocode}
 % \end{macro}
 % 

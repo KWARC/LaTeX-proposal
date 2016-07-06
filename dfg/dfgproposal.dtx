@@ -250,18 +250,18 @@
 %   second argument (where |\tl@ext| is the current PI).
 %    \begin{macrocode}
 \newcommand\dfg@applicants@lines{%
-\prop@tl\prop@gen@PIs{\wa@ref{person}\tl@ext{personaltitle} \wa@ref{person}\tl@ext{name}}\\
-\prop@tl\prop@gen@PIs{\wa@ref{person}\tl@ext{academictitle}}\\
-\prop@tl\prop@gen@PIs{\wa@ref{person}\tl@ext{birthdate}}\\}
+\prop@tl\prop@gen@PIs{\wa@ref3{person}\tl@ext{personaltitle} \wa@ref3{person}\tl@ext{name}}\\
+\prop@tl\prop@gen@PIs{\wa@ref3{person}\tl@ext{academictitle}}\\
+\prop@tl\prop@gen@PIs{\wa@ref3{person}\tl@ext{birthdate}}\\}
 \newcommand\dfg@applicants@institute@lines{%
-\prop@tl\prop@gen@PIs{\wa@ref{institution}{\wa@ref{person}\tl@ext{affiliation}}{shortname}}\\
-\prop@tl\prop@gen@PIs{\wa@ref{person}\tl@ext{workaddress}}\\
-\prop@tl\prop@gen@PIs{Tel: \wa@ref{person}\tl@ext{worktel}}\\
-\prop@tl\prop@gen@PIs{Fax: \wa@ref{person}\tl@ext{workfax}}\\
-\prop@tl\prop@gen@PIs{\wa@ref{person}\tl@ext{email}}\\}
+\prop@tl\prop@gen@PIs{\wa@ref3{institution}{\wa@ref3{person}\tl@ext{affiliation}}{shortname}}\\
+\prop@tl\prop@gen@PIs{\wa@ref3{person}\tl@ext{workaddress}}\\
+\prop@tl\prop@gen@PIs{Tel: \wa@ref3{person}\tl@ext{worktel}}\\
+\prop@tl\prop@gen@PIs{Fax: \wa@ref3{person}\tl@ext{workfax}}\\
+\prop@tl\prop@gen@PIs{\wa@ref3{person}\tl@ext{email}}\\}
 \newcommand\dfg@applicants@private@lines{%
-\prop@tl\prop@gen@PIs{\wa@ref{person}\tl@ext{privaddress}}\\
-\prop@tl\prop@gen@PIs{Tel: \wa@ref{person}\tl@ext{privtel}}\\}
+\prop@tl\prop@gen@PIs{\wa@ref3{person}\tl@ext{privaddress}}\\
+\prop@tl\prop@gen@PIs{Tel: \wa@ref3{person}\tl@ext{privtel}}\\}
 %    \end{macrocode}
 % \end{macro}
 % 
@@ -294,8 +294,8 @@ Applicant\if@sites\ifnum\the@PIs>1{s}\fi\fi\ \deu{(Antragsteller)}}%
 %    \begin{macrocode}
 %<*cls>
 \newenvironment{sitedescription}[2][]%
-{\def\@test{#1}\def\@@title{\ifx\@test\@empty\wa@ref{institution}{#2}{acronym}\else #1\fi: 
-\textsc{\wa@ref{institution}{#2}{name}}}
+{\def\@test{#1}\def\@@title{\ifx\@test\@empty\wa@ref3{institution}{#2}{acronym}\else #1\fi: 
+\textsc{\wa@ref3{institution}{#2}{name}}}
 \@for\@I:=#2\do{\pdata@target{site}\@I{}}\subsubsection\@@title}
 {}
 %    \end{macrocode}
@@ -445,8 +445,8 @@ Applicant\if@sites\ifnum\the@PIs>1{s}\fi\fi\ \deu{(Antragsteller)}}%
   {\large Reference number(s): \show@prop@gen@keys}\\[.2cm]
   {\large\today}\\[1em]
  \begin{tabular}{c*{\the@PIs}{c}}
-   \prop@tl\prop@gen@PIs{\wa@ref{person}\tl@ext{name}}\\
-   \prop@tl\prop@gen@PIs{\wa@ref{institution}{\wa@ref{person}\tl@ext{affiliation}}{name}}
+   \prop@tl\prop@gen@PIs{\wa@ref3{person}\tl@ext{name}}\\
+   \prop@tl\prop@gen@PIs{\wa@ref3{institution}{\wa@ref3{person}\tl@ext{affiliation}}{name}}
  \end{tabular}\\[2cm]
 \end{center}
 \setcounter{tocdepth}{1}\tableofcontents\newpage\setcounter{page}{1}

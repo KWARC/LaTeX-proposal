@@ -9,8 +9,11 @@
 % use \texorpdfstring so that it can be used in section headings as well
 % tell the class that this is the proposal acronym
 \input{WApersons}
+% temporary fix due to http://tex.stackexchange.com/questions/311426/bibliography-error-use-of-blxbblverbaddi-doesnt-match-its-definition-ve
+
 \begin{document}
 \providecommand\ifprefchar[2]{}% fix biblatex
+\makeatletter\def\blx@maxline{77}\makeatother 
 
 \begin{center}\color{red}\huge
   This mock proposal is just an example for \texttt{dfgreporting.cls} it reflects the
