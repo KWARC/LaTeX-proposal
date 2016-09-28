@@ -4,7 +4,7 @@
 % Copyright (c) 2011 Michael Kohlhase, all rights reserved
 %
 % This file is distributed under the terms of the LaTeX Project Public
-% License from CTAN archives in directory  macros/latex/base/lppl.txt.la
+% License from CTAN archives in directory  macros/latex/base/lppl.txt.
 % Either version 1.0 or, at your option, any later version.
 %
 % The development version of this file can be found at
@@ -701,9 +701,9 @@
 \stepcounter{@site}\pdata@def{site}{#1}{number}{\the@site}%
 \@ifundefined{prop@gen@sites}{\xdef\prop@gen@sites{#1}}{\xdef\prop@gen@sites{\prop@gen@sites,#1}}%
 \define@key{prop@gen}{#1RM}{\pdata@def{site}{#1}{intendedRM}{##1}}%
-\define@key{prop@gen}{#1RAM}{\pdata@def{site}{#1}{intendedRAM}{##1}}
+\if@RAM\define@key{prop@gen}{#1RAM}{\pdata@def{site}{#1}{intendedRAM}{##1}}\fi
 \define@key{workpackage}{#1RM}{\pdata@def\wp@id{#1}{RM}{##1}}%
-\define@key{workpackage}{#1RAM}{\pdata@def\wp@id{#1}{RAM}{##1}}
+\if@RAM\define@key{workpackage}{#1RAM}{\pdata@def\wp@id{#1}{RAM}{##1}}\fi
 \define@key{prop@gen}{#1employed}{{\let\tabularnewline\relax\let\hline\relax\let\wa@ref\relax%
 \@ifundefined{prop@gen@employed@lines}%
 {\xdef\prop@gen@employed@lines{\wa@ref3{institution}{#1}{shortname} & ##1\tabularnewline\hline}}%
@@ -850,7 +850,7 @@
 \pdata@open\jobname
 \if@sites\else
 \define@key{workpackage}{RM}{\pdata@def{wp}\wp@id{RM}{##1}\@dmp{RM=##1}}
-\define@key{workpackage}{RAM}{\pdata@def{wp}\wp@id{RAM}{##1}\@dmp{RAM=##1}}
+\if@RAM\define@key{workpackage}{RAM}{\pdata@def{wp}\wp@id{RAM}{##1}\@dmp{RAM=##1}}\fi
 \fi
 \newcounter{@PIs}
 \@ifundefined{prop@gen@PIs}{}{\@for\@I:=\prop@gen@PIs\do{\stepcounter{@PIs}}}
