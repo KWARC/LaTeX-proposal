@@ -28,6 +28,13 @@
 \addmetakey*{wa@person}{worktelfax}
 \addmetakey*{wa@person}{privtelfax}
 \def\wa@def#1#2#3#4{\expandafter\xdef\csname wa@#1@#2@#3\endcsname{#4}}
+\def\wa@ref@test#1#2#3{%
+  \@ifundefined{wa@#1@#2@#3}{%
+    \PackageError{workaddress}{reference to undefined #3 of #1 #2}%
+    {you must define a #1 with #2=#3\MessageBreak%
+     via the macro \protect\WA#1, before you can use it!}
+  }{}%
+}%
 \newcommand\wa@ref[4]{%
   \@ifundefined{wa@#2@#3@#4}{%
     \ifcase#1 {}\or%

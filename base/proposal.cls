@@ -404,13 +404,11 @@
 \newcounter{milestone}
 \define@key{milestone}{id}{\gdef\mile@id{#1}}
 \define@key{milestone}{month}{\gdef\mile@month{#1}}
-\define@key{milestone}{verif}{\gdef\mile@verif{#1}}
 \newcommand\milestone[3][]{%
 \ifdelivs%
 \setkeys{milestone}{#1}\stepcounter{milestone}%
 \pdata@def{mile}\mile@id{label}{\milestone@label{\themilestone}}%
 \pdata@def{mile}\mile@id{month}{\mile@month}%
-\pdata@def{mile}\mile@id{verif}{\mile@verif}%
 \pdata@def{mile}\mile@id{title}{#2}%
 \pdata@def{mile}\mile@id{description}{#3}%
 \@ifundefined{mile@stones}%
@@ -466,7 +464,7 @@
 \define@key{task}{PM}{\def\task@PM{#1}}
 \define@key{task}{issue}{\def\task@issue{#1}}
 \def\task@set#1{\edef\task@id{task\thetask@all}
-\def\task@wphases{0-0}\def\task@partners{}\def\task@lead{}\def\task@PM{}
+\def\task@wphases{0-0}\def\task@partners{}\def\task@lead{}\def\task@PM{}\def\task@title{}
 \setkeys{task}{#1}}
 \def\task@post@title@space{\;}
 \newcounter{alltasks}
@@ -476,7 +474,7 @@
 \newenvironment{task}[1][]%
 {\stepcounter{alltasks}%
 \@task{#1}\item[\pdata@target{task}{\taskin\task@id\wp@id}{\task@label\thewp\thetask@wp}]%
-\@ifundefined{task@title}{}{\textbf\task@title}\task@post@title@space%
+\ifx\task@title\@empty\textbf\task@title\fi\task@post@title@space%
 \def\@initial{0-0}\ifx\task@wphases\@initial\else%
 \let\@@sep=\relax\@for\@I:=\task@wphases%
 \do{\decode@wphase\@I%
@@ -980,7 +978,7 @@ ganttgray,.60/.60,.60,.60/0,0,.60/0,0,0,.40}
 \begin{tabular}{|l||*{\the@site}{c|}}\hline%
 \@ct@lines\hline%
 joint&\multicolumn{\the@site}{l|}{\jpub $\hat=$ publication, \jpro $\hat=$ project,
-      \jorga $\hat=$ organization, \jsoft $\hat=$ software/resource dev,
+       \jorga $\hat=$ organization, \jsoft $\hat=$ software/resource dev,
        \jsup $\hat=$ supervision}\\\hline
 \end{tabular}}
 \define@key{coherencetable}{swsites}[true]{\def\cht@swsites{#1}}
