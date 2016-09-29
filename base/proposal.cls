@@ -393,9 +393,9 @@
 \def\d@sep{,}
  \@for\@I:=\deliv@miles\do{% Iterate over the milestones mentioned
  \expandafter\ifx\csname\@I delivs\endcsname\relax% Check that the miles@delivs is empty
-  {\expandafter\xdef\csname\@I delivs\endcsname{\wpg@id\deliv@id}}% if so, skip the separator
+  {\expandafter\xdef\csname\@I delivs\endcsname{\wpg@id @\deliv@id}}% if so, skip the separator
    \else\expandafter\xdef\csname\@I delivs\endcsname%if not add it
-      {\csname\@I delivs\endcsname\d@sep\wpg@id\deliv@id}\fi}}}
+      {\csname\@I delivs\endcsname\d@sep\wpg@id @\deliv@id}\fi}}}
 \newenvironment{wadeliv}[2][]{\ifdelivs\wpg@deliv{#1}{#2}{wa}\else\deliv@error\fi}{}
 \newenvironment{wpdeliv}[2][]{\ifdelivs\wpg@deliv{#1}{#2}{wp}\else\deliv@error\fi}{}
 \newcommand\milestone@label[1]{M{#1}}
