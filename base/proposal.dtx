@@ -473,7 +473,12 @@
 % \DescribeMacro{\WAtref}|\WAtref| for work areas.
 %
 % \subsection{The Work Package Table}\label{sec:use:wptable}
-% \ednote{add documentation}
+% 
+% One of the most useful features of the |proposal| class is that we can generate an
+% overview table for the distribution of workloads in the project fully automatically. All
+% it takes is the \DescribeMacro{\wpfig}|\wpfig| macro.
+% 
+%  The general appearance of the table \DescribeMacro{\wpfigstyle}|\wpfigstyle|
 %
 % \subsection{Gantt Charts}\label{sec:user:gantt}
 %
@@ -1780,7 +1785,8 @@
 % \end{macro}
 %
 % \begin{macro}{\*@style}
-%   \ednote{This (and wpfig) should be documented above}
+%   These macros\ednote{maybe add ``wpfig'' in the name to show dependency} determine the
+%   styling of cells in the work package table. That can be tweaked by redefining them.
 %    \begin{macrocode}
 \definecolorset{gray/rgb/hsb/cmyk}{}{}%
 {leadgray,.90/.90,.90,.90/0,0,.90/0,0,0,.10;%
@@ -1794,10 +1800,19 @@ ganttgray,.60/.60,.60,.60/0,0,.60/0,0,0,.40}
 %    \end{macrocode}
 % \end{macro}
 % 
+% \begin{macro}{\wpfigstyle}
+% \ednote{document above}
+%    \begin{macrocode}
+\def\wpfig@style{}
+\newcommand\wpfigstyle[1]{\def\wpfig@style{#1}}
+%    \end{macrocode}
+% \end{macro}
+%
 % \begin{environment}{wp@figure}
 %   This environment makes legend for the table (but not the contents) for the |\wpfig|
 %   macro. The main work achieved here is to generate the head line (sideways) and the
-%   footer in the various cases given by the package options.
+%   footer in the various cases given by the package options.\ednote{this is a bit of
+%   misnomer, it does not do the figure bit. }
 %    \begin{macrocode}
 \newcounter{wpfig@options}
 \define@key{wpfig}{size}{\def\wpfig@size{#1}\@dmp{size=#1}}
@@ -1862,14 +1877,6 @@ ganttgray,.60/.60,.60,.60/0,0,.60/0,0,0,.40}
 %    \end{macrocode}
 % \end{environment}
 % 
-%
-% \begin{macro}{\wpfigstyle}
-% \ednote{document above}
-%    \begin{macrocode}
-\def\wpfig@style{}
-\newcommand\wpfigstyle[1]{\def\wpfig@style{#1}}
-%    \end{macrocode}
-% \end{macro}
 %
 % \begin{macro}{\wpfig}
 %   \ednote{The computation can be distributed much more efficiently (by intermingling the
