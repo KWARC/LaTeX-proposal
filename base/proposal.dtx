@@ -1813,7 +1813,6 @@ ganttgray,.60/.60,.60,.60/0,0,.60/0,0,0,.40}
 % \end{macro}
 % 
 % \begin{macro}{\wpfigstyle}
-% \ednote{document above}
 %    \begin{macrocode}
 \def\wpfig@style{}
 \newcommand\wpfigstyle[1]{\def\wpfig@style{#1}}
@@ -1982,7 +1981,7 @@ ganttgray,.60/.60,.60,.60/0,0,.60/0,0,0,.40}
 \global\local@count0\relax%
 \@for\@site:=\prop@gen@sites\do{\global\advance\local@count by \pdataref@num\@@wp\@site{RAM}}%
 \xdef\@@wp@line{\@@wp@line &\textbf{\the\local@count}}
-\fi% if@sites
+\fi% if@RAM
 \else% if@sites
 \xdef\@@wp@line{\@@wp@line&\wp@style{\pdataref@safe{wp}\@@wp{RM}}}
 \if@RAM\xdef\@@wp@line{\@@wp@line&\wp@style{\pdataref@safe{wp}\@@wp{RAM}}}\fi
