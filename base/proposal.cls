@@ -318,6 +318,79 @@
 \pdata@def{all}{milestones}{count}{\themilestone}
 \fi
 \ifdelivs\closeout\wpg@delivs\fi}
+\newenvironment{tasklist}
+{\begin{compactenum}}{\end{compactenum}}
+\newcommand\task@label[2]{\textbf{T#1.#2}}
+\define@key{task}{id}{\def\task@id{#1}\@dmp{id=#1}}
+\define@key{task}{wphases}{\def\task@wphases{#1}\@dmp{wphases=#1}}
+\define@key{task}{requires}{\@requires\task@id{#1}\@dmp{req=#1}}
+\define@key{task}{title}{\def\task@title{#1}}
+\define@key{task}{lead}{\def\task@lead{#1}}
+\define@key{task}{partners}{\def\task@partners{#1}}
+\define@key{task}{PM}{\def\task@PM{#1}}
+\define@key{task}{issue}{\def\task@issue{#1}}
+\def\task@set#1{\edef\task@id{task\thetask@all}
+\def\task@wphases{0-0}\def\task@partners{}\def\task@lead{}\def\task@PM{}\def\task@title{}
+\setkeys{task}{#1}}
+\def\task@post@title@space{\;}
+\newcounter{alltasks}
+\def\task@post@title@space{\quad}
+\newcommand\task@legend@partners{Sites: }
+\newcommand\task@legend@PM{PM}
+\newenvironment{task}[1][]%
+{\stepcounter{alltasks}%
+\@task{#1}\item[\pdata@target{task}{\taskin\task@id\wp@id}{\task@label\thewp\thetask@wp}]%
+\ifx\task@title\@empty\textbf\task@title\fi\task@post@title@space%
+\def\@initial{0-0}\ifx\task@wphases\@initial\else%
+\let\@@sep=\relax\@for\@I:=\task@wphases%
+\do{\decode@wphase\@I%
+\@@sep\show@wphase\wphase@start\wphase@end\wphase@force%
+\let\@@sep=\sep@wphases}%
+\fi% initial
+\hfill%
+\ifsubmit\else\ifx\task@PM\@empty\else\task@PM~\task@legend@PM;\fi\fi%
+\ifx\task@lead\@empty\else\ \task@legend@partners\site\task@lead~(\legend@lead)\fi%
+\@for\@I:=\task@partners\do{, \site\@I}\\%
+\ignorespaces}
+{\medskip}
+\newcommand\month@label[1]{M#1}
+\newcommand\show@wphase[3]{\edef\@test{#3}\def\@one{1}%
+\month@label{#1}-\month@label{#2}%
+\ifx\@test\@empty\else\ifx\@test\@one\else @#3\fi\fi}
+\newcommand\sep@wphases{; }
+\newcommand\legend@partners{Partners}
+\newcommand\legend@lead{lead}
+\newcommand\task@label@long{Task}
+\newcounter{task@all}\newcounter{task@wp}[wp]
+\newcount\task@@end
+\def\@task#1{\stepcounter{task@all}\stepcounter{task@wp}%
+\task@set{#1}%
+\pdata@def{task}{\taskin\task@id\wp@id}{title}{\task@title}
+\pdata@def{task}{\taskin\task@id\wp@id}{lead}{\task@lead}
+\pdata@def{task}{\taskin\task@id\wp@id}{partners}{\task@partners}
+\pdata@def{task}{\taskin\task@id\wp@id}{PM}{\task@PM}
+\pdata@def{task}{\taskin\task@id\wp@id}{wphases}{\task@wphases}
+\@ifundefined{deliv@issue}{}
+{\pdata@def{task}{\taskin\task@id\wp@id}{issue}{\task@issue}}%
+\pdata@def{task}{\taskin\task@id\wp@id}{label}{\task@label\thewp\thetask@wp}%
+\pdata@def{task}{\taskin\task@id\wp@id}{number}{\thetask@wp}%
+\pdata@def{task}{\taskin\task@id\wp@id}{page}{\thepage}%
+\update@tasks{\taskin\task@id\wp@id}}
+\newcommand\workphase[1]{\PackageError{proposal}
+  {The \protect\workphase macro is deprecated,\MessageBreak
+    use the attributes wphase on the workpackage environment instead!}}
+\newcommand\taskin[2]{#2@#1}
+\newcommand\taskref[2]{\pdataRef{task}{#1@#2}{label}}
+\newcommand\taskreflong[2]{\pdataRef{task}{#2}{label}}
+\newcommand\tasktref[2]{\taskref{#1}{#2}: \pdataRefFB{task}{#1@#2}{short}{title}}
+\newcommand\localtaskref[1]{\taskref{\wp@id}{#1}}
+\newcommand\localtasktref[1]{\tasktref{\wp@id}{#1}}
+\newcounter{gantt@deps}
+\def\@requires#1#2{\stepcounter{gantt@deps}%
+\edef\dep@id{taskdep\thegantt@deps}%
+\pdata@def{taskdep}\dep@id{from}{\taskin{#1}\wp@id}%
+\pdata@def{taskdep}\dep@id{to}{#2}%
+\update@deps\dep@id}
 \newcommand\deliv@error{\PackageError{proposal}
 {To use use deliverables, you have to specify the option 'deliverables'}}
 \newenvironment{wpdelivs}{\begin{wp@delivs}}{\end{wp@delivs}}
@@ -452,79 +525,6 @@
 {\input{\jobname.deliverables}}%
 {\IfFileExists{\jobname.delivs}{\input{\jobname.delivs}}{}}
 \end{deliverables}}
-\newenvironment{tasklist}
-{\begin{compactenum}}{\end{compactenum}}
-\newcommand\task@label[2]{\textbf{T#1.#2}}
-\define@key{task}{id}{\def\task@id{#1}\@dmp{id=#1}}
-\define@key{task}{wphases}{\def\task@wphases{#1}\@dmp{wphases=#1}}
-\define@key{task}{requires}{\@requires\task@id{#1}\@dmp{req=#1}}
-\define@key{task}{title}{\def\task@title{#1}}
-\define@key{task}{lead}{\def\task@lead{#1}}
-\define@key{task}{partners}{\def\task@partners{#1}}
-\define@key{task}{PM}{\def\task@PM{#1}}
-\define@key{task}{issue}{\def\task@issue{#1}}
-\def\task@set#1{\edef\task@id{task\thetask@all}
-\def\task@wphases{0-0}\def\task@partners{}\def\task@lead{}\def\task@PM{}\def\task@title{}
-\setkeys{task}{#1}}
-\def\task@post@title@space{\;}
-\newcounter{alltasks}
-\def\task@post@title@space{\quad}
-\newcommand\task@legend@partners{Sites: }
-\newcommand\task@legend@PM{PM}
-\newenvironment{task}[1][]%
-{\stepcounter{alltasks}%
-\@task{#1}\item[\pdata@target{task}{\taskin\task@id\wp@id}{\task@label\thewp\thetask@wp}]%
-\ifx\task@title\@empty\textbf\task@title\fi\task@post@title@space%
-\def\@initial{0-0}\ifx\task@wphases\@initial\else%
-\let\@@sep=\relax\@for\@I:=\task@wphases%
-\do{\decode@wphase\@I%
-\@@sep\show@wphase\wphase@start\wphase@end\wphase@force%
-\let\@@sep=\sep@wphases}%
-\fi% initial
-\hfill%
-\ifsubmit\else\ifx\task@PM\@empty\else\task@PM~\task@legend@PM;\fi\fi%
-\ifx\task@lead\@empty\else\ \task@legend@partners\site\task@lead~(\legend@lead)\fi%
-\@for\@I:=\task@partners\do{, \site\@I}\\%
-\ignorespaces}
-{\medskip}
-\newcommand\month@label[1]{M#1}
-\newcommand\show@wphase[3]{\edef\@test{#3}\def\@one{1}%
-\month@label{#1}-\month@label{#2}%
-\ifx\@test\@empty\else\ifx\@test\@one\else @#3\fi\fi}
-\newcommand\sep@wphases{; }
-\newcommand\legend@partners{Partners}
-\newcommand\legend@lead{lead}
-\newcommand\task@label@long{Task}
-\newcounter{task@all}\newcounter{task@wp}[wp]
-\newcount\task@@end
-\def\@task#1{\stepcounter{task@all}\stepcounter{task@wp}%
-\task@set{#1}%
-\pdata@def{task}{\taskin\task@id\wp@id}{title}{\task@title}
-\pdata@def{task}{\taskin\task@id\wp@id}{lead}{\task@lead}
-\pdata@def{task}{\taskin\task@id\wp@id}{partners}{\task@partners}
-\pdata@def{task}{\taskin\task@id\wp@id}{PM}{\task@PM}
-\pdata@def{task}{\taskin\task@id\wp@id}{wphases}{\task@wphases}
-\@ifundefined{deliv@issue}{}
-{\pdata@def{task}{\taskin\task@id\wp@id}{issue}{\task@issue}}%
-\pdata@def{task}{\taskin\task@id\wp@id}{label}{\task@label\thewp\thetask@wp}%
-\pdata@def{task}{\taskin\task@id\wp@id}{number}{\thetask@wp}%
-\pdata@def{task}{\taskin\task@id\wp@id}{page}{\thepage}%
-\update@tasks{\taskin\task@id\wp@id}}
-\newcommand\workphase[1]{\PackageError{proposal}
-  {The \protect\workphase macro is deprecated,\MessageBreak
-    use the attributes wphase on the workpackage environment instead!}}
-\newcommand\taskin[2]{#2@#1}
-\newcommand\taskref[2]{\pdataRef{task}{#1@#2}{label}}
-\newcommand\taskreflong[2]{\pdataRef{task}{#2}{label}}
-\newcommand\tasktref[2]{\taskref{#1}{#2}: \pdataRefFB{task}{#1@#2}{short}{title}}
-\newcommand\localtaskref[1]{\taskref{\wp@id}{#1}}
-\newcommand\localtasktref[1]{\tasktref{\wp@id}{#1}}
-\newcounter{gantt@deps}
-\def\@requires#1#2{\stepcounter{gantt@deps}%
-\edef\dep@id{taskdep\thegantt@deps}%
-\pdata@def{taskdep}\dep@id{from}{\taskin{#1}\wp@id}%
-\pdata@def{taskdep}\dep@id{to}{#2}%
-\update@deps\dep@id}
 \newcommand\prop@lead[1]{\@ifundefined{wp@#1@lead}%
 {\protect\G@refundefinedtrue\@latex@warning{lead for WP #1 undefined}??}%
 {\csname wp@#1@lead\endcsname}}

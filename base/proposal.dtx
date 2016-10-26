@@ -180,7 +180,7 @@
 % \DescribeMacro{\ifpublic}|\ifpublic| conditional: |\ifpublic{3}\else{5}\fi| will result
 % in ``5'' in the submitted draft and ``3'' in the public document.
 %
-% \subsection{Proposal Metadata and Title page}\label{sec:user:metadata}
+% \subsection{Proposal Metadata}\label{sec:user:metadata}
 % 
 % The metadata of the proposal is specified in the \DescribeEnv{proposal}|proposal|
 % environment, which also generates the title page and the first section of the proposal
@@ -242,6 +242,9 @@
 %
 % The |proposal| package supplies the \DescribeEnv{emphbox}|emphbox| environment to create
 % boxes of emphasized material we want to call attention to. 
+% 
+% \subsection{The proposal Environment and Title Page}\label{sec:user:title}
+% \ednote{add documentation}
 % 
 % \subsection{Objectives}\label{sec:user:objectives}
 % 
@@ -355,23 +358,6 @@
 % default is 1. The main reason for specifying this metadata for tasks is to generate a
 % Gantt chart (see Section~\ref{sec:user:gantt}).
 %
-% \subsection{Gantt Charts}\label{sec:user:gantt}
-%
-% Gantt charts are used in proposals to show the distribution of activities in work
-% packages over time. A gantt chart is represented by the \DescribeEnv{gantt}|gantt|
-% environment that takes a on optional keyval argument. The keys
-% \DescribeMacro{xscale}|xscale| and \DescribeMacro{yscale}|yscale| are used to specify a
-% scale factors for the chart so that it fits on the page. The \DescribeMacro{step}|step|
-% key allows to specify the steps (in months) of the vertical auxiliary lines.  Finally,
-% the \DescribeMacro{draft}|draft| key specifies that plausibility checks (that can be
-% expensive to run) are carried out. Note that the value does not have to be given, so
-% |\begin{gantt}{draft,yscale=.5,step=3}| is a perfectly good invocation.
-%
-% Usually, the |gantt| environment is not used however, since it is part of the
-% \DescribeMacro{\ganttchart} macro that takes the same keys. This generates a whole
-% Gantt chart automatically from the work phase specifications in the work packages. As
-% above we have to run {\LaTeX} two times for the work phases to show up.
-% 
 % \subsection{Milestones and Deliverables}\label{sec:user:deliverables}
 % 
 % Many proposal formats foresee that project progress will be tracked in the form of
@@ -435,7 +421,7 @@
 % adds auxiliary files, so they are only activated if the |deliverables| option is given
 % (see Section~\ref{sec:user:options}).
 % 
-% \subsection{Referencing and Hyperlinking}\label{sec:user:hyperlinking} 
+% \subsection{Project Data,  Referencing, and Hyperlinking}\label{sec:user:hyperlinking} 
 % 
 % The |proposal| package extends the hyperlinking provided by the |hyperref| package it
 % includes to work packages, work areas, \ldots. Whenever these are defined using the
@@ -486,6 +472,26 @@
 % |noworkareas| macro is set, we also have the variants \DescribeMacro{\WAref}|\WAref| and
 % \DescribeMacro{\WAtref}|\WAtref| for work areas.
 %
+% \subsection{The Work Package Table}\label{sec:use:wptable}
+% \ednote{add documentation}
+%
+% \subsection{Gantt Charts}\label{sec:user:gantt}
+%
+% Gantt charts are used in proposals to show the distribution of activities in work
+% packages over time. A gantt chart is represented by the \DescribeEnv{gantt}|gantt|
+% environment that takes a on optional keyval argument. The keys
+% \DescribeMacro{xscale}|xscale| and \DescribeMacro{yscale}|yscale| are used to specify a
+% scale factors for the chart so that it fits on the page. The \DescribeMacro{step}|step|
+% key allows to specify the steps (in months) of the vertical auxiliary lines.  Finally,
+% the \DescribeMacro{draft}|draft| key specifies that plausibility checks (that can be
+% expensive to run) are carried out. Note that the value does not have to be given, so
+% |\begin{gantt}{draft,yscale=.5,step=3}| is a perfectly good invocation.
+%
+% Usually, the |gantt| environment is not used however, since it is part of the
+% \DescribeMacro{\ganttchart} macro that takes the same keys. This generates a whole
+% Gantt chart automatically from the work phase specifications in the work packages. As
+% above we have to run {\LaTeX} two times for the work phases to show up.
+% 
 % \subsection{Coherence}\label{sec:user:coherence}
 % 
 % Many proposals require ways to show coherence between the partners. The |proposal| class
@@ -803,7 +809,7 @@
 %    \end{macrocode}
 % \end{environment}
 % 
-% \subsection{Title Page}\label{sec:impl:titlepage}
+% \subsection{The proposal Environemt and Title Page}\label{sec:impl:titlepage}
 %  
 % \begin{environment}{prop@proposal}
 %   This internal environment is called in the |proposal| environment from the |proposal|
@@ -1252,6 +1258,129 @@
 %    \end{macrocode}
 % \end{environment}
 %
+% \subsection{Tasks}\label{sec:impl:tasks}
+% 
+% \begin{environment}{tasklist}
+%    \begin{macrocode}
+\newenvironment{tasklist}
+{\begin{compactenum}}{\end{compactenum}}
+%    \end{macrocode}
+% \end{environment}
+% The next step is to 
+%    \begin{macrocode}
+\newcommand\task@label[2]{\textbf{T#1.#2}}
+%    \end{macrocode}
+% We define the keys for the task macro
+%    \begin{macrocode}
+\define@key{task}{id}{\def\task@id{#1}\@dmp{id=#1}}
+\define@key{task}{wphases}{\def\task@wphases{#1}\@dmp{wphases=#1}}
+\define@key{task}{requires}{\@requires\task@id{#1}\@dmp{req=#1}}
+\define@key{task}{title}{\def\task@title{#1}}
+\define@key{task}{lead}{\def\task@lead{#1}}
+\define@key{task}{partners}{\def\task@partners{#1}}
+\define@key{task}{PM}{\def\task@PM{#1}}
+\define@key{task}{issue}{\def\task@issue{#1}}
+\def\task@set#1{\edef\task@id{task\thetask@all}
+\def\task@wphases{0-0}\def\task@partners{}\def\task@lead{}\def\task@PM{}\def\task@title{}
+\setkeys{task}{#1}}
+%    \end{macrocode}
+% 
+% \begin{macro}{\task@post@title@space}
+%   make the space after the title tweakable
+%    \begin{macrocode}
+\def\task@post@title@space{\;}
+%    \end{macrocode}
+% \end{macro}
+% 
+% \begin{environment}{task}
+%    \begin{macrocode}
+\newcounter{alltasks}
+\def\task@post@title@space{\quad}
+\newcommand\task@legend@partners{Sites: }
+\newcommand\task@legend@PM{PM}
+\newenvironment{task}[1][]%
+{\stepcounter{alltasks}%
+\@task{#1}\item[\pdata@target{task}{\taskin\task@id\wp@id}{\task@label\thewp\thetask@wp}]%
+\ifx\task@title\@empty\textbf\task@title\fi\task@post@title@space%
+\def\@initial{0-0}\ifx\task@wphases\@initial\else%
+\let\@@sep=\relax\@for\@I:=\task@wphases%
+\do{\decode@wphase\@I%
+\@@sep\show@wphase\wphase@start\wphase@end\wphase@force%
+\let\@@sep=\sep@wphases}%
+\fi% initial
+\hfill%
+\ifsubmit\else\ifx\task@PM\@empty\else\task@PM~\task@legend@PM;\fi\fi%
+\ifx\task@lead\@empty\else\ \task@legend@partners\site\task@lead~(\legend@lead)\fi%
+\@for\@I:=\task@partners\do{, \site\@I}\\%
+\ignorespaces}
+{\medskip}
+%    \end{macrocode}
+% now the multilingual support and presentation configuration
+%    \begin{macrocode}
+\newcommand\month@label[1]{M#1}
+\newcommand\show@wphase[3]{\edef\@test{#3}\def\@one{1}%
+\month@label{#1}-\month@label{#2}%
+\ifx\@test\@empty\else\ifx\@test\@one\else @#3\fi\fi}
+\newcommand\sep@wphases{; }
+\newcommand\legend@partners{Partners}
+\newcommand\legend@lead{lead}
+\newcommand\task@label@long{Task}
+%    \end{macrocode}
+% \end{environment}
+%
+% \begin{macro}{\@task}
+%   The |\@task| macro is a internal macro which takes a bunch of keyword keys and writes
+%   their values to the aux file.
+%    \begin{macrocode}
+\newcounter{task@all}\newcounter{task@wp}[wp]
+\newcount\task@@end
+\def\@task#1{\stepcounter{task@all}\stepcounter{task@wp}%
+\task@set{#1}%
+\pdata@def{task}{\taskin\task@id\wp@id}{title}{\task@title}
+\pdata@def{task}{\taskin\task@id\wp@id}{lead}{\task@lead}
+\pdata@def{task}{\taskin\task@id\wp@id}{partners}{\task@partners}
+\pdata@def{task}{\taskin\task@id\wp@id}{PM}{\task@PM}
+\pdata@def{task}{\taskin\task@id\wp@id}{wphases}{\task@wphases}
+\@ifundefined{deliv@issue}{}
+{\pdata@def{task}{\taskin\task@id\wp@id}{issue}{\task@issue}}%
+\pdata@def{task}{\taskin\task@id\wp@id}{label}{\task@label\thewp\thetask@wp}%
+\pdata@def{task}{\taskin\task@id\wp@id}{number}{\thetask@wp}%
+\pdata@def{task}{\taskin\task@id\wp@id}{page}{\thepage}%
+\update@tasks{\taskin\task@id\wp@id}}
+%    \end{macrocode}
+% \end{macro}
+% 
+% \subsection{Work Phase Metadata}\label{sec:impl:workphase}
+% 
+% \begin{macro}{\workphase}
+%    \begin{macrocode}
+\newcommand\workphase[1]{\PackageError{proposal}
+  {The \protect\workphase macro is deprecated,\MessageBreak
+    use the attributes wphase on the workpackage environment instead!}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\*task*ref}
+%    \begin{macrocode}
+\newcommand\taskin[2]{#2@#1}
+\newcommand\taskref[2]{\pdataRef{task}{#1@#2}{label}}
+\newcommand\taskreflong[2]{\pdataRef{task}{#2}{label}}
+\newcommand\tasktref[2]{\taskref{#1}{#2}: \pdataRefFB{task}{#1@#2}{short}{title}}
+\newcommand\localtaskref[1]{\taskref{\wp@id}{#1}}
+\newcommand\localtasktref[1]{\tasktref{\wp@id}{#1}}
+%    \end{macrocode}
+% \end{macro}
+% now we initialize experimental infrastructure for task dependencies (not very well used/tested)
+%    \begin{macrocode}
+\newcounter{gantt@deps}
+\def\@requires#1#2{\stepcounter{gantt@deps}%
+\edef\dep@id{taskdep\thegantt@deps}%
+\pdata@def{taskdep}\dep@id{from}{\taskin{#1}\wp@id}%
+\pdata@def{taskdep}\dep@id{to}{#2}%
+\update@deps\dep@id}
+%</cls>
+%    \end{macrocode}
+%
 %\subsection{Milestones and Deliverables}\label{sec:impl:deliverables}
 %
 % \begin{macro}{deliv@error}
@@ -1521,127 +1650,6 @@
 %    \end{macrocode}
 % \end{macro}
 % 
-% \subsection{Tasks and Work Phases}\label{sec:impl:tasks}
-% 
-% \begin{environment}{tasklist}
-%    \begin{macrocode}
-\newenvironment{tasklist}
-{\begin{compactenum}}{\end{compactenum}}
-%    \end{macrocode}
-% \end{environment}
-% The next step is to 
-%    \begin{macrocode}
-\newcommand\task@label[2]{\textbf{T#1.#2}}
-%    \end{macrocode}
-% We define the keys for the task macro
-%    \begin{macrocode}
-\define@key{task}{id}{\def\task@id{#1}\@dmp{id=#1}}
-\define@key{task}{wphases}{\def\task@wphases{#1}\@dmp{wphases=#1}}
-\define@key{task}{requires}{\@requires\task@id{#1}\@dmp{req=#1}}
-\define@key{task}{title}{\def\task@title{#1}}
-\define@key{task}{lead}{\def\task@lead{#1}}
-\define@key{task}{partners}{\def\task@partners{#1}}
-\define@key{task}{PM}{\def\task@PM{#1}}
-\define@key{task}{issue}{\def\task@issue{#1}}
-\def\task@set#1{\edef\task@id{task\thetask@all}
-\def\task@wphases{0-0}\def\task@partners{}\def\task@lead{}\def\task@PM{}\def\task@title{}
-\setkeys{task}{#1}}
-%    \end{macrocode}
-% 
-% \begin{macro}{\task@post@title@space}
-%   make the space after the title tweakable
-%    \begin{macrocode}
-\def\task@post@title@space{\;}
-%    \end{macrocode}
-% \end{macro}
-% 
-% \begin{environment}{task}
-%    \begin{macrocode}
-\newcounter{alltasks}
-\def\task@post@title@space{\quad}
-\newcommand\task@legend@partners{Sites: }
-\newcommand\task@legend@PM{PM}
-\newenvironment{task}[1][]%
-{\stepcounter{alltasks}%
-\@task{#1}\item[\pdata@target{task}{\taskin\task@id\wp@id}{\task@label\thewp\thetask@wp}]%
-\ifx\task@title\@empty\textbf\task@title\fi\task@post@title@space%
-\def\@initial{0-0}\ifx\task@wphases\@initial\else%
-\let\@@sep=\relax\@for\@I:=\task@wphases%
-\do{\decode@wphase\@I%
-\@@sep\show@wphase\wphase@start\wphase@end\wphase@force%
-\let\@@sep=\sep@wphases}%
-\fi% initial
-\hfill%
-\ifsubmit\else\ifx\task@PM\@empty\else\task@PM~\task@legend@PM;\fi\fi%
-\ifx\task@lead\@empty\else\ \task@legend@partners\site\task@lead~(\legend@lead)\fi%
-\@for\@I:=\task@partners\do{, \site\@I}\\%
-\ignorespaces}
-{\medskip}
-%    \end{macrocode}
-% now the multilingual support and presentation configuration
-%    \begin{macrocode}
-\newcommand\month@label[1]{M#1}
-\newcommand\show@wphase[3]{\edef\@test{#3}\def\@one{1}%
-\month@label{#1}-\month@label{#2}%
-\ifx\@test\@empty\else\ifx\@test\@one\else @#3\fi\fi}
-\newcommand\sep@wphases{; }
-\newcommand\legend@partners{Partners}
-\newcommand\legend@lead{lead}
-\newcommand\task@label@long{Task}
-%    \end{macrocode}
-% \end{environment}
-%
-% \begin{macro}{\@task}
-%   The |\@task| macro is a internal macro which takes a bunch of keyword keys and writes
-%   their values to the aux file.
-%    \begin{macrocode}
-\newcounter{task@all}\newcounter{task@wp}[wp]
-\newcount\task@@end
-\def\@task#1{\stepcounter{task@all}\stepcounter{task@wp}%
-\task@set{#1}%
-\pdata@def{task}{\taskin\task@id\wp@id}{title}{\task@title}
-\pdata@def{task}{\taskin\task@id\wp@id}{lead}{\task@lead}
-\pdata@def{task}{\taskin\task@id\wp@id}{partners}{\task@partners}
-\pdata@def{task}{\taskin\task@id\wp@id}{PM}{\task@PM}
-\pdata@def{task}{\taskin\task@id\wp@id}{wphases}{\task@wphases}
-\@ifundefined{deliv@issue}{}
-{\pdata@def{task}{\taskin\task@id\wp@id}{issue}{\task@issue}}%
-\pdata@def{task}{\taskin\task@id\wp@id}{label}{\task@label\thewp\thetask@wp}%
-\pdata@def{task}{\taskin\task@id\wp@id}{number}{\thetask@wp}%
-\pdata@def{task}{\taskin\task@id\wp@id}{page}{\thepage}%
-\update@tasks{\taskin\task@id\wp@id}}
-%    \end{macrocode}
-% \end{macro}
-% 
-% \begin{macro}{\workphase}
-%    \begin{macrocode}
-\newcommand\workphase[1]{\PackageError{proposal}
-  {The \protect\workphase macro is deprecated,\MessageBreak
-    use the attributes wphase on the workpackage environment instead!}}
-%    \end{macrocode}
-% \end{macro}
-%
-% \begin{macro}{\*task*ref}
-%    \begin{macrocode}
-\newcommand\taskin[2]{#2@#1}
-\newcommand\taskref[2]{\pdataRef{task}{#1@#2}{label}}
-\newcommand\taskreflong[2]{\pdataRef{task}{#2}{label}}
-\newcommand\tasktref[2]{\taskref{#1}{#2}: \pdataRefFB{task}{#1@#2}{short}{title}}
-\newcommand\localtaskref[1]{\taskref{\wp@id}{#1}}
-\newcommand\localtasktref[1]{\tasktref{\wp@id}{#1}}
-%    \end{macrocode}
-% \end{macro}
-% now we initialize experimental infrastructure for task dependencies (not very well used/tested)
-%    \begin{macrocode}
-\newcounter{gantt@deps}
-\def\@requires#1#2{\stepcounter{gantt@deps}%
-\edef\dep@id{taskdep\thegantt@deps}%
-\pdata@def{taskdep}\dep@id{from}{\taskin{#1}\wp@id}%
-\pdata@def{taskdep}\dep@id{to}{#2}%
-\update@deps\dep@id}
-%</cls>
-%    \end{macrocode}
-%
 % \subsection{Project Data,  Referencing \& Hyperlinking}\label{sec:impl:hyperlinking} 
 % 
 % \begin{macro}{\pdata@*}
@@ -2532,7 +2540,7 @@ joint&\multicolumn{\the@site}{l|}{\jpub $\hat=$ publication, \jpro $\hat=$ proje
 % LocalWords:  duration Application period Summary short lead Package label task botupMP
 % LocalWords:  tasks deps number line Effort target ids count warning at pdata swsites
 % LocalWords:  for undefined safe zero one two three four five six seven eight swsites
-% LocalWords:  nine ten eleven twelve style lines totals Packages xscale yscale wphrases
+% LocalWords:  nine ten eleven twelve style lines totals Packages xscale yscale 
 % LocalWords:  step set gray very thin grid workphase len force phase length to endhead
 % LocalWords:  taskdep from rectangle left right width pt color red above dep jointsub
 % LocalWords:  Overview Activities Signatures Date paralist ymonths ymid yinc jointsoft
