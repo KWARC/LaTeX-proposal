@@ -12,10 +12,11 @@
 % \fi
 %
 % \iffalse 
-%<cls|pdata|reporting>\NeedsTeXFormat{LaTeX2e}[1999/12/01]
-%<cls>\ProvidesClass{proposal}[2016/04/15 v1.5 Project Proposal]
-%<pdata>\ProvidesPackage{pdata}[2016/04/15 v1.5 Project Data]
-%<reporting>\ProvidesPackage{reporting}[2016/04/15 v1.5 Project Reporting]
+%<cls|sty|pdata|reporting>\NeedsTeXFormat{LaTeX2e}[1999/12/01]
+%<cls>\ProvidesClass{proposal}[2016/10/26 v1.6 Project Proposal]
+%<sty>\ProvidesPackage{proposal}[2016/10/26 v1.6 Project Proposal]
+%<pdata>\ProvidesPackage{pdata}[2016/10/26 v1.6 Project Data]
+%<reporting>\ProvidesPackage{reporting}[2016/10/26 v1.6 Project Reporting]
 %<*driver>
 \documentclass{ltxdoc}
 \DoNotIndex{\def,\long,\edef,\xdef,\gdef,\let,\global}
@@ -67,11 +68,12 @@
 % \changes{v1.4}{2012/01/28}{some localization support}
 % \changes{v1.4}{2013/01/12}{more documentation of milestones}
 % \changes{v1.5}{2014/01/14}{many layout tweaks support for CVs, milestones in gantt}
+% \changes{v1.6}{2016/10/26}{splitting off proposal.sty so that documentation becomes easier}
 % 
 % \GetFileInfo{proposal.cls}
 % 
 % \MakeShortVerb{\|} 
-% \title{Preparing Proposals in {\LaTeX} with \texttt{proposal.cls}}
+% \title{Preparing Proposals in {\LaTeX} with \texttt{proposal.cls}\thanks{Version {\fileversion} (last revised {\filedate})}}
 % \author{Michael Kohlhase\\
 %   Computer Science, Jacobs University Bremen\\
 %   \url{http://kwarc.info/kohlhase}} 
@@ -476,9 +478,24 @@
 % 
 % One of the most useful features of the |proposal| class is that we can generate an
 % overview table for the distribution of workloads in the project fully automatically. All
-% it takes is the \DescribeMacro{\wpfig}|\wpfig| macro.
+% it takes is the \DescribeMacro{\wpfig}|\wpfig| macro. We invoke this as
+% |\wpfig[|\meta{opt}|]|, where \meta{opt} contains the following keywords: 
 % 
-%  The general appearance of the table \DescribeMacro{\wpfigstyle}|\wpfigstyle|
+% \begin{description}
+% \item |pages| makes a column with page numbers of the respective work package/area description.
+% \item |type| makes a column with work package/area types
+% \item |start|, |end|, and |length| makes a columns with work package/area start/end
+%   months and length (in months). 
+% \item if |caption| is given then the table contains an explicatory caption.
+% \item |label| allows to specify a label other than the default |fig:wplist|.
+% \end{description}
+% For instance |\wpfig[pages,start,length,caption=Overview of Work Packages]| gives a
+% table with columns for page references, duration information, and a special caption.
+% 
+% The general appearance of the table \DescribeMacro{\wpfigstyle}|\wpfigstyle| macro takes
+% a token sequence to specialize the global appearance (mostly used for text sizes and
+% color) of the work package table. Cell styling can be tweaked by redefining special
+% internal macros; see section~\ref{sec:implwptable}. 
 %
 % \subsection{Gantt Charts}\label{sec:user:gantt}
 %
@@ -596,12 +613,15 @@
 \DeclareOption{deliverables}{\delivstrue}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
 \ProcessOptions
+\LoadClass[a4paper,twoside]{\proposal@class}
+\RequirePackage{proposal}
+%</cls|reporting>
 %    \end{macrocode}
 % 
-%    Then we load the packages we make use of
+%    For |proposal.sty| we load the packages we make use of
 % 
 %    \begin{macrocode}
-\LoadClass[a4paper,twoside]{\proposal@class}
+%<*sty>
 \RequirePackage{amssymb}
 \RequirePackage{wasysym}
 \RequirePackage{url}
@@ -626,10 +646,10 @@
 \RequirePackage[hyperref=auto,style=alphabetic,defernumbers=true,backend=bibtex,backref=true,firstinits=true,maxbibnames=6]{biblatex}[2010/11-19]
 \RequirePackage{csquotes}
 \RequirePackage{mdframed}
-\RequirePackage{pdata}
 %    \end{macrocode}
 % in submit mode, we make the links a bit darker, so they print better. 
 %    \begin{macrocode}
+\RequirePackage{pdata}
 \definecolor{darkblue}{rgb}{0,0,.7}
 \ifsubmit\def\prop@link@color{darkblue}\else\def\prop@link@color{blue}\fi
 \RequirePackage[bookmarks=true,linkcolor=\prop@link@color,
@@ -686,7 +706,7 @@
 \fancyhead[LE,RO]{\prop@of@pages\thepage{\pdataref@num{prop}{page}{last}}}
 \fi
 \pagestyle{fancyplain}
-%</cls|reporting>
+%</sty>
 %    \end{macrocode}
 %
 % \subsection{Proposal Metadata}\label{sec:impl:metadata}
@@ -809,7 +829,7 @@
 %
 % \begin{environment}{emphbox}
 %    \begin{macrocode}
-%<*cls>
+%<*sty>
 \newmdenv[settings=\large]{emphbox}
 %    \end{macrocode}
 % \end{environment}
@@ -876,7 +896,7 @@
 {\end{prop@proposal}
 \pdata@def{prop}{page}{last}{\thepage}\ofpagefalse
 \pdata@close}
-%</cls>
+%</sty>
 %    \end{macrocode}
 % \end{environment}
 %
@@ -922,7 +942,7 @@
 % 
 % \begin{macro}{\site*}
 %    \begin{macrocode}
-%<*cls>
+%<*sty>
 \newcommand\site[1]{\hyperlink{site@#1@target}{\wa@ref3{institution}{#1}{acronym}}}
 \newcommand\sitename[1]{\hyperlink{site@#1@target}{\wa@ref3{institution}{#1}{name}}}
 %    \end{macrocode}
@@ -1383,7 +1403,6 @@
 \pdata@def{taskdep}\dep@id{from}{\taskin{#1}\wp@id}%
 \pdata@def{taskdep}\dep@id{to}{#2}%
 \update@deps\dep@id}
-%</cls>
 %    \end{macrocode}
 %
 %\subsection{Milestones and Deliverables}\label{sec:impl:deliverables}
@@ -1652,6 +1671,7 @@
 {\input{\jobname.deliverables}}%
 {\IfFileExists{\jobname.delivs}{\input{\jobname.delivs}}{}}
 \end{deliverables}}
+%</sty>
 %    \end{macrocode}
 % \end{macro}
 % 
@@ -1779,6 +1799,7 @@
 %   These macros\ednote{maybe add ``wpfig'' in the name to show dependency} determine the
 %   styling of cells in the work package table. That can be tweaked by redefining them.
 %    \begin{macrocode}
+%<*sty>
 \definecolorset{gray/rgb/hsb/cmyk}{}{}%
 {leadgray,.90/.90,.90,.90/0,0,.90/0,0,0,.10;%
 wagray,.70/.70,.70,.70/0,0,.70/0,0,0,.30;%
@@ -1799,11 +1820,8 @@ ganttgray,.60/.60,.60,.60/0,0,.60/0,0,0,.40}
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{environment}{wp@figure}
-%   This environment makes legend for the table (but not the contents) for the |\wpfig|
-%   macro. The main work achieved here is to generate the head line (sideways) and the
-%   footer in the various cases given by the package options.\ednote{this is a bit of
-%   misnomer, it does not do the figure bit. }
+%  We first define the options for the |\wpfig| macro, they specify what columns we have
+%  in the table. 
 %    \begin{macrocode}
 \newcounter{wpfig@options}
 \define@key{wpfig}{size}{\def\wpfig@size{#1}\@dmp{size=#1}}
@@ -1820,6 +1838,15 @@ ganttgray,.60/.60,.60,.60/0,0,.60/0,0,0,.40}
 \define@key{wpfig}{end}[true]{\def\wpfig@end{#1}\stepcounter{wpfig@options}}
 \define@key{wpfig}{label}{\def\wpfig@label{#1}}
 \define@key{wpfig}{caption}{\def\wpfig@caption{#1}}
+%    \end{macrocode}
+%
+% \begin{environment}{wp@figure}
+%   This environment makes legend for the table (but not the contents) for the |\wpfig|
+%   macro. The main work achieved here is to generate the head line (sideways) and the
+%   footer in the various cases given by the package options.\ednote{this is a bit of
+%   misnomer, it does not do the figure bit. } Depending on the various class and |wpfig|
+%   options, we make header and footer line for the table.
+%    \begin{macrocode}
 \def\@sw#1{\begin{sideways}#1\end{sideways}}
 \newenvironment{wp@figure}{\begin{table}[ht]\wpfig@style\begin{center}
 {\let\@sw\relax\let\textbf\relax\let\site\relax\let\pn\relax\let\sys\relax%
@@ -2406,7 +2433,6 @@ joint&\multicolumn{\the@site}{l|}{\jpub $\hat=$ publication, \jpro $\hat=$ proje
 % now the multilinguality support
 %    \begin{macrocode}
 \newcommand\coherence@caption{Previous Collaboration between {\pn} members}
-%</cls>
 %    \end{macrocode}
 % \end{macro}
 %
@@ -2415,7 +2441,6 @@ joint&\multicolumn{\the@site}{l|}{\jpub $\hat=$ publication, \jpro $\hat=$ proje
 %   We first define a bibLaTeX bibliography heading that does not create headers, we need
 %   it somewhere. 
 %    \begin{macrocode}
-%<*cls|reporting>
 \defbibheading{empty}{}
 %    \end{macrocode}
 % We define an internal macro that prints a publication list of a given {bib\TeX} entry
@@ -2486,7 +2511,7 @@ joint&\multicolumn{\the@site}{l|}{\jpub $\hat=$ publication, \jpro $\hat=$ proje
                    use the pubspage key in the proposal environment!}}
   {\prop@warnpubs@message%
  \@for\@I:=\prop@gen@pubspages\do{\par\noindent\csname\@I\endcsname}}}
-%</cls|reporting>
+%</sty>
 %    \end{macrocode}
 %
 % \subsection{Miscellaneous}\label{sec:impl:misc}

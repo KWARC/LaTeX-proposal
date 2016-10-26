@@ -7,7 +7,7 @@
 %% proposal.dtx  (with options: `pdata')
 %% 
 \NeedsTeXFormat{LaTeX2e}[1999/12/01]
-\ProvidesPackage{pdata}[2016/04/15 v1.5 Project Data]
+\ProvidesPackage{pdata}[2016/10/26 v1.6 Project Data]
 \RequirePackage{workaddress}[2016/07/06]
 \RequirePackage{eurosym}
 \newif\if@sites\@sitesfalse\let\prop@gen@sites=\relax%
@@ -74,140 +74,6 @@
 \tab@line}
 \def\prop@gen@compactht{false}
 \define@key{prop@gen}{compactht}[true]{\def\prop@gen@compactht{#1}}
-\newcommand\deliv@error{\PackageError{proposal}
-{To use use deliverables, you have to specify the option 'deliverables'}}
-\newenvironment{wpdelivs}{\begin{wp@delivs}}{\end{wp@delivs}}
-\newenvironment{wp@delivs}
-{\ifdelivs\textbf\deliv@legend@delivs:\\[-3ex]%
-\begin{compactdesc}\else\deliv@error\fi}
-{\ifdelivs\end{compactdesc}\fi}
-\newcommand\deliv@legend@delivs{Deliverables}
-\newenvironment{wadelivs}
-{\textbf\deliv@legend@delivs:\\[-3ex]\begin{wp@delivs}}
-{\end{wp@delivs}}
-\newcommand\lec[1]{\strut\hfil\strut\null\nobreak\hfill\hbox{$\leadsto$#1}\par}
-\newcommand\deliv@label[1]{D{#1}}
-\newcommand\delivref[2]{\pdataRef{deliv}{#1@#2}{label}}
-\newcommand\localdelivref[1]{\delivref{\wp@id}{#1}}
-\newcommand\delivtref[2]{\delivref{#1}{#2}: \pdataRefFB{deliv}{#1@#2}{short}{title}}
-\newcommand\localdelivtref[1]{\delivtref{\wp@id}{#1}}
-\define@key{deliv}{id}{\def\deliv@id{#1}}
-\define@key{deliv}{due}{\def\deliv@due{#1}}
-\define@key{deliv}{dissem}{\def\deliv@dissem{#1}}
-\define@key{deliv}{nature}{\def\deliv@nature{#1}}
-\define@key{deliv}{miles}{\def\deliv@miles{#1}}
-\define@key{deliv}{short}{\def\deliv@short{#1}}
-\define@key{deliv}{lead}{\def\deliv@lead{#1}}
-\define@key{deliv}{issue}{\def\deliv@issue{#1}}
-\newcounter{deliverable}
-\newcommand{\wpg@deliv}[3]{% keys, title, type
-\stepcounter{deliverable}
-\let\deliv@miles=\relax% clean state
-\def\@type{#3}\def\@wp{wp}% set up ifx
-\def\wpg@id{\csname #3@id\endcsname}
-\setkeys{deliv}{#1}\stepcounter{deliv}% set state
-\ifx\@type\@wp\def\current@label{\deliv@label{\ifwork@areas\thewa.\fi\thewp.\thedeliv}}
-\else\def\current@label{\deliv@label{\thewa.\thedeliv}}\fi
-\pdata@def{deliv}{\taskin\deliv@id\wpg@id}{label}{\current@label}
-\pdata@def{deliv}{\taskin\deliv@id\wpg@id}{title}{#2}
-\pdata@def{deliv}{\taskin\deliv@id\wpg@id}{page}{\thepage}%
-\@ifundefined{deliv@short}
-{\pdata@def{deliv}{\taskin\deliv@id\wpg@id}{short}{#2}}
-{\pdata@def{deliv}{\taskin\deliv@id\wpg@id}{short}{\deliv@short}}
-\@ifundefined{deliv@nature}
-{\protect\G@refundefinedtrue\@latex@warning{key 'nature' for Deliv \wpg@id undefined}}
-{\pdata@def{deliv}{\taskin\deliv@id\wpg@id}{nature}{\deliv@nature}}
-\@ifundefined{deliv@dissem}
-{\protect\G@refundefinedtrue\@latex@warning{key 'dissem' for Deliv \wpg@id undefined}}
-{\pdata@def{deliv}{\taskin\deliv@id\wpg@id}{dissem}{\deliv@dissem}}
-\@ifundefined{deliv@lead}
-{\protect\G@refundefinedtrue\@latex@warning{key 'lead' for Deliv \wpg@id  undefined}}
-{\pdata@def{deliv}{\taskin\deliv@id\wpg@id}{lead}{\deliv@lead}}
-\@ifundefined{deliv@due}{}{%
-\@ifundefined{deliv@issue}{}{\pdata@def{deliv}{\taskin\deliv@id\wpg@id}{issue}{\deliv@issue}}
-\@for\@I:=\deliv@due\do{\protected@write\wpg@delivs{}{\string\deliverable%
-{\ifnum\@I<10 0\@I\else\@I\fi}% sort key
-{\@I}% due date
-{\current@label}% label
-{\@ifundefined{deliv@id}{??}{\taskin\deliv@id\wpg@id}}% id
-{\@ifundefined{deliv@dissem}{??}{\deliv@dissem}}% dissemination level
-{\@ifundefined{deliv@nature}{??}{\deliv@nature}}% nature
-{#2}
-{\ifx\@type\@wp{WP\ifwork@areas\thewa.\fi\thewp}\else{WA\thewa}\fi}%WP
-{\@ifundefined{deliv@lead}{??}{\string\site{\deliv@lead}}}}}}% lead
-\item[\current@label\ (%
-\delivs@legend@due: \@ifundefined{deliv@due}{??}{\deliv@due},
-\delivs@legend@nature: \@ifundefined{deliv@nature}{??}{\deliv@nature},
-\delivs@legend@dissem: \@ifundefined{deliv@dissem}{??}{\deliv@dissem},
-\delivs@legend@lead: \@ifundefined{deliv@lead}{??}{\site{\deliv@lead}})]
- \pdata@target{deliv}{\taskin\deliv@id\wpg@id}{\textit{#2}}
-\@ifundefined{deliv@miles}{}{% print the milestones and update their deliverables
-\let\m@sep=\relax% do not print the separator the first time round
-\lec{\@for\@I:=\deliv@miles\do{% Iterate over the milestones mentioned
-\m@sep\pdataRef{mile}{\@I}{label}% print the milestone reference
-\let\m@sep=,}}%set the separator for the next times
-\def\d@sep{,}
- \@for\@I:=\deliv@miles\do{% Iterate over the milestones mentioned
- \expandafter\ifx\csname\@I delivs\endcsname\relax% Check that the miles@delivs is empty
-  {\expandafter\xdef\csname\@I delivs\endcsname{\wpg@id @\deliv@id}}% if so, skip the separator
-   \else\expandafter\xdef\csname\@I delivs\endcsname%if not add it
-      {\csname\@I delivs\endcsname\d@sep\wpg@id @\deliv@id}\fi}}}
-\newenvironment{wadeliv}[2][]{\ifdelivs\wpg@deliv{#1}{#2}{wa}\else\deliv@error\fi}{}
-\newenvironment{wpdeliv}[2][]{\ifdelivs\wpg@deliv{#1}{#2}{wp}\else\deliv@error\fi}{}
-\newcommand\milestone@label[1]{M{#1}}
-\newcommand\mileref[1]{\pdataRef{mile}{#1}{label}}
-\newcommand\miletref[1]{\mileref{#1}: \pdataRefFB{mile}{#1}{short}{title}}
-\newcounter{milestone}
-\define@key{milestone}{id}{\gdef\mile@id{#1}}
-\define@key{milestone}{month}{\gdef\mile@month{#1}}
-\newcommand\milestone[3][]{%
-\ifdelivs%
-\setkeys{milestone}{#1}\stepcounter{milestone}%
-\pdata@def{mile}\mile@id{label}{\milestone@label{\themilestone}}%
-\pdata@def{mile}\mile@id{month}{\mile@month}%
-\pdata@def{mile}\mile@id{title}{#2}%
-\pdata@def{mile}\mile@id{description}{#3}%
-\@ifundefined{mile@stones}%
-{\xdef\mile@stones{\mile@id}}%
-{\xdef\mile@stones{\mile@stones,\mile@id}}%
-\@milestone{\mile@id}{#2}{#3}% presentation
-\else\deliv@error\fi}
-\newcommand\@milestone[3]{% id, title, description
-\item \textbf{\miles@legend@milestone\xspace\pdata@target{mile}\mile@id{\pdataref{mile}{#1}{label}}
-(\miles@legend@month \pdataref{mile}\mile@id{month})
-\textbf{#2}} #3}
-\newcommand\miles@legend@month{Month}
-\newcommand\miles@legend@milestone{Milestone}
-\newenvironment{milestones}%
-{\ifdelivs\begin{@milestones}\else\deliv@error\fi}
-{\ifdelivs\pdata@def{all}{mile}{ids}{\mile@stones}%
-\pdata@def{all}{mile}{count}{\themilestone}%
-\end{@milestones}\fi}
-\newenvironment{@milestones}{\begin{enumerate}}{\end{enumerate}}
-\newcommand{\deliverable}[9]{\pdataRef{deliv}{#4}{label}&#7&#8&#9&#6&#5&#2\\\hline}%sortkey,due,label,id,title,type,level,lead
-\newenvironment{deliverables}[1]{\ifdelivs\begin{longtable}{|l|p{#1}|l|l|l|l|l|}\hline%
-\#&\textbf{\delivs@legend@name}&%
-\textbf{\delivs@legend@wp}&%
-\textbf{\delivs@legend@lead}&%
-\textbf{\delivs@legend@nature}&%
-\textbf{\delivs@legend@level}&%
-\textbf{\delivs@legend@due}\\\hline\hline%
-\endhead%
-\else\deliv@error\fi}
-{\ifdelivs\end{longtable}\fi}
-\newcommand\delivs@legend@name{Deliverable name}
-\newcommand\delivs@legend@wp{WP}
-\newcommand\delivs@legend@nature{Type}
-\newcommand\delivs@legend@level{Level}
-\newcommand\delivs@legend@due{Due}
-\newcommand\delivs@legend@dissem{Dissem.}
-\newcommand\delivs@legend@lead{Lead}
-\newcommand{\inputdelivs}[1]{%
-\begin{deliverables}{#1}%
-\IfFileExists{\jobname.deliverables}%
-{\input{\jobname.deliverables}}%
-{\IfFileExists{\jobname.delivs}{\input{\jobname.delivs}}{}}
-\end{deliverables}}
 \newif\ifwork@areas\work@areastrue
 \DeclareOption{noworkareas}{\work@areasfalse}
 \ProcessOptions
