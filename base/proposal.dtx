@@ -1775,15 +1775,6 @@
 %
 % \subsection{The Work Package Table}\label{sec:impl:wptable}
 %
-% \begin{macro}{\prop@lead}
-%    \begin{macrocode}
-%<*cls>
-\newcommand\prop@lead[1]{\@ifundefined{wp@#1@lead}%
-{\protect\G@refundefinedtrue\@latex@warning{lead for WP #1 undefined}??}%
-{\csname wp@#1@lead\endcsname}}
-%    \end{macrocode}
-% \end{macro}
-%
 % \begin{macro}{\*@style}
 %   These macros\ednote{maybe add ``wpfig'' in the name to show dependency} determine the
 %   styling of cells in the work package table. That can be tweaked by redefining them.
