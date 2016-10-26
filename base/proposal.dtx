@@ -282,7 +282,7 @@
 % by the following keys:
 % \begin{compactitem}
 % \item The \DescribeMacro{id}|id| key is used to specify a label for cross-referencing the
-%   work package or work group, it must be document-unique.
+%   work package or work area, it must be document-unique.
 % \item The \DescribeMacro{title}|title| and \DescribeMacro{short}|short| keys are used
 %   for the work package/group title. The short title is used in tables and should not be
 %   longer than 15 characters.
@@ -306,10 +306,10 @@
 %   \DescribeMacro{*RM}\meta{site}|RM| (and \DescribeMacro{*RAM}\meta{site}|RAM|) where
 %   \meta{site} is any site label declared via the |site| key in the top-level |proposal|
 %   environment. This can be used to specify the person months that the site spends on
-%   this work package (the value for work groups is automatically computed (remember to
+%   this work package (the value for work areas is automatically computed (remember to
 %   run {\LaTeX} twice for this)).
 % \item In multi-site proposals the \DescribeMacro{lead} |lead| key specifies the work
-%   package or work group lead, the value of this feature should be the short name of the
+%   package or work area lead, the value of this feature should be the short name of the
 %   respective partner.
 % \item For work packages with many prospers the \DescribeMacro{swsites}|swsites| key
 %   can be given (no value needed) to turn the site names sideways to conserve
@@ -438,7 +438,7 @@
 % \subsection{Referencing and Hyperlinking}\label{sec:user:hyperlinking} 
 % 
 % The |proposal| package extends the hyperlinking provided by the |hyperref| package it
-% includes to work packages, work groups, \ldots. Whenever these are defined using the
+% includes to work packages, work areas, \ldots. Whenever these are defined using the
 % |proposal| infrastructure, the class saves the relevant information in the auxiliary
 % file \meta{proposal}|.aux|. This information can be referenced via the
 % \DescribeMacro  {\pdataref}|\pdataref| macro, which takes three arguments.
@@ -456,7 +456,7 @@
 % For a work package \meta{aspect} can be |number|, (the work package number), |label|
 % (the label {\bf{WP$n$}} where $n$ is the work package number for referencing), |title|
 % (the work package title), |lead| the work package leader, |short| (a short version of
-% the WP title for tables). For work groups we have the same aspects with analogous
+% the WP title for tables). For work areas we have the same aspects with analogous
 % meanings. In all cases, the referenced information carries a hyperlink to the referenced
 % object.  
 % 
@@ -957,9 +957,9 @@
 %    \end{macrocode}
 % \end{macro}
 % 
-% \subsection{Work Packages and Work Groups}\label{sec:impl:wpwa}
+% \subsection{Work Areas and Work Packages}\label{sec:impl:wpwa}
 %    
-% We first define keys for  work groups (if we are in an IP). 
+% We first define keys for  work areas (if we are in larger project). 
 %    \begin{macrocode}
 \ifwork@areas
 \define@key{workarea}{id}{\def\wa@id{#1}\@dmp{id=#1}}
@@ -978,7 +978,7 @@
 \define@key{workpackage}{wphases}{\def\wp@wphases{#1}\pdata@def{wp}\wp@id{wphases}{#1}}
 \define@key{workpackage}{swsites}[true]{\def\wp@swsites{#1}}
 %    \end{macrocode}
-% We define the constructors for the work package and work group labels and titles. 
+% We define the constructors for the work package and work area labels and titles. 
 %    \begin{macrocode}
 \newcommand\wp@mk@title[1]{Work Package {#1}}
 \newcommand\wp@label[1]{WP{#1}}
@@ -987,7 +987,7 @@
 \newcommand\wa@mk@title[1]{Work Area {#1}}
 \fi
 %    \end{macrocode}
-% The |wa| and |wp| counters are for the work packages and work groups, the counter
+% The |wa| and |wp| counters are for the work packages and work areas, the counter
 % |deliv| for deliverables.
 %    \begin{macrocode}
 \ifwork@areas\newcounter{wa}\newcounter{wp}[wa]\else\newcounter{wp}\fi
@@ -997,7 +997,7 @@
 % 
 % \begin{macro}{\update@*}
 %   update the list |\@wps| of the work packages in the local group and the list |\@was|
-%   work groups for the staff efforts table: if |\@wps| is undefined, then initialize the
+%   work areas for the staff efforts table: if |\@wps| is undefined, then initialize the
 %   comma-separated list, otherwise extend it.\ednote{with the current architecture, we
 %   cannot have work areas that do not contain work packages, this leads to the error that
 %   |\@wps| is undefined in |end{workplan}|}
@@ -1179,7 +1179,7 @@
 % \end{macro}
 % 
 % \begin{environment}{workarea}
-%   the |workarea| environment for work groups is almost the same, but we also have to
+%   the |workarea| environment for work areas is almost the same, but we also have to
 %   initialize the work package counters. Also, the efforts can be computed from the work
 %   packages in this group via the |wa@effort| counter
 %    \begin{macrocode}
@@ -1225,7 +1225,7 @@
 % 
 % \begin{environment}{workplan}
 %   The |workplan| environment sets up the accumulator macros |\@wps|, |\@was|, for the
-%   collecting the identifiers of work packages and work groups. At the end of the
+%   collecting the identifiers of work packages and work areas. At the end of the
 %   workplan description it writes out their content to the aux file for reference.
 %    \begin{macrocode}
 \ifdelivs\newwrite\wpg@delivs\fi
@@ -1787,6 +1787,9 @@ ganttgray,.60/.60,.60,.60/0,0,.60/0,0,0,.40}
 % \end{macro}
 % 
 % \begin{environment}{wp@figure}
+%   This environment makes legend for the table (but not the contents) for the |\wpfig|
+%   macro. The main work achieved here is to generate the head line (sideways) and the
+%   footer in the various cases given by the package options.
 %    \begin{macrocode}
 \newcounter{wpfig@options}
 \define@key{wpfig}{size}{\def\wpfig@size{#1}\@dmp{size=#1}}
