@@ -20,13 +20,13 @@ should work.
 ```
 cd /path/to/your/setup
 git clone https://github.com/KWARC/LaTeX-proposal
-echo 'export BIBINPUTS = "$(BIBINPUTS):/path/to/your/setup/LaTeX-proposal//:"' > ~/.bashrc
+echo 'export BIBINPUTS = "$(BIBINPUTS):/path/to/your/setup/LaTeX-proposal//:"' >> ~/.bashrc
 ```
 Of course you will have to replace ```/path/to/your/setup``` with a path appropriate to
 your system. A simple ```git pull``` will update you to the newest version.
 
 Then you can just copy one of the examples at ```LaTeX-proposal/*/examples/*``` to your
-system and start editing (you should proabably adapt the upper section of the
+system and start editing (you should probably adapt the upper section of the
 ```Makefile``` accordingly).
 
 If you want to use the LaTeX proposal class in a revision control system for a larger
