@@ -53,7 +53,7 @@ $(TARGET.pdf): %.pdf: %.tex $(SRC) $(BIB) $(PROPCLS)
 #	sort $(PROPOSAL:%.tex=%.delivs) > $(PROPOSAL:%.tex=%.deliverables)
 	@if (test -e $(patsubst %.tex, %.idx,  $<));\
 	    then makeindex $(patsubst %.tex, %.idx,  $<); fi
-	$(MAKE) -$(MAKEFLAGS) $(BBL)
+# bbl is up to date $(MAKE) -$(MAKEFLAGS) $(BBL)
 	@if (grep "(re)run BibTeX" $(patsubst %.tex, %.log,  $<)> /dev/null);\
 	    then $(MAKE) -B $(BBL); fi
 	$(PDFLATEX)  $< || $(RM) $@
