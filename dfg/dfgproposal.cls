@@ -46,10 +46,10 @@
 {\large\today}\\[1em]
 \WAauthorblock[aff]\prop@gen@PIs\\[2cm]
 \end{center}
+\ifgeneral\setcounter{section}{-1}
 \edef\keep@tocdepth{\value{tocdepth}}
 \setcounter{tocdepth}{2}\tableofcontents
 \setcounter{tocdepth}{\keep@tocdepth}
-\ifgeneral\setcounter{section}{-1}
 \newpage\thispagestyle{empty}
 \ifdeutsch\section{Allgemeine Angaben (nur f\"ur ELAN)}\else
 \section{General Information (for the ELAN system only)}\fi

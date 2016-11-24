@@ -2309,9 +2309,9 @@ ganttgray,.60/.60,.60,.60/0,0,.60/0,0,0,.40}
 % now the multilingual support
 %    \begin{macrocode}
 \newcommand\gantt@caption@main{Gantt Chart: Overview Work Package Activities}
-\newcommand\gantt@caption@lower{lower bar shows the overall effort \if@RAM (RAM only)\fi per month}
+\newcommand\gantt@caption@lower{lower bar shows the overall effort \if@RAM (RM only) \fi per month}
 \newcommand\gantt@caption{\gantt@caption@main\ifgantt@draft\xspace
-  (\gantt@caption@lower)\fi}
+  -- \gantt@caption@lower\fi}
 \newcommand\gantt@footnote{Bars shown at reduced height (e.g. 50\%) indicate reduced
   intensity during  that work phase  (e.g. to 50\%).}
 %    \end{macrocode}
