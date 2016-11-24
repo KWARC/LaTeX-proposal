@@ -2512,6 +2512,23 @@ joint&\multicolumn{\the@site}{l|}{\jpub $\hat=$ publication, \jpro $\hat=$ proje
  \@for\@I:=\prop@gen@pubspages\do{\par\noindent\csname\@I\endcsname}}}
 %</sty>
 %    \end{macrocode}
+% 
+% Finally, we tweak {bib\LaTeX} to not give DOIs and URLS at the same time. 
+%   \begin{macrocode}
+\renewbibmacro*{event+venue+date}{}
+\renewbibmacro*{doi+eprint+url}{%
+  \iftoggle{bbx:doi}
+    {\printfield{doi}\iffieldundef{doi}{}{\clearfield{url}}}
+    {}%
+  \newunit\newblock
+  \iftoggle{bbx:eprint}
+    {\usebibmacro{eprint}}
+    {}%
+  \newunit\newblock
+  \iftoggle{bbx:url}
+    {\usebibmacro{url+urldate}}
+    {}}
+%    \end{macrocode}
 %
 % \subsection{Miscellaneous}\label{sec:impl:misc}
 % 

@@ -118,6 +118,19 @@
 \newcommand\WAref[1]{\pdataRef{wa}{#1}{label}}
 \newcommand\WAtref[1]{\WAref{#1}: \pdataRefFB{wa}{#1}{short}{title}}
 \fi
+\renewbibmacro*{event+venue+date}{}
+\renewbibmacro*{doi+eprint+url}{%
+  \iftoggle{bbx:doi}
+    {\printfield{doi}\iffieldundef{doi}{}{\clearfield{url}}}
+    {}%
+  \newunit\newblock
+  \iftoggle{bbx:eprint}
+    {\usebibmacro{eprint}}
+    {}%
+  \newunit\newblock
+  \iftoggle{bbx:url}
+    {\usebibmacro{url+urldate}}
+    {}}
 \newcommand{\signatures}[1]{\section{#1}
 \qquad\number\day. \number\month. \number\year\\[6ex]
 \strut\qquad Date\hfill\@for\@p:=\prop@gen@PIs\do{%
