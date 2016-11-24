@@ -1320,7 +1320,7 @@
 % \begin{environment}{task}
 %    \begin{macrocode}
 \newcounter{alltasks}
-\def\task@post@title@space{\quad}
+\def\task@post@title@space{ }
 \newcommand\task@legend@partners{Sites: }
 \newcommand\task@legend@PM{PM}
 \newenvironment{task}[1][]%
@@ -1333,10 +1333,9 @@
 \@@sep\show@wphase\wphase@start\wphase@end\wphase@force%
 \let\@@sep=\sep@wphases}%
 \fi% initial
-\hfill%
 \ifsubmit\else\ifx\task@PM\@empty\else\task@PM~\task@legend@PM;\fi\fi%
-\ifx\task@lead\@empty\else\ \task@legend@partners\site\task@lead~(\legend@lead)\fi%
-\@for\@I:=\task@partners\do{, \site\@I}\\%
+\ifx\task@lead\@empty\else\ \task@legend@partners\site\task@lead~(\legend@lead)%
+\@for\@I:=\task@partners\do{, \site\@I}\\\fi%
 \ignorespaces}
 {\medskip}
 %    \end{macrocode}
@@ -2620,9 +2619,9 @@ joint&\multicolumn{\the@site}{l|}{\jpub $\hat=$ publication, \jpro $\hat=$ proje
 % LocalWords:  milesfor longtable footnotemark footnotetext sortkey inputdelivs bbx:url
 % LocalWords:  makeatletter makeatother italicised tikzpicture paperlist jpro cht@stretch
 % LocalWords:  textcolor namedef namedef nameuse setlength tabcolsep clange ppl urldate
-% LocalWords:  arraystretch thedeliverable biboldfont bibfont sitename darkblue
-% LocalWords:  wpsubsection wpsubsection wpsubsectionfalse wpsubsectiontrue ppl
-% LocalWords:  definecolor medskip fundsuntil fundsuntil defernumbers shortname
+% LocalWords:  arraystretch thedeliverable biboldfont bibfont sitename darkblue 5,step
+% LocalWords:  wpsubsection wpsubsection wpsubsectionfalse wpsubsectiontrue ppl 2pt,color
+% LocalWords:  definecolor medskip fundsuntil fundsuntil defernumbers shortname 2,title
 % LocalWords:  totalduration circ orga notype allpapers allpaperstrue prl sym bbx:eprint
 % LocalWords:  allpapersfalse subbibliography unclass inbook confpapers wphases
 % LocalWords:  inproceedings wspapers notkeyword techreports techreport emphbox

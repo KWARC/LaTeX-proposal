@@ -309,7 +309,7 @@
 \setkeys{task}{#1}}
 \def\task@post@title@space{\;}
 \newcounter{alltasks}
-\def\task@post@title@space{\quad}
+\def\task@post@title@space{ }
 \newcommand\task@legend@partners{Sites: }
 \newcommand\task@legend@PM{PM}
 \newenvironment{task}[1][]%
@@ -322,10 +322,9 @@
 \@@sep\show@wphase\wphase@start\wphase@end\wphase@force%
 \let\@@sep=\sep@wphases}%
 \fi% initial
-\hfill%
 \ifsubmit\else\ifx\task@PM\@empty\else\task@PM~\task@legend@PM;\fi\fi%
-\ifx\task@lead\@empty\else\ \task@legend@partners\site\task@lead~(\legend@lead)\fi%
-\@for\@I:=\task@partners\do{, \site\@I}\\%
+\ifx\task@lead\@empty\else\ \task@legend@partners\site\task@lead~(\legend@lead)%
+\@for\@I:=\task@partners\do{, \site\@I}\\\fi%
 \ignorespaces}
 {\medskip}
 \newcommand\month@label[1]{M#1}
