@@ -60,19 +60,6 @@
 \end{center}
 \setcounter{tocdepth}{2}\tableofcontents\newpage\setcounter{page}{1}}
 {}
-\renewbibmacro*{event+venue+date}{}
-\renewbibmacro*{doi+eprint+url}{%
-  \iftoggle{bbx:doi}
-    {\printfield{doi}\iffieldundef{doi}{}{\clearfield{url}}}
-    {}%
-  \newunit\newblock
-  \iftoggle{bbx:eprint}
-    {\usebibmacro{eprint}}
-    {}%
-  \newunit\newblock
-  \iftoggle{bbx:url}
-    {\usebibmacro{url+urldate}}
-    {}}
 \endinput
 %%
 %% End of file `reporting.cls'.

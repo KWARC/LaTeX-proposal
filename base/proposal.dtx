@@ -2510,7 +2510,6 @@ joint&\multicolumn{\the@site}{l|}{\jpub $\hat=$ publication, \jpro $\hat=$ proje
                    use the pubspage key in the proposal environment!}}
   {\prop@warnpubs@message%
  \@for\@I:=\prop@gen@pubspages\do{\par\noindent\csname\@I\endcsname}}}
-%</sty>
 %    \end{macrocode}
 % 
 % Finally, we tweak {bib\LaTeX} to not give DOIs and URLS at the same time. 
@@ -2528,6 +2527,7 @@ joint&\multicolumn{\the@site}{l|}{\jpub $\hat=$ publication, \jpro $\hat=$ proje
   \iftoggle{bbx:url}
     {\usebibmacro{url+urldate}}
     {}}
+%</sty>
 %    \end{macrocode}
 %
 % \subsection{Miscellaneous}\label{sec:impl:misc}
