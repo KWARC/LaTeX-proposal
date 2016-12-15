@@ -17,6 +17,9 @@ package doc:
 ########################################################################
 # CTAN submission
 ########################################################################
+#
+# For CTAN submission just run "make ctan". This creates the file 
+#
 # Directories that should be copied into top-level directories
 # - source (the *.dtx and *.ins files),
 # - doc    (package/class documentation), and 
