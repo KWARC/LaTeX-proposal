@@ -7,7 +7,7 @@
 %% dfgproposal.dtx  (with options: `cls')
 %% 
 \NeedsTeXFormat{LaTeX2e}[1999/12/01]
-\ProvidesClass{dfgproposal}[2016/04/15 v1.4 DFG Proposal]
+\ProvidesClass{dfgproposal}[2016/11/24 v1.4 DFG Proposal]
 \newif\ifgeneral\generalfalse
 \DeclareOption{general}{\generaltrue}
 \DeclareOption{german}{\PassOptionsToPackage{\CurrentOption}{dfgpdata}}

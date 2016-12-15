@@ -4,7 +4,7 @@ TDSCOLL = proposal
 DTX.cls.base = dfgproposal
 DTX = dfgproposal.dtx
 TDS.tex = dfgreporting.cls dfgpdata.sty
-TDS.exdirs = examples/proposal examples/report
+TDS.exdirs = examples/proposal examples/report examples/lib
 CTAN = $(TDS.tex)
 EXDIRS = examples
 

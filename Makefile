@@ -18,7 +18,9 @@ package doc:
 # CTAN submission
 ########################################################################
 #
-# For CTAN submission just run "make ctan". This creates the file 
+# For CTAN submission just run "make ctan".
+# This creates the file proposal.ctan.zip which can then be submitted to
+# http://ctan.org/upload directly. 
 #
 # Directories that should be copied into top-level directories
 # - source (the *.dtx and *.ins files),
@@ -35,6 +37,5 @@ filedate checksum enablechecksum disablechecksum:
 
 GITURI = git@github.com:KWARC/LaTeX-proposal.git 
 TDS.src = 
-TDS.src =
 TDS.readme = README.ctan
 include lib/Makefile.ctan

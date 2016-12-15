@@ -7,7 +7,7 @@
 %% euproposal.dtx  (with options: `reporting')
 %% 
 \NeedsTeXFormat{LaTeX2e}[1999/12/01]
-\ProvidesPackage{eureporting}[2016/04/15 v1.5 EU Project Reporting]
+\ProvidesPackage{eureporting}[2016/07/06 v1.5 EU Project Reporting]
 
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{reporting}}
 \ProcessOptions
