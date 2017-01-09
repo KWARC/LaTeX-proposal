@@ -97,7 +97,7 @@ a chance to break things).
 To contribute changes back to the the LaTeX-proposal  repository, you analogously do 
 
 1. go to the top of your paper prehistory: ```cd path/to/top``` (you can only push from there)
-2. pull the LaTeX-proposal  repos as a "subrepo": ```git subrepo push LaTeX-proposal```
+2. do the push: ```git subrepo push LaTeX-proposal```
 
 easypeasy!
 
