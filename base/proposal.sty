@@ -7,7 +7,7 @@
 %% proposal.dtx  (with options: `sty')
 %% 
 \NeedsTeXFormat{LaTeX2e}[1999/12/01]
-\ProvidesPackage{proposal}[2016/11/24 v1.6 Project Proposal]
+\ProvidesPackage{proposal}[2016/12/15 v1.6 Project Proposal]
 \RequirePackage{amssymb}
 \RequirePackage{wasysym}
 \RequirePackage{url}
@@ -93,6 +93,8 @@
 \if@sites\else
 \define@key{workpackage}{RM}{\pdata@def{wp}\wp@id{RM}{##1}\@dmp{RM=##1}}
 \if@RAM\define@key{workpackage}{RAM}{\pdata@def{wp}\wp@id{RAM}{##1}\@dmp{RAM=##1}}\fi
+\define@key{task}{RM}{\pdata@def{task}{\wp@id @\task@id}{RM}{##1}\@dmp{RM=##1}}
+\if@RAM\define@key{task}{RAM}{\pdata@def{wp}{\wp@id @\task@id}{RAM}{##1}\@dmp{RAM=##1}}\fi
 \fi
 \newcounter{@PIs}
 \@ifundefined{prop@gen@PIs}{}{\@for\@I:=\prop@gen@PIs\do{\stepcounter{@PIs}}}
@@ -316,7 +318,8 @@
 {\stepcounter{alltasks}%
 \@task{#1}\item[\pdata@target{task}{\taskin\task@id\wp@id}{\task@label\thewp\thetask@wp}]%
 \ifx\task@title\@empty\else\textbf\task@title\fi\task@post@title@space%
-\def\@initial{0-0}\ifx\task@wphases\@initial\else%
+\def\@initial{0-0}%
+\ifx\task@wphases\@initial\else%
 \let\@@sep=\relax\@for\@I:=\task@wphases%
 \do{\decode@wphase\@I%
 \@@sep\show@wphase\wphase@start\wphase@end\wphase@force%
@@ -325,6 +328,11 @@
 \ifsubmit\else\ifx\task@PM\@empty\else\task@PM~\task@legend@PM;\fi\fi%
 \ifx\task@lead\@empty\else\ \task@legend@partners\site\task@lead~(\legend@lead)%
 \@for\@I:=\task@partners\do{, \site\@I}\\\fi%
+\ifx\task@partners\@empty
+\@for\@site:=\prop@gen@sites\do{%
+\edef\@@RM{\pdataref@safe{\wp@id @\task@id}\@site{RM}}%
+\ifx\@@RM\@empty\else\site{\@site}: \@@RM\if@RAM\ifx\@@RAM\@empty\else/\@@RM\fi\fi, \fi}%
+\fi% no partners key
 \ignorespaces}
 {\medskip}
 \newcommand\month@label[1]{M#1}

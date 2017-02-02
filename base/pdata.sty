@@ -7,7 +7,7 @@
 %% proposal.dtx  (with options: `pdata')
 %% 
 \NeedsTeXFormat{LaTeX2e}[1999/12/01]
-\ProvidesPackage{pdata}[2016/11/24 v1.6 Project Data]
+\ProvidesPackage{pdata}[2016/12/15 v1.6 Project Data]
 \RequirePackage{workaddress}[2016/07/06]
 \RequirePackage{eurosym}
 \newif\if@sites\@sitesfalse\let\prop@gen@sites=\relax%
@@ -19,6 +19,8 @@
 \if@RAM\define@key{prop@gen}{#1RAM}{\pdata@def{site}{#1}{intendedRAM}{##1}}\fi
 \define@key{workpackage}{#1RM}{\pdata@def\wp@id{#1}{RM}{##1}}%
 \if@RAM\define@key{workpackage}{#1RAM}{\pdata@def\wp@id{#1}{RAM}{##1}}\fi
+\define@key{task}{#1RM}{\pdata@def{\wp@id @\task@id}{#1}{RM}{##1}}%
+\if@RAM\define@key{task}{#1RAM}{\pdata@def{\wp@id @\task@id}{#1}{RAM}{##1}}\fi
 \define@key{prop@gen}{#1employed}{{\let\tabularnewline\relax\let\hline\relax\let\wa@ref\relax%
 \@ifundefined{prop@gen@employed@lines}%
 {\xdef\prop@gen@employed@lines{\wa@ref3{institution}{#1}{shortname} & ##1\tabularnewline\hline}}%

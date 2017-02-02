@@ -69,6 +69,7 @@
 % \changes{v1.4}{2013/01/12}{more documentation of milestones}
 % \changes{v1.5}{2014/01/14}{many layout tweaks support for CVs, milestones in gantt}
 % \changes{v1.6}{2016/10/26}{splitting off proposal.sty so that documentation becomes easier}
+% \changes{v1.6}{2017/02/01}{adding RM/RAM to tasks for fine-grained specification}
 % 
 % \GetFileInfo{proposal.cls}
 % 
@@ -735,6 +736,8 @@
 \if@RAM\define@key{prop@gen}{#1RAM}{\pdata@def{site}{#1}{intendedRAM}{##1}}\fi
 \define@key{workpackage}{#1RM}{\pdata@def\wp@id{#1}{RM}{##1}}%
 \if@RAM\define@key{workpackage}{#1RAM}{\pdata@def\wp@id{#1}{RAM}{##1}}\fi
+\define@key{task}{#1RM}{\pdata@def{\wp@id @\task@id}{#1}{RM}{##1}}%
+\if@RAM\define@key{task}{#1RAM}{\pdata@def{\wp@id @\task@id}{#1}{RAM}{##1}}\fi
 \define@key{prop@gen}{#1employed}{{\let\tabularnewline\relax\let\hline\relax\let\wa@ref\relax%
 \@ifundefined{prop@gen@employed@lines}%
 {\xdef\prop@gen@employed@lines{\wa@ref3{institution}{#1}{shortname} & ##1\tabularnewline\hline}}%
@@ -882,6 +885,8 @@
 \if@sites\else
 \define@key{workpackage}{RM}{\pdata@def{wp}\wp@id{RM}{##1}\@dmp{RM=##1}}
 \if@RAM\define@key{workpackage}{RAM}{\pdata@def{wp}\wp@id{RAM}{##1}\@dmp{RAM=##1}}\fi
+\define@key{task}{RM}{\pdata@def{task}{\wp@id @\task@id}{RM}{##1}\@dmp{RM=##1}}
+\if@RAM\define@key{task}{RAM}{\pdata@def{wp}{\wp@id @\task@id}{RAM}{##1}\@dmp{RAM=##1}}\fi
 \fi
 \newcounter{@PIs}
 \@ifundefined{prop@gen@PIs}{}{\@for\@I:=\prop@gen@PIs\do{\stepcounter{@PIs}}}
@@ -1318,24 +1323,51 @@
 % \end{macro}
 % 
 % \begin{environment}{task}
+%   The |task| environment. We first set up config stuff 
 %    \begin{macrocode}
 \newcounter{alltasks}
 \def\task@post@title@space{ }
 \newcommand\task@legend@partners{Sites: }
 \newcommand\task@legend@PM{PM}
+%    \end{macrocode}
+% now comes the environment proper. We first call |\@task| on the keyval argument to do
+% the metadata handling. Then we start formatting the task as an item in the |description|
+% list from the |tasklist| environment, and print the |title| if there is one 
+%    \begin{macrocode}
 \newenvironment{task}[1][]%
 {\stepcounter{alltasks}%
 \@task{#1}\item[\pdata@target{task}{\taskin\task@id\wp@id}{\task@label\thewp\thetask@wp}]%
 \ifx\task@title\@empty\else\textbf\task@title\fi\task@post@title@space%
-\def\@initial{0-0}\ifx\task@wphases\@initial\else%
+%    \end{macrocode}
+% now we decode and show the work phases on the task, if they have been specified.
+%    \begin{macrocode}
+\def\@initial{0-0}%
+\ifx\task@wphases\@initial\else%
 \let\@@sep=\relax\@for\@I:=\task@wphases%
 \do{\decode@wphase\@I%
 \@@sep\show@wphase\wphase@start\wphase@end\wphase@force%
 \let\@@sep=\sep@wphases}%
-\fi% initial
+\fi% initial 
+%    \end{macrocode}
+% in non-|submit| mode we give the specified PM for cross-checking
+%    \begin{macrocode}
 \ifsubmit\else\ifx\task@PM\@empty\else\task@PM~\task@legend@PM;\fi\fi%
+%    \end{macrocode}
+% and we list the partners who contribute if they are specified. 
+%    \begin{macrocode}
 \ifx\task@lead\@empty\else\ \task@legend@partners\site\task@lead~(\legend@lead)%
 \@for\@I:=\task@partners\do{, \site\@I}\\\fi%
+%    \end{macrocode}
+% if there are no partners, then we show the RM/RAM contributions specified (if any)
+%    \begin{macrocode}
+\ifx\task@partners\@empty
+\@for\@site:=\prop@gen@sites\do{%
+\edef\@@RM{\pdataref@safe{\wp@id @\task@id}\@site{RM}}%
+\ifx\@@RM\@empty\else\site{\@site}: \@@RM\if@RAM\ifx\@@RAM\@empty\else/\@@RM\fi\fi, \fi}%
+\fi% no partners key
+%    \end{macrocode}
+% finally, we ignore any spaces that may follow the the |task| environment
+%    \begin{macrocode}
 \ignorespaces}
 {\medskip}
 %    \end{macrocode}
