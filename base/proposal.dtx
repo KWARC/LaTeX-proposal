@@ -1293,7 +1293,7 @@
 % \begin{environment}{tasklist}
 %    \begin{macrocode}
 \newenvironment{tasklist}
-{\begin{compactenum}}{\end{compactenum}}
+{\smallskip\begin{compactenum}}{\end{compactenum}\smallskip}
 %    \end{macrocode}
 % \end{environment}
 % The next step is to 
@@ -1336,7 +1336,8 @@
 %    \begin{macrocode}
 \newenvironment{task}[1][]%
 {\stepcounter{alltasks}%
-\@task{#1}\item[\pdata@target{task}{\taskin\task@id\wp@id}{\task@label\thewp\thetask@wp}]%
+\@task{#1}%
+\item[\pdata@target{task}{\taskin\task@id\wp@id}{\task@label\thewp\thetask@wp}]%
 \ifx\task@title\@empty\else\textbf\task@title\fi\task@post@title@space%
 %    \end{macrocode}
 % now we decode and show the work phases on the task, if they have been specified.
@@ -1361,17 +1362,15 @@
 % if there are no partners, then we show the RM/RAM contributions specified (if any)
 %    \begin{macrocode}
 \ifx\task@partners\@empty
-\xdef\@@involvement{}%
-\xdef\@@inv{}%
-\xdef\@@sep{, }%
-\def\m@sep{}%
+\xdef\@@involvement{}\xdef\@@inv{}%
+\xdef\@@sep{, }\def\m@sep{}% do not show the sep the first time around
 \edef\@@sites{\prop@gen@sites}%
 \@for\@site:=\@@sites\do{%
 \edef\@@RM{\pdataref@safe{\wp@id @\task@id}\@site{RM}}%
 \ifx\@@RM\@empty\else\xdef\@@inv{showit}%
 \xdef\@@involvement{\@@involvement% and
 \m@sep\@site: \@@RM\if@RAM\ifx\@@RAM\@empty\else/\@@RM\fi\fi}
-\let\m@sep=\@@sep%
+\let\m@sep=\@@sep% but the second time show it.
 \fi}% \@@RM empty
 \ifx\@@inv\@empty\else(RM{\if@RAM/RAM\fi} distribution: \@@involvement)\strut\\\fi
 \fi% no partners key
@@ -1379,7 +1378,7 @@
 % finally, we ignore any spaces that may follow the the |task| environment
 %    \begin{macrocode}
 \ignorespaces}
-{\medskip}
+{\smallskip}
 %    \end{macrocode}
 % now the multilingual support and presentation configuration
 %    \begin{macrocode}

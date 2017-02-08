@@ -296,7 +296,7 @@
 \fi
 \ifdelivs\closeout\wpg@delivs\fi}
 \newenvironment{tasklist}
-{\begin{compactenum}}{\end{compactenum}}
+{\smallskip\begin{compactenum}}{\end{compactenum}\smallskip}
 \newcommand\task@label[2]{\textbf{T#1.#2}}
 \define@key{task}{id}{\def\task@id{#1}\@dmp{id=#1}}
 \define@key{task}{wphases}{\def\task@wphases{#1}\@dmp{wphases=#1}}
@@ -316,7 +316,8 @@
 \newcommand\task@legend@PM{PM}
 \newenvironment{task}[1][]%
 {\stepcounter{alltasks}%
-\@task{#1}\item[\pdata@target{task}{\taskin\task@id\wp@id}{\task@label\thewp\thetask@wp}]%
+\@task{#1}%
+\item[\pdata@target{task}{\taskin\task@id\wp@id}{\task@label\thewp\thetask@wp}]%
 \ifx\task@title\@empty\else\textbf\task@title\fi\task@post@title@space%
 \def\@initial{0-0}%
 \ifx\task@wphases\@initial\else%
@@ -329,22 +330,20 @@
 \ifx\task@lead\@empty\else\ \task@legend@partners\site\task@lead~(\legend@lead)%
 \@for\@I:=\task@partners\do{, \site\@I}\\\fi%
 \ifx\task@partners\@empty
-\xdef\@@involvement{}%
-\xdef\@@inv{}%
-\xdef\@@sep{, }%
-\def\m@sep{}%
+\xdef\@@involvement{}\xdef\@@inv{}%
+\xdef\@@sep{, }\def\m@sep{}% do not show the sep the first time around
 \edef\@@sites{\prop@gen@sites}%
 \@for\@site:=\@@sites\do{%
 \edef\@@RM{\pdataref@safe{\wp@id @\task@id}\@site{RM}}%
 \ifx\@@RM\@empty\else\xdef\@@inv{showit}%
 \xdef\@@involvement{\@@involvement% and
 \m@sep\@site: \@@RM\if@RAM\ifx\@@RAM\@empty\else/\@@RM\fi\fi}
-\let\m@sep=\@@sep%
+\let\m@sep=\@@sep% but the second time show it.
 \fi}% \@@RM empty
 \ifx\@@inv\@empty\else(RM{\if@RAM/RAM\fi} distribution: \@@involvement)\strut\\\fi
 \fi% no partners key
 \ignorespaces}
-{\medskip}
+{\smallskip}
 \newcommand\month@label[1]{M#1}
 \newcommand\show@wphase[3]{\edef\@test{#3}\def\@one{1}%
 \month@label{#1}-\month@label{#2}%
