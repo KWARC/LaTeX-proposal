@@ -190,7 +190,7 @@
 {\@ifundefined{@tasks}{}{\pdata@def{\wp@id}{task}{ids}\@tasks}}
 \newenvironment{workpackage}[1][]%
 {\begin{work@package}[#1]%
-\ifgrantagreement\else
+\ifgrantagreement\else%
 \if@sites\goodbreak\medskip\wpheadertable%
 \else\subsubsection*{{\wptitle} (\wprm)}\fi%
 \addcontentsline{toc}{paragraph}{{\wp@mk@title\thewp}: \pdataref{wp}\wp@id{title}}%
@@ -329,9 +329,19 @@
 \ifx\task@lead\@empty\else\ \task@legend@partners\site\task@lead~(\legend@lead)%
 \@for\@I:=\task@partners\do{, \site\@I}\\\fi%
 \ifx\task@partners\@empty
-\@for\@site:=\prop@gen@sites\do{%
+\xdef\@@involvement{}%
+\xdef\@@inv{}%
+\xdef\@@sep{, }%
+\def\m@sep{}%
+\edef\@@sites{\prop@gen@sites}%
+\@for\@site:=\@@sites\do{%
 \edef\@@RM{\pdataref@safe{\wp@id @\task@id}\@site{RM}}%
-\ifx\@@RM\@empty\else\site{\@site}: \@@RM\if@RAM\ifx\@@RAM\@empty\else/\@@RM\fi\fi, \fi}%
+\ifx\@@RM\@empty\else\xdef\@@inv{showit}%
+\xdef\@@involvement{\@@involvement% and
+\m@sep\@site: \@@RM\if@RAM\ifx\@@RAM\@empty\else/\@@RM\fi\fi}
+\let\m@sep=\@@sep%
+\fi}% \@@RM empty
+\ifx\@@inv\@empty\else(RM{\if@RAM/RAM\fi} distribution: \@@involvement)\strut\\\fi
 \fi% no partners key
 \ignorespaces}
 {\medskip}
