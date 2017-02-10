@@ -28,7 +28,7 @@
 \renewcommand{\familydefault}{\sfdefault}
 \RequirePackage[scaled=.90]{helvet}
 \RequirePackage{textcomp}
-\RequirePackage[hyperref=auto,style=alphabetic,defernumbers=true,backend=bibtex,firstinits=true,maxbibnames=6]{biblatex}[2010/11-19]
+\RequirePackage[hyperref=auto,style=alphabetic,defernumbers=true,backend=bibtex,firstinits=true,maxbibnames=9,maxcitenames=3]{biblatex}[2010/11-19]
 \RequirePackage{csquotes}
 \RequirePackage{mdframed}
 \RequirePackage{pdata}
@@ -190,7 +190,7 @@
 {\@ifundefined{@tasks}{}{\pdata@def{\wp@id}{task}{ids}\@tasks}}
 \newenvironment{workpackage}[1][]%
 {\begin{work@package}[#1]%
-\ifgrantagreement\else
+\ifgrantagreement\else%
 \if@sites\goodbreak\medskip\wpheadertable%
 \else\subsubsection*{{\wptitle} (\wprm)}\fi%
 \addcontentsline{toc}{paragraph}{{\wp@mk@title\thewp}: \pdataref{wp}\wp@id{title}}%
@@ -296,8 +296,12 @@
 \fi
 \ifdelivs\closeout\wpg@delivs\fi}
 \newenvironment{tasklist}
-{\begin{compactenum}}{\end{compactenum}}
+{\smallskip\begin{compactenum}}{\end{compactenum}\smallskip}
+\ifwork@areas
+\newcommand\task@label[3]{\textbf{T#1.#2.#3}}
+\else
 \newcommand\task@label[2]{\textbf{T#1.#2}}
+\fi
 \define@key{task}{id}{\def\task@id{#1}\@dmp{id=#1}}
 \define@key{task}{wphases}{\def\task@wphases{#1}\@dmp{wphases=#1}}
 \define@key{task}{requires}{\@requires\task@id{#1}\@dmp{req=#1}}
@@ -316,7 +320,9 @@
 \newcommand\task@legend@PM{PM}
 \newenvironment{task}[1][]%
 {\stepcounter{alltasks}%
-\@task{#1}\item[\pdata@target{task}{\taskin\task@id\wp@id}{\task@label\thewp\thetask@wp}]%
+\@task{#1}%
+\item[\pdata@target{task}{\taskin\task@id\wp@id}%
+{\ifwork@areas\task@label\thewa\thewp\thetask@wp\else\task@label\thewp\thetask@wp\fi}]%
 \ifx\task@title\@empty\else\textbf\task@title\fi\task@post@title@space%
 \def\@initial{0-0}%
 \ifx\task@wphases\@initial\else%
@@ -329,12 +335,20 @@
 \ifx\task@lead\@empty\else\ \task@legend@partners\site\task@lead~(\legend@lead)%
 \@for\@I:=\task@partners\do{, \site\@I}\\\fi%
 \ifx\task@partners\@empty
-\@for\@site:=\prop@gen@sites\do{%
+\xdef\@@involvement{}\xdef\@@inv{}%
+\xdef\@@sep{, }\def\m@sep{}% do not show the sep the first time around
+\edef\@@sites{\prop@gen@sites}%
+\@for\@site:=\@@sites\do{%
 \edef\@@RM{\pdataref@safe{\wp@id @\task@id}\@site{RM}}%
-\ifx\@@RM\@empty\else\site{\@site}: \@@RM\if@RAM\ifx\@@RAM\@empty\else/\@@RM\fi\fi, \fi}%
+\ifx\@@RM\@empty\else\xdef\@@inv{showit}%
+\xdef\@@involvement{\@@involvement% and
+\m@sep\@site: \@@RM\if@RAM\ifx\@@RAM\@empty\else/\@@RM\fi\fi}
+\let\m@sep=\@@sep% but the second time show it.
+\fi}% \@@RM empty
+\ifx\@@inv\@empty\else(RM{\if@RAM/RAM\fi} distribution: \@@involvement)\strut\\\fi
 \fi% no partners key
 \ignorespaces}
-{\medskip}
+{\smallskip}
 \newcommand\month@label[1]{M#1}
 \newcommand\show@wphase[3]{\edef\@test{#3}\def\@one{1}%
 \month@label{#1}-\month@label{#2}%
@@ -354,7 +368,11 @@
 \pdata@def{task}{\taskin\task@id\wp@id}{wphases}{\task@wphases}
 \@ifundefined{task@issue}{}
 {\pdata@def{task}{\taskin\task@id\wp@id}{issue}{\task@issue}}%
+\ifwork@areas
+\pdata@def{task}{\taskin\task@id\wp@id}{label}{\task@label\thewa\thewp\thetask@wp}%
+\else
 \pdata@def{task}{\taskin\task@id\wp@id}{label}{\task@label\thewp\thetask@wp}%
+\fi
 \pdata@def{task}{\taskin\task@id\wp@id}{number}{\thetask@wp}%
 \pdata@def{task}{\taskin\task@id\wp@id}{page}{\thepage}%
 \update@tasks{\taskin\task@id\wp@id}}
