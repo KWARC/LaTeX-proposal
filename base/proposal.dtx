@@ -1361,6 +1361,7 @@
 %    \end{macrocode}
 % and we list the partners who contribute if they are specified. 
 %    \begin{macrocode}
+\if@sites%
 \ifx\task@lead\@empty\else\ \task@legend@partners\site\task@lead~(\legend@lead)%
 \@for\@I:=\task@partners\do{, \site\@I}\\\fi%
 %    \end{macrocode}
@@ -1379,6 +1380,7 @@
 \fi}% \@@RM empty
 \ifx\@@inv\@empty\else(RM{\if@RAM/RAM\fi} distribution: \@@involvement)\strut\\\fi
 \fi% no partners key
+\fi% sites
 %    \end{macrocode}
 % finally, we ignore any spaces that may follow the the |task| environment
 %    \begin{macrocode}

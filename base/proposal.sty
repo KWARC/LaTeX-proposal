@@ -332,6 +332,7 @@
 \let\@@sep=\sep@wphases}%
 \fi% initial
 \ifsubmit\else\ifx\task@PM\@empty\else\task@PM~\task@legend@PM;\fi\fi%
+\if@sites%
 \ifx\task@lead\@empty\else\ \task@legend@partners\site\task@lead~(\legend@lead)%
 \@for\@I:=\task@partners\do{, \site\@I}\\\fi%
 \ifx\task@partners\@empty
@@ -347,6 +348,7 @@
 \fi}% \@@RM empty
 \ifx\@@inv\@empty\else(RM{\if@RAM/RAM\fi} distribution: \@@involvement)\strut\\\fi
 \fi% no partners key
+\fi% sites
 \ignorespaces}
 {\smallskip}
 \newcommand\month@label[1]{M#1}
