@@ -986,15 +986,12 @@ joint&\multicolumn{\the@site}{l|}{\jpub $\hat=$ publication, \jpro $\hat=$ proje
        \jorga $\hat=$ organization, \jsoft $\hat=$ software/resource dev,
        \jsup $\hat=$ supervision}\\\hline
 \end{tabular}}
-
 \newskip\@bigflushglue \@bigflushglue = -100pt plus 1fil
-
 \def\bigcenter{\trivlist \bigcentering\item\relax}
 \def\bigcentering{\let\\\@centercr\rightskip\@bigflushglue%
 \leftskip\@bigflushglue
 \parindent\z@\parfillskip\z@skip}
 \def\endbigcenter{\endtrivlist}
-
 \define@key{coherencetable}{swsites}[true]{\def\cht@swsites{#1}}
 \define@key{coherencetable}{stretch}{\def\cht@stretch{#1}}
 \newcommand\coherencetable[1][]{%
