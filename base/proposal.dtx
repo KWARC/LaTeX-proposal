@@ -1044,6 +1044,7 @@
 \define@key{workpackage}{short}{\pdata@def{wp}\wp@id{short}{#1}}
 \define@key{workpackage}{lead}{\pdata@def{wp}\wp@id{lead}{#1}\def\wp@lead{#1}\@dmp{lead=#1}}
 \define@key{workpackage}{type}{\def\wp@type{#1}\pdata@def{wp}\wp@id{type}{#1}}
+\define@key{workpackage}{status}{\def\wp@status{#1}\pdata@def{wp}\wp@id{status}{#1}}
 \define@key{workpackage}{wphases}{\def\wp@wphases{#1}\pdata@def{wp}\wp@id{wphases}{#1}}
 \define@key{workpackage}{swsites}[true]{\def\wp@swsites{#1}}
 %    \end{macrocode}
@@ -1144,7 +1145,8 @@
 \if@RAM\edef\@RAM{\pdataref@num\wp@id\@site{RAM}}\addtocounter{wp@RAM}{\@RAM}\fi}
 \pdata@def{wp}\wp@id{RM}{\thewp@RM}%
 \if@RAM\pdata@def{wp}\wp@id{RAM}{\thewp@RAM}\fi%
-\fi}% if@sites
+\fi% if@sites
+\ifx\wp@status\@@status@canceled\color{lightgray}\fi}
 {\@ifundefined{@tasks}{}{\pdata@def{\wp@id}{task}{ids}\@tasks}}
 %    \end{macrocode}
 %  \end{environment}
@@ -1162,7 +1164,8 @@
 \else\subsubsection*{{\wptitle} (\wprm)}\fi%
 \addcontentsline{toc}{paragraph}{{\wp@mk@title\thewp}: \pdataref{wp}\wp@id{title}}%
 \noindent\ignorespaces%
-\fi}
+\fi
+\ifx\wp@status\@@status@canceled\color{lightgray}\fi}
 {\end{work@package}}
 %    \end{macrocode}
 %  \end{environment}
