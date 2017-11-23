@@ -5,7 +5,7 @@
 %% The original source files were:
 %%
 %% proposal.dtx  (with options: `sty')
-%% 
+%%
 \NeedsTeXFormat{LaTeX2e}[1999/12/01]
 \ProvidesPackage{proposal}[2016/12/15 v1.6 Project Proposal]
 \RequirePackage{amssymb}
@@ -551,10 +551,14 @@
 \newcommand\delivs@legend@lead{Lead}
 \newcommand{\inputdelivs}[1]{%
 \begin{deliverables}{#1}%
-\IfFileExists{\jobname.deliverables}%
-{\input{\jobname.deliverables}}%
-{\IfFileExists{\jobname.delivs}{\input{\jobname.delivs}}{}}
-\end{deliverables}}
+\InputIfFileExists{\jobname.deliverables}{}{%
+\InputIfFileExists{\jobname.delivs}{%
+\typeout{Sorted deliverables not found, fall back to unsorted.}%
+}%
+{}%
+}%
+\end{deliverables}%
+}
 \definecolorset{gray/rgb/hsb/cmyk}{}{}%
 {leadgray,.90/.90,.90,.90/0,0,.90/0,0,0,.10;%
 wagray,.70/.70,.70,.70/0,0,.70/0,0,0,.30;%
