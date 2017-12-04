@@ -17,12 +17,12 @@ keeping information consistent.
 In the simplest case, just clone the repository, and extend your  `TEXINPUTS`
 environment variable so that it can find it. On a UNIX system something like the following
 should work. 
-`
-cd /path/to/your/setup
+```
+cd /path/to/your/project
 git clone https://github.com/KWARC/LaTeX-proposal
-echo 'export TEXINPUTS = "$(TEXINPUTS):/path/to/your/setup/LaTeX-proposal//:"' >> ~/.bashrc
-`
-Of course you will have to replace `/path/to/your/setup` with a path appropriate to
+echo 'export TEXINPUTS = "$(TEXINPUTS):/path/to/your/project/LaTeX-proposal//:"' >> ~/.bashrc
+```
+Of course you will have to replace `/path/to/your/project` with a path appropriate to
 your system. A simple `git pull` will update you to the newest version.
 
 ## Getting Started with a New Proposal
@@ -32,6 +32,17 @@ The simplest way to start a new proposal is to copy one of the examples at
 the three variables in the upper section of the `Makefile` accordingly, if you want to use
 (UNIX) `Makefile` automation (recommended). If you want to use the LaTeX proposal class in
 a revision control system for a larger group, read (far) below.
+
+Here is what you would do on a UNIX system after the initial steps above to prepare a DFG
+proposal (or an EU proposal the same setup works as well, but with suitably adapted
+paths). 
+```
+cp examples/dfg/proposal .
+sed -i .bak s/PROP.dir = ..\/..\/..\//Prop.dir = ./ proposal/Makefile 
+sed -i .bak s/BIB = ..\/lib/BIB = ./ proposal/Makefile 
+
+```
+
 
 ## Disclaimer
 
