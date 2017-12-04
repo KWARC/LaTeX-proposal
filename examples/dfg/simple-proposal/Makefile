@@ -15,7 +15,7 @@ TARGET.pdf 	= $(TARGET:%.tex=%.pdf)         	  # PDFs to be produced
 TARGET.aux 	= $(TARGET:%.tex=%.aux)             # their aux files.
 PDATA 		= $(PROPOSAL:%.tex=%.pdata)       # the proposal project data
 SRC = $(filter-out $(TARGET),$(shell ls *.tex))   # included files
-PDFLATEX = pdflatex -interaction batchmode -file-line-error
+PDFLATEX = pdflatex# -interaction batchmode -file-line-error
 BBL = $(PROPOSAL:%.tex=%.bbl)
 PROPCLS.dir = $(PROP.dir)/base
 PROPETC.dir = $(PROP.dir)/etc
