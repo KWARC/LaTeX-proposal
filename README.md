@@ -20,7 +20,7 @@ should work.
 ```
 cd /path/to/your/setup
 git clone https://github.com/KWARC/LaTeX-proposal
-echo 'export BIBINPUTS = "$(BIBINPUTS):/path/to/your/setup/LaTeX-proposal//:"' >> ~/.bashrc
+echo 'export TEXINPUTS = "$(TEXINPUTS):/path/to/your/setup/LaTeX-proposal//:"' >> ~/.bashrc
 ```
 Of course you will have to replace ```/path/to/your/setup``` with a path appropriate to
 your system. A simple ```git pull``` will update you to the newest version.
@@ -60,8 +60,9 @@ optimized towards collaborating on writing project proposals. This class is inte
 specialized to particular funding bodies that have their own styles.
 
 * ```base```: the base proposal class ([documentation](https://github.com/KWARC/LaTeX-proposal/tree/master/base/proposal.pdf))
-* ```dfg```: the instance for Deutsche Forschungsgemeinschaft ([documentation](https://github.com/KWARC/LaTeX-proposal/tree/master/dfg/dfgproposal.pdf), [examples](https://github.com/KWARC/LaTeX-proposal/tree/master/dfg/examples))
-* ```eu```: the instance for EU proposals ([documentation](https://github.com/KWARC/LaTeX-proposal/tree/master/eu/euproposal.pdf), [examples](https://github.com/KWARC/LaTeX-proposal/tree/master/eu/examples))
+* ```dfg```: the instance for Deutsche Forschungsgemeinschaft ([documentation](https://github.com/KWARC/LaTeX-proposal/tree/master/dfg/dfgproposal.pdf), [examples](https://github.com/KWARC/LaTeX-proposal/tree/master/examples/dfg))
+* ```eu```: the instance for EU proposals ([documentation](https://github.com/KWARC/LaTeX-proposal/tree/master/eu/euproposal.pdf), [examples](https://github.com/KWARC/LaTeX-proposal/tree/master/examples/eu))
+* ```examples```: example proposal (stubs). 
 * ```etc```: style files from the sTeX bundle added for convenience (only on GitHub, not on CTAN)
 * ```lib```: Makefiles for the management of self-documenting packages
 * ```bin```: utilities, e.g. a script that makes GitHub issues from the deliverables of a proposal for project managment if the proposal is granted. 
