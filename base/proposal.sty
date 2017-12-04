@@ -1037,14 +1037,25 @@ joint&\multicolumn{\the@site}{l|}{\jpub $\hat=$ publication, \jpro $\hat=$ proje
 \newcommand\prop@prl[1]{\message{unclassified: #1}%
 \printbibliography[heading=subbibliography,title=Unclassified,#1]}%
 \define@key{paperlist}{unclassified}[true]{\message{unclass: \prop@rl}\prop@prl\prop@rl}
-\define@key{paperlist}{articles}[true]{\prop@ppl{article}{Articles}}
-\define@key{paperlist}{chapters}[true]{\prop@ppl{inbook}{Book Chapters}}
-\define@key{paperlist}{confpapers}[true]{\prop@ppl[,keyword=conference]{inproceedings}{Conference Papers}}
-\define@key{paperlist}{wspapers}[true]{\prop@ppl[,notkeyword=conference]{inproceedings}{Workshop Papers}}
-\define@key{paperlist}{theses}[true]{\prop@ppl{thesis}{Theses}}
-\define@key{paperlist}{submitted}[true]{\prop@ppl[,keyword=submitted]{unpublished}{Submitted}}
-\define@key{paperlist}{books}[true]{\prop@ppl{book}{Monographs}}
-\define@key{paperlist}{techreports}[true]{\prop@ppl{techreport}{Technical Reports}}
+\newcommand\prop@articles@heading{Articles}
+\define@key{paperlist}{articles}[true]{\prop@ppl{article}{\prop@articles@heading}}
+\newcommand\prop@chapters@heading{Book Chapters}
+\define@key{paperlist}{chapters}[true]{\prop@ppl{inbook}{\prop@chapters@heading}}
+\newcommand\prop@confpapers@heading{Conference Papers}
+\define@key{paperlist}{confpapers}[true]%
+{\prop@ppl[,keyword=conference]{inproceedings}{\prop@confpapers@heading}}
+\newcommand\prop@wspapers@heading{Workshop  Papers}
+\define@key{paperlist}{wspapers}[true]%
+{\prop@ppl[,notkeyword=conference]{inproceedings}{\prop@wspapers@heading}}
+\newcommand\prop@theses@heading{Theses}
+\define@key{paperlist}{theses}[true]{\prop@ppl{thesis}{\prop@theses@heading}}
+\newcommand\prop@submitted@heading{Submitted}
+\define@key{paperlist}{submitted}[true]%
+{\prop@ppl[,keyword=submitted]{unpublished}{\prop@submitted@heading}}
+\newcommand\prop@books@heading {Monographs}
+\define@key{paperlist}{books}[true]{\prop@ppl{book}{\prop@books@heading}}
+\newcommand\prop@techreports@heading{Technical Reports}
+\define@key{paperlist}{techreports}[true]{\prop@ppl{techreport}{\prop@techreports@heading}}
 \DeclareBibliographyCategory{featured}
 \newcommand\prop@paperlist[2][]{%
 \let\biboldfont\bibfont%
@@ -1076,7 +1087,6 @@ joint&\multicolumn{\the@site}{l|}{\jpub $\hat=$ publication, \jpro $\hat=$ proje
   \iftoggle{bbx:url}
     {\usebibmacro{url+urldate}}
     {}}
-
 
 \endinput
 %%

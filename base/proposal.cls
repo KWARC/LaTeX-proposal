@@ -39,7 +39,6 @@
 \LoadClass[a4paper,twoside]{\proposal@class}
 \RequirePackage{proposal}
 
-
 \endinput
 %%
 %% End of file `proposal.cls'.
