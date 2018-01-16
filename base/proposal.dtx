@@ -1002,7 +1002,7 @@
 % We define the keys for the objectives environment
 %    \begin{macrocode}
 \define@key{obj}{id}{\def\obj@id{#1}\@dmp{id=#1}}
-\define@key{obj}{title}{\def\obj@title{#1}\@dmp{title=#1}}
+\define@key{obj}{title}{\def\obj@title{#1}}
 \define@key{obj}{short}{\def\obj@short{#1}\@dmp{short=#1}}
 %    \end{macrocode}
 % And a counter for numbering objectives
@@ -2685,7 +2685,7 @@ joint&\multicolumn{\the@site}{l|}{\jpub $\hat=$ publication, \jpro $\hat=$ proje
 %   The |\@dmp| macro shows metadata information about the keys in the margin if
 %   |\keystrue| is specified. This is a debugging tool.
 %    \begin{macrocode}
-\def\@dmp#1{\ifkeys\marginpar{#1}\fi}
+\def\@dmp#1{\ifkeys\marginpar{\small #1}\fi}
 %    \end{macrocode}
 % \end{macro}
 %
