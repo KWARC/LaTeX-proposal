@@ -73,13 +73,14 @@ of publications. Non-published works must be included with the proposal.
 \printbibliography[heading=empty,notcategory=featured]
 % the following will not become part of the public proposal after all most of this is
 % technical or confidential.
-%\begin{private}
+\ifpublic\else
 \input{funds}
 \input{preconditions}
 
 \section{Additional Information}\label{sec:additional}
 
 Funding proposal XYZ-83282 has been submitted prior to this proposal on related topic XYZ.
+\fi % ifpublic
 \end{proposal}
 \end{document}
  

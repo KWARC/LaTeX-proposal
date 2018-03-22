@@ -109,9 +109,11 @@
 % and gives a comma separated list of options specified in~\cite{Kohlhase:pplp:ctan}. The
 % |dfgproposal| class adds the two options  
 % \begin{compactenum}
-% \item \DescribeMacro{general}|general|, which allows generates a first section with
-%   general proposal metadata (as the old form proposals required). This is useful to
-%   check all the data (and have a place to copy/paste from).
+% \item \DescribeMacro{general}|general|, which allows generates a title page and first
+%   section with general proposal metadata (as the old form proposals required). This is
+%   useful to check all the data (and have a place to copy/paste from). Also this should
+%   be used together with the |public| option (see in~\cite{Kohlhase:pplp:ctan}) to
+%   generate public versions of the proposal. 
 % \item \DescribeMacro{german}|german|, which makes all the generated parts in German.
 % \end{compactenum}
 % 
@@ -341,7 +343,8 @@ Applicant\if@sites\ifnum\the@PIs>1{s}\fi\fi\ \deu{(Antragsteller)}}%
 %   class.
 %    \begin{macrocode}
 \renewenvironment{prop@proposal}
-{\ifsubmit\setcounter{page}{1}\else
+{\ifgeneral
+\ifsubmit\setcounter{page}{1}\else
 \thispagestyle{empty}%
 \begin{center}
 {\LARGE \prop@gen@instrument}\\[.2cm]
@@ -350,7 +353,7 @@ Applicant\if@sites\ifnum\the@PIs>1{s}\fi\fi\ \deu{(Antragsteller)}}%
 {\large\today}\\[1em]
 \WAauthorblock[aff]\prop@gen@PIs\\[2cm]
 \end{center}
-\ifgeneral\setcounter{section}{-1}
+\setcounter{section}{-1}
 \edef\keep@tocdepth{\value{tocdepth}}
 \setcounter{tocdepth}{2}\tableofcontents
 \setcounter{tocdepth}{\keep@tocdepth}
@@ -362,7 +365,7 @@ Applicant\if@sites\ifnum\the@PIs>1{s}\fi\fi\ \deu{(Antragsteller)}}%
 \dfg@area@field
 \ifdeutsch\subsection{Voraussichtliche Gesamtdauer}\else
 \subsection{Anticipated total duration \deu{(Voraussichtliche Gesamtdauer)}}
-\fi
+\fi% ifdeutsch
 \@ifundefined{prop@gen@totalduration}{????}{\prop@gen@totalduration};
 \ifdeutsch
 \@ifundefined{prop@gen@since}{Erstantrag}{Fortsetungsantrag, das Project l\"auft seit 
@@ -370,16 +373,16 @@ Applicant\if@sites\ifnum\the@PIs>1{s}\fi\fi\ \deu{(Antragsteller)}}%
 \else
 \@ifundefined{prop@gen@since}{initial proposal}{continuation proposal, the project started
   \prop@gen@since.}
-\fi
+\fi%ifdeutsch
 \ifdeutsch\subsection{Antragszeitraum}\else
 \subsection{Application period \deu{(Antragszeitraum)}}\fi
 \prop@gen@months\quad Months starting \prop@gen@start
 \@ifundefined{prop@gen@fundsuntil}{}
 { (\ifdeutsch Mittel reichen bis\else funds last until\fi\ \prop@gen@fundsuntil)}
 \ifdeutsch\else\selectlanguage{USenglish}\fi
-\newpage\fi%ifgeneral
+\newpage
 \setcounter{page}{0}%
-\fi}% ifsubmit
+\fi\fi}% ifsubmit ifgeneral
 {}
 %    \end{macrocode}
 % \end{environment}
