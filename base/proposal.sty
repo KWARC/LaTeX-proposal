@@ -1032,7 +1032,7 @@ joint&\multicolumn{\the@site}{l|}{\jpub $\hat=$ publication, \jpro $\hat=$ proje
 \defbibheading{empty}{}
 \newif\if@allpapers\@allpaperstrue
 \newcommand\prop@ppl[3][]{\@allpapersfalse\message{ppl processing: #2}%
-\printbibliography[heading=subbibliography,type=#2,title=#3#1]%
+\printbibliography[category=featured,heading=subbibliography,type=#2,title=#3#1]%
 \@ifundefined{prop@rl}{\xdef\prop@rl{#2}}{\xdef\prop@rl{\prop@rl, #2}}}
 \newcommand\prop@prl[1]{\message{unclassified: #1}%
 \printbibliography[heading=subbibliography,title=Unclassified,#1]}%

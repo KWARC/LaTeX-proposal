@@ -2567,13 +2567,13 @@ joint&\multicolumn{\the@site}{l|}{\jpub $\hat=$ publication, \jpro $\hat=$ proje
 %    \begin{macrocode}
 \defbibheading{empty}{}
 %    \end{macrocode}
-% We define an internal macro that prints a publication list of a given {bib\TeX} entry
-% type and title for convenience. It also adds a |notype=| to the token register
-% |\prop@rl| to deal with the unclassified entries from the list. 
+% We define an internal macro |\prop@ppl| that prints a publication list of a given
+% {bib\TeX} entry type and title for convenience. It also adds a |notype=| to the token
+% register |\prop@rl| to deal with the unclassified entries from the list.
 %    \begin{macrocode}
 \newif\if@allpapers\@allpaperstrue
 \newcommand\prop@ppl[3][]{\@allpapersfalse\message{ppl processing: #2}%
-\printbibliography[heading=subbibliography,type=#2,title=#3#1]%
+\printbibliography[category=featured,heading=subbibliography,type=#2,title=#3#1]%
 \@ifundefined{prop@rl}{\xdef\prop@rl{#2}}{\xdef\prop@rl{\prop@rl, #2}}}
 %    \end{macrocode}
 % The following code does not work yet, it would have been nice to be able to just add a
