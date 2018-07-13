@@ -133,16 +133,19 @@
 % 
 % \subsection{Project-Related Papers}\label{sec:user:papers}
 % 
-% Since August 2010, DFG requests list of ``project-related papers'' as section 2.2. We
-% use the |biblatex| package to automate this. We only need to use
+% Since August 2010, DFG requests list of ``project-related papers'' as Section 2.2. of
+% the proposal. We use the |biblatex| package to automate this. We only need to use
 % \DescribeMacro{\dfgprojpapers}|\dfgprojpapers[|\meta{keys}|]{|\meta{refs}|}|,
 % \meta{refs} is a comma-separated list of {bib\TeX} keys from the {bib\TeX} database used
 % in the proposal. The \meta{keys} that specify whether sub-bibliographies are generated
 % (if \meta{keys} is non-empty) and which, and in which order. The \meta{keys} includes
-% any of the following: |articles|, |chapters|, |confpapers|, |inproceedings|, |wspapers|,
-% |theses|, |submitted|, |books|, and |techreports|. 
+% any of the following: |articles|, |chapters|, |confpapers|, |confpapers|, |wspapers|,
+% |theses|, |submitted|, |books|, and |techreports|. Both |confpapers| and |wspapers|
+% correspond to the bib{\TeX} entry type |@inproceedings|, but the first have the
+% additional specification |keywords = {conference},| somewhere in the entry to specify
+% that this entry is in the archival literature.
 %
-% So |\dfgprojpapers[books,articles,inproceedings]{|\meta{keys}|}| splits the generate
+% So |\dfgprojpapers[books,articles,confpapers]{|\meta{keys}|}| splits the generate
 % bibliography in to three sub-bibliographies with the titles: ``Articles'' ,
 % ``Monographs'', and ``Conference Papers''. The headings can be customized -- e.g. to
 % another language by adding |\def\prop@|\meta{key}|@heading{|\meta{Heading}|}| in the
