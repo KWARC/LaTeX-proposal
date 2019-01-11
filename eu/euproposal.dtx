@@ -268,6 +268,7 @@
 \RequirePackage{eurosym}
 \RequirePackage{wrapfig}
 \RequirePackage{eupdata}
+\RequirePackage{datetime}
 %    \end{macrocode}
 % we want to change the numbering of figures and tables
 %    \begin{macrocode}
@@ -354,7 +355,7 @@
   \ifx\prop@gen@acronym\@empty\else{\LARGE Acronym: {\prop@gen@acronym}}\\[2cm]\fi
 \end{center}
 %{\large\prop@gen@instrument}\\
-{\large\textbf{Date of Preparation: \today}}
+{\large\textbf{Date of Preparation: \today: \currenttime}}
 % \ifsubmit\else\if@svninfo\if@gitinfo\\
 % {\large\textbf{Revision}: 
 % \if@svninfo\svnInfoRevision\fi\if@gitinfo\gitAbbrevHash\fi

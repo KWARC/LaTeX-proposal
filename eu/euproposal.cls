@@ -18,6 +18,7 @@
 \RequirePackage{wrapfig}
 \RequirePackage{eupdata}
 \RequirePackage{chngcntr}
+\RequirePackage{datetime}
 \counterwithin{figure}{subsection}
 \counterwithin{table}{subsection}
 \ifpartB
@@ -46,7 +47,7 @@
   {\huge\textbf\prop@gen@title}\\[.4cm]
   \ifx\prop@gen@acronym\@empty\else{\LARGE Acronym: {\prop@gen@acronym}}\\[2cm]\fi
 \end{center}
-{\large\textbf{Date of Preparation: \today}}
+{\large\textbf{Date of Preparation: \today: \currenttime}}
 \\[1em]
 \begin{large}
  \begin{description}
