@@ -1361,6 +1361,7 @@
 \define@key{task}{issue}{\def\task@issue{#1}}
 \define@key{task}{status}{\def\task@status{#1}}
 \def\@@status@canceled{canceled}
+\newif\if@taskshowwps\@taskshowwpsfalse
 \def\task@set#1{\edef\task@id{task\thetask@all}
 \def\task@wphases{0-0}\def\task@partners{}\def\task@lead{}\def\task@PM{}\def\task@title{}
 \setkeys{task}{#1}}
@@ -1377,7 +1378,7 @@
 %   The |task| environment. We first set up config stuff 
 %    \begin{macrocode}
 \newcounter{alltasks}
-\def\task@post@title@space{ }
+\if@taskshowwps\else\def\task@post@title@space{}\fi
 \newcommand\task@legend@partners{Sites: }
 \newcommand\task@legend@PM{PM}
 %    \end{macrocode}
@@ -1397,6 +1398,7 @@
 %    \end{macrocode}
 % now we decode and show the work phases on the task, if they have been specified.
 %    \begin{macrocode}
+\if@taskshowwps
 \def\@initial{0-0}%
 \ifx\task@wphases\@initial\else%
 \let\@@sep=\relax\@for\@I:=\task@wphases%
@@ -1404,14 +1406,15 @@
 \@@sep\show@wphase\wphase@start\wphase@end\wphase@force%
 \let\@@sep=\sep@wphases}%
 \fi% initial
+\fi% \if@taskshowwps
 %    \end{macrocode}
 % in non-|submit| mode we give the specified PM for cross-checking
 %    \begin{macrocode}
-\ifsubmit\else\ifx\task@PM\@empty\else\task@PM~\task@legend@PM;\fi\fi%
+\ifsubmit\else\ifx\task@PM\@empty\else; \task@PM~\task@legend@PM\fi\fi%
 %    \end{macrocode}
 % and we list the partners who contribute if they are specified. 
 %    \begin{macrocode}
-\if@sites%
+\if@sites;%
 \ifx\task@lead\@empty\else\ \task@legend@partners\site\task@lead~(\legend@lead)%
 \@for\@I:=\task@partners\do{, \site\@I}\\\fi%
 %    \end{macrocode}
@@ -1421,7 +1424,7 @@
 \xdef\@@involvement{}\xdef\@@inv{}%
 \xdef\@@sep{, }\def\m@sep{}% do not show the sep the first time around
 \edef\@@sites{\prop@gen@sites}%
-{\let\site\relax% to to render it inert here
+{\let\site\relax% to render it insert here
 \@for\@site:=\@@sites\do{%
 \edef\@@RM{\pdataref@safe{\wp@id @\task@id}\@site{RM}}%
 \ifx\@@RM\@empty\else\xdef\@@inv{showit}%

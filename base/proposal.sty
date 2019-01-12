@@ -323,12 +323,13 @@
 \define@key{task}{issue}{\def\task@issue{#1}}
 \define@key{task}{status}{\def\task@status{#1}}
 \def\@@status@canceled{canceled}
+\newif\if@taskshowwps\@taskshowwpsfalse
 \def\task@set#1{\edef\task@id{task\thetask@all}
 \def\task@wphases{0-0}\def\task@partners{}\def\task@lead{}\def\task@PM{}\def\task@title{}
 \setkeys{task}{#1}}
 \def\task@post@title@space{\;}
 \newcounter{alltasks}
-\def\task@post@title@space{ }
+\if@taskshowwps\else\def\task@post@title@space{}\fi
 \newcommand\task@legend@partners{Sites: }
 \newcommand\task@legend@PM{PM}
 \newenvironment{task}[1][]%
@@ -340,6 +341,7 @@
 \ifwork@areas\task@label\thewa\thewp\thetask@wp\else\task@label\thewp\thetask@wp\fi%
 \else\task@@label\thetask@wp\fi}]%
 \textbf\task@title\task@post@title@space%
+\if@taskshowwps
 \def\@initial{0-0}%
 \ifx\task@wphases\@initial\else%
 \let\@@sep=\relax\@for\@I:=\task@wphases%
@@ -347,15 +349,16 @@
 \@@sep\show@wphase\wphase@start\wphase@end\wphase@force%
 \let\@@sep=\sep@wphases}%
 \fi% initial
-\ifsubmit\else\ifx\task@PM\@empty\else\task@PM~\task@legend@PM;\fi\fi%
-\if@sites%
+\fi% \if@taskshowwps
+\ifsubmit\else\ifx\task@PM\@empty\else; \task@PM~\task@legend@PM\fi\fi%
+\if@sites;%
 \ifx\task@lead\@empty\else\ \task@legend@partners\site\task@lead~(\legend@lead)%
 \@for\@I:=\task@partners\do{, \site\@I}\\\fi%
 \ifx\task@partners\@empty
 \xdef\@@involvement{}\xdef\@@inv{}%
 \xdef\@@sep{, }\def\m@sep{}% do not show the sep the first time around
 \edef\@@sites{\prop@gen@sites}%
-{\let\site\relax% to to render it inert here
+{\let\site\relax% to render it insert here
 \@for\@site:=\@@sites\do{%
 \edef\@@RM{\pdataref@safe{\wp@id @\task@id}\@site{RM}}%
 \ifx\@@RM\@empty\else\xdef\@@inv{showit}%
