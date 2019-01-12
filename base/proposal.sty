@@ -105,7 +105,8 @@
 \newcounter{@PIs}
 \@ifundefined{prop@gen@PIs}{}{\@for\@I:=\prop@gen@PIs\do{\stepcounter{@PIs}}}
 \newcounter{@sites}
-\@ifundefined{prop@gen@sites}{}{\@for\@I:=\prop@gen@sites\do{\stepcounter{@sites}}}
+\@ifundefined{prop@gen@sites}{}{\@for\@I:=\prop@gen@sites\do{\stepcounter{@sites}}
+\pdata@def{all}{site}{count}{\the@site}}
 \setcounter{page}{0}
 \begin{prop@proposal}}
 {\end{prop@proposal}

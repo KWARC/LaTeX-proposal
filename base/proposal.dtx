@@ -326,6 +326,8 @@
 % \item In multi-site proposals the \DescribeMacro{lead} |lead| key specifies the work
 %   package or work area lead, the value of this feature should be the short name of the
 %   respective partner.
+% \item In multi-site proposals the number of sites can be written as
+%   |\pdatacount{all}{site}|.
 % \item For work packages with many prospers the \DescribeMacro{swsites}|swsites| key
 %   can be given (no value needed) to turn the site names sideways to conserve
 %   (horizontal) space. 
@@ -929,7 +931,8 @@
 \newcounter{@PIs}
 \@ifundefined{prop@gen@PIs}{}{\@for\@I:=\prop@gen@PIs\do{\stepcounter{@PIs}}}
 \newcounter{@sites}
-\@ifundefined{prop@gen@sites}{}{\@for\@I:=\prop@gen@sites\do{\stepcounter{@sites}}}
+\@ifundefined{prop@gen@sites}{}{\@for\@I:=\prop@gen@sites\do{\stepcounter{@sites}}
+\pdata@def{all}{site}{count}{\the@site}}
 \setcounter{page}{0}
 \begin{prop@proposal}}
 %    \end{macrocode}
