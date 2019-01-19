@@ -42,10 +42,10 @@
  citecolor=\prop@link@color,urlcolor=\prop@link@color,colorlinks=true,
  breaklinks=true, bookmarksopen=true]{hyperref}
 \ifsubmit
-\RequirePackage[hide]{ed}
+\RequirePackage[hide,marginnote]{ed}
 \if@svninfo\RequirePackage[final,today]{svninfo}\fi
 \else
-\RequirePackage[show]{ed}
+\RequirePackage[show,marginnote]{ed}
 \if@svninfo\RequirePackage[eso-foot,today]{svninfo}\fi
 \if@gitinfo\RequirePackage[mark]{gitinfo2}\fi
 \fi
@@ -985,7 +985,7 @@ ganttgray,.60/.60,.60,.60/0,0,.60/0,0,0,.40}
 \newcommand\jsoft{\textcolor{\prop@link@color}{\textbf{@}}}
 \newcommand\jorga{\textcolor{\prop@link@color}{\textbf{\Large{$\circ$}}}}
 \newcommand\jsup{\textcolor{\prop@link@color}{\textbf{\smiley}}}
-\newcommand\add@joint[3]{\message{addjoint}\@ifundefined{coherence@#1@#2}%
+\newcommand\add@joint[3]{\@ifundefined{coherence@#1@#2}%
 {\@namedef{coherence@#1@#2}{#3}}%
 {\expandafter\g@addto@macro\csname coherence@#1@#2\endcsname{#3}}}
 \newcommand\prop@joint[2]{\@for\@first:=#2\do{%
