@@ -1320,9 +1320,10 @@
 \else
 \@ifundefined{@wps}{}{\pdata@def{all}{wp}{ids}\@wps}
 \fi
-\ifdelivs\@ifundefined{mile@stones}{}
-{\@for\@I:=\mile@stones\do{%
-\pdata@def{mile}\@I{delivs}{\@ifundefined{\@I delivs}{}{\csname\@I delivs\endcsname}}}}\fi
+\ifdelivs\edef\mile@stones{\pdataref@safe{all}{mile}{ids}}
+\@for\@I:=\mile@stones\do{%
+  \message{milestone: \@I, delivs: \csname\@I delivs\endcsname}
+  \pdata@def{mile}\@I{delivs}{\@ifundefined{\@I delivs}{}{\csname\@I delivs\endcsname}}}\fi
 \ifwork@areas\pdata@def{all}{wa}{count}{\thewa}\fi
 \pdata@def{all}{wp}{count}{\theallwp}
 \ifdelivs
@@ -1566,8 +1567,6 @@
 % \end{macro}
 % 
 % \begin{macro}{\*deliv*ref}
-%   This macro is generally useful to put a comment at the end of the line, possibly
-%   making a new one if there is not enough space.
 %    \begin{macrocode}
 \newcommand\delivref[2]{\pdataRef{deliv}{#1@#2}{label}}
 \newcommand\localdelivref[1]{\delivref{\wp@id}{#1}}
@@ -1663,7 +1662,7 @@
  \expandafter\ifx\csname\@I delivs\endcsname\relax% Check that the miles@delivs is empty
   {\expandafter\xdef\csname\@I delivs\endcsname{\wpg@id @\deliv@id}}% if so, skip the separator
    \else\expandafter\xdef\csname\@I delivs\endcsname%if not add it
-      {\csname\@I delivs\endcsname\d@sep\wpg@id @\deliv@id}\fi}}%
+   {\csname\@I delivs\endcsname\d@sep\wpg@id @\deliv@id}\fi}}%
 }% end gray color
 }
 %    \end{macrocode}
@@ -1690,8 +1689,6 @@
 % \end{macro}
 % 
 % \begin{macro}{\mileref}
-%   This macro is generally useful to put a comment at the end of the line, possibly
-%   making a new one if there is not enough space.
 %    \begin{macrocode}
 \newcommand\mileref[1]{\pdataRef{mile}{#1}{label}}
 \newcommand\miletref[1]{\mileref{#1}: \pdataRefFB{mile}{#1}{short}{title}}

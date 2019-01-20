@@ -296,9 +296,10 @@
 \else
 \@ifundefined{@wps}{}{\pdata@def{all}{wp}{ids}\@wps}
 \fi
-\ifdelivs\@ifundefined{mile@stones}{}
-{\@for\@I:=\mile@stones\do{%
-\pdata@def{mile}\@I{delivs}{\@ifundefined{\@I delivs}{}{\csname\@I delivs\endcsname}}}}\fi
+\ifdelivs\edef\mile@stones{\pdataref@safe{all}{mile}{ids}}
+\@for\@I:=\mile@stones\do{%
+  \message{milestone: \@I, delivs: \csname\@I delivs\endcsname}
+  \pdata@def{mile}\@I{delivs}{\@ifundefined{\@I delivs}{}{\csname\@I delivs\endcsname}}}\fi
 \ifwork@areas\pdata@def{all}{wa}{count}{\thewa}\fi
 \pdata@def{all}{wp}{count}{\theallwp}
 \ifdelivs
@@ -500,7 +501,7 @@
  \expandafter\ifx\csname\@I delivs\endcsname\relax% Check that the miles@delivs is empty
   {\expandafter\xdef\csname\@I delivs\endcsname{\wpg@id @\deliv@id}}% if so, skip the separator
    \else\expandafter\xdef\csname\@I delivs\endcsname%if not add it
-      {\csname\@I delivs\endcsname\d@sep\wpg@id @\deliv@id}\fi}}%
+   {\csname\@I delivs\endcsname\d@sep\wpg@id @\deliv@id}\fi}}%
 }% end gray color
 }
 \newenvironment{wadeliv}[2][]{\ifdelivs\wpg@deliv{#1}{#2}{wa}\else\deliv@error\fi}{}
