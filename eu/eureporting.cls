@@ -15,6 +15,7 @@
 \RequirePackage{eurosym}
 \RequirePackage{wrapfig}
 \RequirePackage{eupdata}
+\RequirePackage{datetime}
 \RequirePackage{chngcntr}
 \counterwithin{figure}{subsection}
 \counterwithin{table}{subsection}
