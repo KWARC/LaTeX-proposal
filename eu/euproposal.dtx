@@ -185,7 +185,7 @@
 % Sometimes we want to list the relevant papers in the site descriptions.  We use the
 % |biblatex| package to automate this. We only need to use
 % \DescribeMacro{\keypubs}|\keypubs[|\meta{keys}|]{|\meta{refs}|}|, where \meta{keys} that
-% specify what papers are selected and \meta{refs} is a comma-separated list of bibtex
+% specify what papers are selected and \meta{refs} is a comma-separated list of {bib\TeX}
 % keys from the bibTeX database used in the proposal.
 % 
 % The papers listed in |\keypubs| are put into a special bib\LaTeX category
@@ -600,7 +600,7 @@
 % \subsection{Relevant Papers}\label{sec:impl:papers}
 % 
 % \begin{macro}{\keypubs}
-% we just use the {bib\LaTeX} |refsection| facility. NOTE, thisneeds biber to work
+% we just use the {bib\LaTeX} |refsection| facility. NOTE, this needs biber to work
 % easily.
 %    \begin{macrocode}
 \newcommand\keypubs[1]{%
@@ -627,13 +627,18 @@
 % LocalWords:  cellcolor lightgray keypubs paperlist callname callid callid ifx csname
 % LocalWords:  challengeid challengeid objectiveid objectiveid outcomeid hfill if@gitinfo
 % LocalWords:  outcomeid metakeys workaddress numberline tempdima ifsubmit iconrowheight
-% LocalWords:  proposal.dtx texttt paperslist workaddress.dtx topicsaddressed thesite
+% LocalWords:  proposal.dtx texttt paperslist workaddress.dtx topicsaddressed thesite mst
 %  LocalWords:  topicsaddressed iconrowheight finalreport.tex printbibliography endcsname
-%  LocalWords:  reportperiod organisation thispagestyle gitAbbrevHash sitedescritpion
+%  LocalWords:  reportperiod organisation thispagestyle gitAbbrevHash sitedescritpion WPs
 %  LocalWords:  WAinstitution picv medskip newmdenv frametitle wpdelivs mdframed.sty emph
-%  LocalWords:  surroundwithmdframed emph riskcont prob grav ldots endinput
+%  LocalWords:  surroundwithmdframed emph riskcont prob grav ldots endinput optimized
 
 % Local Variables:
 % mode: doctex
 % TeX-master: t
 % End:
+%  LocalWords:  coordinatorsite coordinatorsite verif verif milestonetable milestonetable
+%  LocalWords:  wname wname wdeliv wdeliv wverif wverif biblatex notcategory newif gdef
+%  LocalWords:  grantagreement Initialization ifpartB partBfalse partBtrue report,noRAM
+%  LocalWords:  chngcntr counterwithin ifgrantagreement currenttime mst@caption delivs
+%  LocalWords:  initialize deliv multilinguality prop@milesfor refsection nocite doctex
