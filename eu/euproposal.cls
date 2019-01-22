@@ -192,9 +192,8 @@
 \newenvironment{riskcont}[3]
 {\begin{risk}{#1}{#2}{#3}\textbf{Contingency:} }
 {\end{risk}}
-\newcommand\keypubs[2][]{%
-\paragraph{Key publications relevant to the project}%
-{\prop@paperlist[#1]{#2}}}
+\newcommand\keypubs[1]{%
+\begin{refsection}\nocite{#2}\printbibliography[heading=empty]\end{refsection}}
 \endinput
 %%
 %% End of file `euproposal.cls'.

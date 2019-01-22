@@ -600,10 +600,11 @@
 % \subsection{Relevant Papers}\label{sec:impl:papers}
 % 
 % \begin{macro}{\keypubs}
+% we just use the {bib\LaTeX} |refsection| facility. NOTE, thisneeds biber to work
+% easily.
 %    \begin{macrocode}
-\newcommand\keypubs[2][]{%
-\paragraph{Key publications relevant to the project}%
-{\prop@paperlist[#1]{#2}}}
+\newcommand\keypubs[1]{%
+\begin{refsection}\nocite{#2}\printbibliography[heading=empty]\end{refsection}}
 %</cls>
 %    \end{macrocode}
 % \end{macro}
