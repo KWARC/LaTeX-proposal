@@ -38,7 +38,7 @@
 \dfg@applicants@private@lines\hline
 \end{tabular}}
 \renewenvironment{prop@proposal}
-{\ifgeneral%
+{\ifgeneral
 \ifsubmit\setcounter{page}{1}\else
 \thispagestyle{empty}%
 \begin{center}

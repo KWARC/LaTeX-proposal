@@ -6,8 +6,8 @@
 ###########################################################################
 # possibly customize the following variables to your setting
 PROPOSAL = propB.tex 		# the proposal
-BIB = ../lib/dummy.bib	        # bibTeX databases
-PROP.dir = ../../..
+PROP.dir = ../../..#            # The LaTeX-proposal class directory
+BIB = $(PROP.dir)/lib/dummy.bib# # bibTeX databases
 ###########################################################################
 # the following are computed
 TSIMP = 			                  # pdflatex Targets without bibTeX
@@ -61,9 +61,9 @@ $(TBIB.pdf): %.pdf: %.tex $(SRC) $(BIB) $(PROPCLS)
 	sort $(PROPOSAL:%.tex=%.delivs) > $(PROPOSAL:%.tex=%.deliverables)
 	@if (test -e $(patsubst %.tex, %.idx,  $<));\
 	    then makeindex $(patsubst %.tex, %.idx,  $<); fi
-	$(MAKE) -$(MAKEFLAGS) $(BBL)
-	@if (grep "(re)run BibTeX" $(patsubst %.tex, %.log,  $<)> /dev/null);\
-	    then $(MAKE) -B $(BBL); fi
+	biber $(basename $<)
+	@if (grep "(re)run" $(patsubst %.tex, %.log,  $<)> /dev/null);\
+	    then biber $(basename $<); fi
 	$(PDFLATEX)  $< || $(RM) $@
 	@if (grep Rerun $(patsubst %.tex, %.log,  $<) > /dev/null);\
 	   then $(PDFLATEX)  $<  || $(RM) $@; fi
