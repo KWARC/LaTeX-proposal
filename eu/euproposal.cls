@@ -193,7 +193,7 @@
 {\begin{risk}{#1}{#2}{#3}\textbf{Contingency:} }
 {\end{risk}}
 \newcommand\keypubs[1]{%
-\begin{refsection}\nocite{#2}\printbibliography[heading=empty]\end{refsection}}
+\begin{refsection}\nocite{#1}\printbibliography[heading=empty]\end{refsection}}
 \endinput
 %%
 %% End of file `euproposal.cls'.
