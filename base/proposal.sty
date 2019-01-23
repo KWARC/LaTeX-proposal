@@ -506,7 +506,7 @@
 }
 \newenvironment{wadeliv}[2][]{\ifdelivs\wpg@deliv{#1}{#2}{wa}\else\deliv@error\fi}{}
 \newenvironment{wpdeliv}[2][]{\ifdelivs\wpg@deliv{#1}{#2}{wp}\else\deliv@error\fi}{}
-\newcommand\milestone@label[1]{M{#1}}
+\newcommand\milestone@label[1]{\textbf{M{#1}}}
 \newcommand\mileref[1]{\pdataRef{mile}{#1}{label}}
 \newcommand\miletref[1]{\mileref{#1}: \pdataRefFB{mile}{#1}{short}{title}}
 \newcounter{milestone}
