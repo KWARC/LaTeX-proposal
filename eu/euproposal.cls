@@ -175,14 +175,13 @@
 &\textbf{\miles@legend@verif}\\\hline\hline
 \mst@lines
 \end{tabular}
-\caption{\mst@caption}\label{tab:milestonetable}
-\end{table}
-\footnotetext\miles@legend@footnote}
+\caption{\mst@caption\ ($^\ast$\miles@legend)}\label{tab:milestonetable}
+\end{table}}
 \newcommand\miles@legend@name{Name}
 \newcommand\miles@legend@mo{Mo}
 \newcommand\miles@legend@verif{Means of Verif.}
-\newcommand\miles@legend@involved{WPs\footnotemark/Deliverables involved}
-\newcommand\miles@legend@footnote{The work package number is the first number in the deliverable number.}
+\newcommand\miles@legend@involved{WPs$^\ast$/Deliverables involved}
+\newcommand\miles@legend{WP is first number in deliverable label}
 \newcommand\prop@milesfor[1]{\edef\@delivs{\pdataref@safe{mile}{#1}{delivs}}%
 \let\m@sep=\relax\def\new@sep{,\ }%
 \@for\@I:=\@delivs\do{\m@sep\pdataRef{deliv}\@I{label}\let\m@sep=\new@sep}}
