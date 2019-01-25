@@ -275,9 +275,13 @@
 \RequirePackage{chngcntr}
 \counterwithin{figure}{subsection}
 \counterwithin{table}{subsection}
+%    \end{macrocode}
+%    And finally, we set the section numbering depth, so that paragraphs are numbered and
+%    can be cross-referenced.
+%    \begin{macrocode}
+\setcounter{secnumdepth}{4}
 %</cls|reporting>
 %    \end{macrocode}
-%    
 % \subsection{Proposal Metadata and Title Page}\label{sec:impl:metadata}
 %  
 % We extend the metadata keys from the |proposal| class.

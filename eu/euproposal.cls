@@ -21,6 +21,7 @@
 \RequirePackage{chngcntr}
 \counterwithin{figure}{subsection}
 \counterwithin{table}{subsection}
+\setcounter{secnumdepth}{4}
 \ifpartB
 \def\thepart{\Alph{part}}
 \setcounter{part}{2}
