@@ -110,7 +110,11 @@
 \setcounter{page}{0}
 \begin{prop@proposal}}
 {\end{prop@proposal}
-\pdata@def{prop}{page}{last}{\thepage}\ofpagefalse
+\pdata@def{prop}{page}{last}{\thepage}\ofpagefalse%
+\newwrite\@@SPLIT%
+\immediate\openout\@@SPLIT=SPLIT.at%
+\protected@write\@@SPLIT{}{\thepage}%
+\closeout\@@SPLIT%
 \pdata@close}
 \newcommand\site[1]{\hyperlink{site@#1@target}{\wa@ref3{institution}{#1}{acronym}}}
 \newcommand\sitename[1]{\hyperlink{site@#1@target}{\wa@ref3{institution}{#1}{name}}}
