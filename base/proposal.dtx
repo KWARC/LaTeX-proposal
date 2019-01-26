@@ -912,9 +912,9 @@
 % 
 % \begin{environment}{proposal}
 %   The |proposal| environment reads the metadata keys defined above, and if there were no
-%   |site| keys, then it defines keys |RM| and |RAM| (unless the |noRAM| package option
-%   was given) for the |workpackage| environment. Also it reads the project data file and
-%   opens up the project data file |\pdata@out|, which it also closes at the end. 
+%   |site| keys, then it defines keys |RM| and |RAM| (if the |RAM| package option was
+%   given) for the |workpackage| environment. Also it reads the project data file and
+%   opens up the project data file |\pdata@out|, which it also closes at the end.
 % 
 %   The environment calls an internal version of the environment |prop@proposal| that can
 %   be customized by the specializing classes.

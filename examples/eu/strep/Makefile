@@ -7,7 +7,7 @@
 # possibly customize the following variables to your setting
 PROPOSAL = propB.tex 		# the proposal
 PROP.dir = ../../..#            # The LaTeX-proposal class directory
-BIB = $(PROP.dir)/lib/dummy.bib# # bibTeX databases
+BIB = ../lib/dummy.bib# # bibTeX databases
 ###########################################################################
 # the following are computed
 TSIMP = 			                  # pdflatex Targets without bibTeX

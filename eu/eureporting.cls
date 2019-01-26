@@ -10,7 +10,7 @@
 \ProvidesPackage{eureporting}[2016/12/15 v1.5 EU Project Reporting]
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{reporting}}
 \ProcessOptions
-\LoadClass[report,noRAM]{reporting}
+\LoadClass[report]{reporting}
 \RequirePackage{longtable}
 \RequirePackage{eurosym}
 \RequirePackage{wrapfig}

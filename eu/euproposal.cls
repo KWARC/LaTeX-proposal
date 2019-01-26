@@ -12,7 +12,7 @@
 \DeclareOption{partB}{\partBtrue}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{proposal}}
 \ProcessOptions
-\ifpartB\LoadClass[report,noRAM]{proposal}\else\LoadClass[noRAM]{proposal}\fi
+\ifpartB\LoadClass[report]{proposal}\else\LoadClass{proposal}\fi
 \RequirePackage{longtable}
 \RequirePackage{eurosym}
 \RequirePackage{wrapfig}
