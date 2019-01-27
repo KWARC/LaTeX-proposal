@@ -158,7 +158,8 @@
 \define@key{mst}{wdeliv}{\gdef\mst@wdeliv{#1}}
 \define@key{mst}{wverif}{\gdef\mst@wverif{#1}}
 \newcommand\milestonetable[1][]{%
-\IfFileExists{\jobname.delivs}{% to avoid errros
+\IfFileExists{./\jobname.deliverables}{% to avoid errros
+\message{euproposal.cls: Generating Milestones Table}%
 \def\mst@caption{Milestones, Deliverables, and Verification}%
 \def\mst@wname{2.5cm}\def\mst@wdeliv{7cm}\def\mst@wverif{4cm}
 \setkeys{mst}{#1}%
@@ -186,7 +187,9 @@
 \mst@lines
 \end{tabular}
 \caption{\mst@caption\ ($^\ast$\miles@legend)}\label{tab:milestonetable}
-\end{table}}}
+\end{table}}
+{\ClassWarning{not formatting mile stones table yet, deliverables are
+  still missing; generate\jobname.deliverables\ to get it!}}}
 \newcommand\miles@legend@name{Name}
 \newcommand\miles@legend@mo{Mo}
 \newcommand\miles@legend@verif{Means of Verif.}

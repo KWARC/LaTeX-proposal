@@ -18,7 +18,7 @@ TBIB.pdf 	= $(TBIB:%.tex=%.pdf)         	  # PDFs to be produced
 TBIB.aux 	= $(TBIB:%.tex=%.aux)             # their aux files.
 PDATA 		= $(PROPOSAL:%.tex=%.pdata)       # the proposal project data
 SRC = $(filter-out $(TARGET),$(shell ls *.tex))   # included files
-PDFLATEX = pdflatex -interaction batchmode -file-line-error
+PDFLATEX = pdflatex -interaction scrollmode -file-line-error
 PROPCLS.dir = $(PROP.dir)/base
 PROPETC.dir = $(PROP.dir)/etc
 EUPROPCLS.dir = $(PROP.dir)/eu

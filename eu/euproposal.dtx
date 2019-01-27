@@ -537,14 +537,16 @@
 % \end{macro}
 % 
 % \begin{macro}{milestonetable}
-% here we do the work. 
+% here we do the work, but only if the file |\jobname.deliverables| exists to make sure
+% that the deliverables macros are really defined.
 %    \begin{macrocode}
 \define@key{mst}{caption}{\gdef\mst@caption{#1}}
 \define@key{mst}{wname}{\gdef\mst@wname{#1}}
 \define@key{mst}{wdeliv}{\gdef\mst@wdeliv{#1}}
 \define@key{mst}{wverif}{\gdef\mst@wverif{#1}}
 \newcommand\milestonetable[1][]{%
-\IfFileExists{\jobname.delivs}{% to avoid errros
+\IfFileExists{./\jobname.deliverables}{% to avoid errros
+\message{euproposal.cls: Generating Milestones Table}%
 \def\mst@caption{Milestones, Deliverables, and Verification}%
 \def\mst@wname{2.5cm}\def\mst@wdeliv{7cm}\def\mst@wverif{4cm}
 \setkeys{mst}{#1}%
@@ -572,7 +574,9 @@
 \mst@lines
 \end{tabular}
 \caption{\mst@caption\ ($^\ast$\miles@legend)}\label{tab:milestonetable}
-\end{table}}}
+\end{table}}
+{\ClassWarning{not formatting mile stones table yet, deliverables are
+  still missing; generate\jobname.deliverables\ to get it!}}}
 %    \end{macrocode}
 % now the multilinguality support 
 %    \begin{macrocode}
