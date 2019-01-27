@@ -37,15 +37,30 @@ all: $(TBIB.pdf) $(TSIMP.pdf)
 submit:
 	$(MAKE) $(MAKEFLAGS) -w PROPOSAL=final.tex all
 
-public:
+SPLIT.at = $(shell cat SPLIT.at)
+SPLIT = $$(($(SPLIT.at) + 1))
+SSPLIT = $$(($(SPLIT.at) + 2))
+final-split: final
+	qpdf --pages submit.pdf 1-$(SPLIT) -- submit.pdf submit-123.pdf
+	qpdf --pages submit.pdf $(SSPLIT)-z -- submit.pdf submit-45.pdf
+
+public:  $(SRC)
 	$(MAKE) $(MAKEFLAGS) -w PROPOSAL=public.tex all
 
 grantagreement:
 	$(MAKE) $(MAKEFAGS) -w PROPOSAL=grantagreement.tex -W grantagreement.tex all
+	pdftk grantagreement.pdf cat 1-35 61-end output grantagreement-striped.pdf
+	mv grantagreement-striped.pdf grantagreement.pdf
+
+
+install: final
+	cp final.pdf proposal-www.pdf
+	git commit -m "Updated pdf" proposal-www.pdf
+	git push
 
 bbl:	$(BBL)
 $(BBL): %.bbl: %.aux
-	bibtex -min-crossrefs=100 -terse $<
+	biber $<
 
 $(TSIMP.pdf): %.pdf: %.tex $(PROPCLS) $(PDATA)
 	$(PDFLATEX) $< || $(RM) $@
@@ -71,11 +86,14 @@ $(TBIB.pdf): %.pdf: %.tex $(SRC) $(BIB) $(PROPCLS)
 	    then $(PDFLATEX)  $<  || $(RM) $@; fi
 
 clean: 
-	rm -f *~ *.log *.ilg *.out *.glo *.idx *.ilg *.blg *.run.xml *.synctex.gz *.cut
+	rm -f *~ *.log *.ilg *.out *.glo *.idx *.ilg *.blg *.run.xml *.synctex.gz *.cut *.toc
 
 distclean: clean
 	rm -f *.aux *.ind *.gls *.ps *.dvi *.thm *.out *.run.xml *.bbl *.toc *.deliv* *.pdata *-blx.bib
 	rm -Rf auto
+	rm -f proposal.fls
+echo:
+	echo $(BBL)
 
 echo:
 	@echo $(BBL)
