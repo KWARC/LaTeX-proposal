@@ -10,6 +10,8 @@
 \ProvidesClass{euproposal}[2016/12/15 v1.5 EU Proposal]
 \newif\ifpartB\partBfalse
 \DeclareOption{partB}{\partBtrue}
+\newif\if@split\@splitfalse
+\DeclareOption{split}{\@splittrue}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{proposal}}
 \ProcessOptions
 \ifpartB\LoadClass[report]{proposal}\else\LoadClass{proposal}\fi
@@ -73,7 +75,13 @@
 \newpage
 \fi% ifgrantagreement
 \setcounter{tocdepth}{2}\setcounter{part}{2}}
-{\newpage\printbibliography[heading=warnpubs]}
+{\newpage\printbibliography[heading=warnpubs]%
+\if@split
+\newwrite\@@SPLIT%
+\immediate\openout\@@SPLIT=SPLIT.at%
+\protected@write\@@SPLIT{}{\thepage}%
+\closeout\@@SPLIT%
+\fi}% if@split
 \def\prop@gen@instrument{Proposal Instrument (e.g. IP)}
 \define@key{site@desc}{box}[true]{\def\site@desc@box{#1}%
 \pdata@def{sitedesc}{\@site}{box}{#1}}
@@ -150,6 +158,7 @@
 \define@key{mst}{wdeliv}{\gdef\mst@wdeliv{#1}}
 \define@key{mst}{wverif}{\gdef\mst@wverif{#1}}
 \newcommand\milestonetable[1][]{%
+\IfFileExists{\jobname.delivs}{% to avoid errros
 \def\mst@caption{Milestones, Deliverables, and Verification}%
 \def\mst@wname{2.5cm}\def\mst@wdeliv{7cm}\def\mst@wverif{4cm}
 \setkeys{mst}{#1}%
@@ -177,7 +186,7 @@
 \mst@lines
 \end{tabular}
 \caption{\mst@caption\ ($^\ast$\miles@legend)}\label{tab:milestonetable}
-\end{table}}
+\end{table}}}
 \newcommand\miles@legend@name{Name}
 \newcommand\miles@legend@mo{Mo}
 \newcommand\miles@legend@verif{Means of Verif.}

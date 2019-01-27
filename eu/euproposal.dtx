@@ -113,7 +113,10 @@
 % and gives a comma separated list of options specified in~\cite{Kohlhase:pplp:svn}.  Some
 % versions EU proposals want non-standard numbering schemes (e.g. starting with
 % \textbf{B...} since we are writing Part B.), this can be reached by giving the |propB|
-% option.
+% option. Finally the |split| option cases the |euproposal| to write a file |SPLIT.at|
+% that can be used in the |Makefile| to split the final proposal |final.pdf| into a files
+% |final123.pdf| and |final45.pdf| for submission in the EU system (often this has to be
+% separated so that the submission system can count pages.)
 % 
 % \subsection{Proposal Metadata and Title page}\label{sec:user:metadata}
 % 
@@ -180,7 +183,7 @@
 % \DescribeMacro{riskcont}|riskcont| is a variant, where \meta{title} names a risk and the
 % body is a description of the contingency plan.
 % 
-% \subsection{Relevant Papers}\label{sec:user:papers}
+% \subsection{Relevant Papers/Key Publications}\label{sec:user:papers}
 % 
 % Sometimes we want to list the relevant papers in the site descriptions.  We use the
 % |biblatex| package to automate this. We only need to use
@@ -188,9 +191,8 @@
 % specify what papers are selected and \meta{refs} is a comma-separated list of {bib\TeX}
 % keys from the bibTeX database used in the proposal.
 % 
-% The papers listed in |\keypubs| are put into a special bib\LaTeX category
-% \DescribeMacro{featured}|featured|, and can thus be excluded from the general
-% bibliography by adding |notcategory=featured| to the final |\printbibliography|.
+% The papers listed in |\keypubs| are put into a section bibliography which is displayed
+% in place.
 % 
 %
 % \begin{newpart}{MK@MK: This is new, and only partially implemented}
@@ -252,6 +254,8 @@
 %<*cls>
 \newif\ifpartB\partBfalse
 \DeclareOption{partB}{\partBtrue}
+\newif\if@split\@splitfalse
+\DeclareOption{split}{\@splittrue}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{proposal}}
 %</cls>
 %<reporting>\DeclareOption*{\PassOptionsToClass{\CurrentOption}{reporting}}
@@ -390,7 +394,13 @@
 \newpage
 \fi% ifgrantagreement
 \setcounter{tocdepth}{2}\setcounter{part}{2}}
-{\newpage\printbibliography[heading=warnpubs]}
+{\newpage\printbibliography[heading=warnpubs]%
+\if@split
+\newwrite\@@SPLIT%
+\immediate\openout\@@SPLIT=SPLIT.at%
+\protected@write\@@SPLIT{}{\thepage}%
+\closeout\@@SPLIT%
+\fi}% if@split  
 %    \end{macrocode}
 % \end{environment}
 % 
@@ -534,6 +544,7 @@
 \define@key{mst}{wdeliv}{\gdef\mst@wdeliv{#1}}
 \define@key{mst}{wverif}{\gdef\mst@wverif{#1}}
 \newcommand\milestonetable[1][]{%
+\IfFileExists{\jobname.delivs}{% to avoid errros
 \def\mst@caption{Milestones, Deliverables, and Verification}%
 \def\mst@wname{2.5cm}\def\mst@wdeliv{7cm}\def\mst@wverif{4cm}
 \setkeys{mst}{#1}%
@@ -561,7 +572,7 @@
 \mst@lines
 \end{tabular}
 \caption{\mst@caption\ ($^\ast$\miles@legend)}\label{tab:milestonetable}
-\end{table}}
+\end{table}}}
 %    \end{macrocode}
 % now the multilinguality support 
 %    \begin{macrocode}
