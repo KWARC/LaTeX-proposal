@@ -4,7 +4,7 @@ TDSCOLL = proposal
 DTX.cls.base = proposal
 DTX = proposal.dtx
 TDS.tex = reporting.cls pdata.sty
-CTAN = $(TDS.tex)
+CTAN =# $(TDS.tex)
 REDUNDANT = dcm.sty metakeys.sty sref.sty
 all: package doc
 

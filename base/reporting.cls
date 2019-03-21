@@ -7,7 +7,7 @@
 %% proposal.dtx  (with options: `reporting')
 %% 
 \NeedsTeXFormat{LaTeX2e}[1999/12/01]
-\ProvidesPackage{reporting}[2016/12/15 v1.6 Project Reporting]
+\ProvidesPackage{reporting}[2019/01/29 v1.6 Project Reporting]
 \newif\if@wpsubsection\@wpsubsectionfalse
 \newif\ifsubmit\submitfalse
 \newif\ifgrantagreement\grantagreementfalse
