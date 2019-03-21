@@ -74,7 +74,7 @@ ltds:
 	rm -Rf $(TDSDIR.tex);mkdir -p $(TDSDIR.tex)
 	rm -Rf $(TDSDIR.src);mkdir -p $(TDSDIR.src)
 	cp $(DTX.src) $(TDS.src) $(TDSDIR.src)
-	cp $(DTX.sty) $(DTX.cls) $(TDS.tex) $(TDSDIR.tex)
+	cp $(DTX.sty) $(DTX.cls) $(TDSDIR.tex)
 	cp README $(DTX.pdf) $(EXAMPLE.tex) $(EXAMPLE.pdf) $(TDS.doc) $(TDSDIR.doc)
 	@for d in $(TDS.exdirs); do cp -R $$d $(TDSDIR.doc); done
 
