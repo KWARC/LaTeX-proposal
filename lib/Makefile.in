@@ -74,12 +74,13 @@ ltds:
 	rm -Rf $(TDSDIR.tex);mkdir -p $(TDSDIR.tex)
 	rm -Rf $(TDSDIR.src);mkdir -p $(TDSDIR.src)
 	cp $(DTX.src) $(TDS.src) $(TDSDIR.src)
+	cp $(DTX.sty) $(DTX.cls) $(TDS.tex) $(TDSDIR.tex)
 	cp README $(DTX.pdf) $(EXAMPLE.tex) $(EXAMPLE.pdf) $(TDS.doc) $(TDSDIR.doc)
 	@for d in $(TDS.exdirs); do cp -R $$d $(TDSDIR.doc); done
 
 lctan: filedate
 	mkdir -p $(CTANDIR)
-	cp $(DTX.src) $(DTX.sty) $(DTX.cls) $(TDS.src) $(CTANDIR)
+	cp $(DTX.src) $(TDS.src) $(CTANDIR)
 	cp README $(DTX.pdf) $(EXAMPLE.tex) $(EXAMPLE.pdf) $(TDS.doc) $(CTANDIR)
 	@for d in $(TDS.exdirs); do cp -R $$d $(CTANDIR); done
 
