@@ -3,7 +3,6 @@
 # A tool for updating .dtx files with a correspodning checksum counter                #
 # Copyright (c) 2010, Deyan Ginev, released under the Gnu General Public License (GPL)#
 #                                 see http://www.gnu.org/copyleft/gpl.html            #
-# $URL: https://svn.kwarc.info/repos/stex/trunk/bin/checksum$                         #
 #######################################################################################
 
 use strict;
