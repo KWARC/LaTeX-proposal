@@ -695,12 +695,10 @@ ganttgray,.60/.60,.60,.60/0,0,.60/0,0,0,.40}
 \fi}
 \local@count0\relax%
 \@for\@site:=\prop@gen@sites\do{\global\advance\local@count by \pdataref@num\@@wp\@site{RM}}%
-\pdata@def{\@site}{RM}{count}{\the\local@count}
 \xdef\@@wp@line{\@@wp@line &\textbf{\the\local@count}}
 \if@RAM
 \global\local@count0\relax%
 \@for\@site:=\prop@gen@sites\do{\global\advance\local@count by \pdataref@num\@@wp\@site{RAM}}%
-\pdata@def{\@site}{RAM}{count}{\the\local@count}
 \xdef\@@wp@line{\@@wp@line &\textbf{\the\local@count}}
 \fi% if@RAM
 \else% if@sites
