@@ -220,7 +220,7 @@
 \RequirePackage{eurosym}
 \RequirePackage{dfgpdata}
 \ifdeutsch\RequirePackage[ngerman]{babel}
-\else\RequirePackage[ngerman,USenglish]{babel}\fi
+\else\RequirePackage[ngerman,english]{babel}\fi
 %</cls|reporting>
 %    \end{macrocode}
 % 
@@ -382,7 +382,7 @@ Applicant\if@sites\ifnum\the@PIs>1{s}\fi\fi\ \deu{(Antragsteller)}}%
 \prop@gen@months\quad Months starting \prop@gen@start
 \@ifundefined{prop@gen@fundsuntil}{}
 { (\ifdeutsch Mittel reichen bis\else funds last until\fi\ \prop@gen@fundsuntil)}
-\ifdeutsch\else\selectlanguage{USenglish}\fi
+\ifdeutsch\else\selectlanguage{english}\fi
 \newpage
 \setcounter{page}{0}%
 \fi\fi}% ifsubmit ifgeneral
@@ -453,7 +453,7 @@ Applicant\if@sites\ifnum\the@PIs>1{s}\fi\fi\ \deu{(Antragsteller)}}%
 \newcommand\prop@assoc[2]{\let\@tmpop=\relax\@for\@I:=#2\do{\@tmpop\@I\let\@tmpop=#1}}
 \newcommand\show@prop@gen@keys{\def\@cb{, }\@ifundefined{prop@gen@keys}{??:???? ?/?}{\prop@assoc\@cb\prop@gen@keys}}
 \renewenvironment{prop@report}
-{\selectlanguage{USenglish}
+{\selectlanguage{english}
 \thispagestyle{empty}%
 \begin{center}
   {\LARGE Final Project Report}\\[.2cm]
@@ -576,7 +576,7 @@ Applicant\if@sites\ifnum\the@PIs>1{s}\fi\fi\ \deu{(Antragsteller)}}%
 \endinput
 % LocalWords:  dfgproposal dtx kohlhase areastrue svninfo noworkareas twoside notcategory
 % LocalWords:  areasfalse wa textcomp amssymb url graphicx colortbl xcolor RO Abriss Rabe
-% LocalWords:  fancyhdr keyval eurosym tikz calc USenglish ngerman linkcolor ne ifgeneral
+% LocalWords:  fancyhdr keyval eurosym tikz calc english ngerman linkcolor ne ifgeneral
 % LocalWords:  citecolor urlcolor colorlinks pagecolor breaklinks bookmarksopen ifdeutsch
 % LocalWords:  hyperref LaTeX workpackage PIs thema acrolong anzungsantrag im generaltrue
 % LocalWords:  Einzelverfahren tabline Allgemeine Angaben Antragsteller worktel Deutscher
@@ -636,6 +636,6 @@ Applicant\if@sites\ifnum\the@PIs>1{s}\fi\fi\ \deu{(Antragsteller)}}%
 % mode: doctex
 % TeX-master: t
 % End:
-%  LocalWords:  localized sec:implementation Initialization ngerman,USenglish itemize
+%  LocalWords:  localized sec:implementation Initialization ngerman itemize
 %  LocalWords:  selectlanguage sec:ourpubs confpapers inproceedings wspapers techreports
 %  LocalWords:  books,articles,inproceedings

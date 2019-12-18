@@ -15,7 +15,7 @@
 \RequirePackage{eurosym}
 \RequirePackage{dfgpdata}
 \ifdeutsch\RequirePackage[ngerman]{babel}
-\else\RequirePackage[ngerman,USenglish]{babel}\fi
+\else\RequirePackage[ngerman,english]{babel}\fi
 \define@key{prop@gen}{reportperiod}{\def\prop@gen@reportperiod{#1}}
 \define@key{prop@gen}{applareas}{\def\prop@gen@applareas{#1}}
 \define@key{prop@gen}{key}{\@dmp{key=#1}%
@@ -36,7 +36,7 @@
 \newcommand\prop@assoc[2]{\let\@tmpop=\relax\@for\@I:=#2\do{\@tmpop\@I\let\@tmpop=#1}}
 \newcommand\show@prop@gen@keys{\def\@cb{, }\@ifundefined{prop@gen@keys}{??:???? ?/?}{\prop@assoc\@cb\prop@gen@keys}}
 \renewenvironment{prop@report}
-{\selectlanguage{USenglish}
+{\selectlanguage{english}
 \thispagestyle{empty}%
 \begin{center}
   {\LARGE Final Project Report}\\[.2cm]
