@@ -15,9 +15,9 @@
 \ProcessOptions
 \LoadClass{proposal}
 \RequirePackage{eurosym}
-\RequirePackage{dfgpdata}
+\RequirePackage{LaTeX-proposal/dfg/dfgpdata}
 \ifdeutsch\RequirePackage[ngerman]{babel}
-\else\RequirePackage[ngerman,USenglish]{babel}\fi
+\else\RequirePackage[ngerman]{babel}\fi
 \newenvironment{sitedescription}[2][]%
 {\def\@test{#1}\def\@@title{\ifx\@test\@empty\wa@ref3{institution}{#2}{acronym}\else #1\fi:
 \textsc{\wa@ref3{institution}{#2}{name}}}
