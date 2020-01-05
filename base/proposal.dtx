@@ -1419,9 +1419,11 @@
 %    \end{macrocode}
 % and we list the partners who contribute if they are specified. 
 %    \begin{macrocode}
-\if@sites;%
+\if@sites%
+\ifx\task@title\@empty\else;\ \fi% deal with spaces and separator
 \ifx\task@lead\@empty\else\ \task@legend@partners\site\task@lead~(\legend@lead)%
-\@for\@I:=\task@partners\do{, \site\@I}\\\fi%
+\@for\@I:=\task@partners\do{, \site\@I}\\%
+\fi% if@sites
 %    \end{macrocode}
 % if there are no partners, then we show the RM/RAM contributions specified (if any)
 %    \begin{macrocode}
