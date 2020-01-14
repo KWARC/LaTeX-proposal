@@ -34,7 +34,7 @@
 \DeclareOption{keys}{\keystrue}
 \DeclareOption{deliverables}{\delivstrue}
 \DeclareOption{longtasklabels}{\@longtasklabelstrue}
-\DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
+\DeclareOption*{\PassOptionsToClass{\CurrentOption}{\proposal@class}}
 \ProcessOptions
 \LoadClass[a4paper,twoside]{\proposal@class}
 \RequirePackage{proposal}
