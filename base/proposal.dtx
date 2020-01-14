@@ -1419,9 +1419,11 @@
 %    \end{macrocode}
 % and we list the partners who contribute if they are specified. 
 %    \begin{macrocode}
-\if@sites;%
+\if@sites%
+\ifx\task@title\@empty\else;\ \fi% deal with spaces and separator
 \ifx\task@lead\@empty\else\ \task@legend@partners\site\task@lead~(\legend@lead)%
-\@for\@I:=\task@partners\do{, \site\@I}\\\fi%
+\@for\@I:=\task@partners\do{, \site\@I}\\%
+\fi% if@sites
 %    \end{macrocode}
 % if there are no partners, then we show the RM/RAM contributions specified (if any)
 %    \begin{macrocode}
@@ -2714,7 +2716,7 @@ joint&\multicolumn{\the@site}{l|}{\jpub $\hat=$ publication, \jpro $\hat=$ proje
 %  LocalWords:  subbibliography,title featured,heading renewbibmacro iffieldundef showit
 % LocalWords:  proposal dtx xkohlhase areastrue svninfo noworkareas twoside emph gitinfo
 % LocalWords:  areasfalse wa textcomp amssymb url graphicx colortbl xcolor RO OJBref sl
-% LocalWords:  fancyhdr keyval eurosym tikz calc USenglish ngerman linkcolor ne WPref gen
+% LocalWords:  fancyhdr keyval eurosym tikz calc ngerman linkcolor ne WPref gen 5,step
 % LocalWords:  citecolor urlcolor colorlinks pagecolor breaklinks bookmarksopen WPref doi
 % LocalWords:  hyperref LaTeX workpackage PIs thema acrolong anzungsantrag im Mitarbeiter
 % LocalWords:  Einzelverfahren tabline Allgemeine Angaben Antragsteller worktel ifsvninfo
@@ -2796,4 +2798,4 @@ joint&\multicolumn{\the@site}{l|}{\jpub $\hat=$ publication, \jpro $\hat=$ proje
 %  LocalWords:  9,maxcitenames multilinguality 2pt,color 2,title 5,step true,giveninits
 %  LocalWords:  9,maxcitenames hide,marginnote show,marginnote if@taskshowwps 2pt,color
 %  LocalWords:  2,title 5,step 9,maxcitenames 2pt,color 2,title 5,step 9,maxcitenames
-%  LocalWords:  2pt,color 2,title
+%  LocalWords:  2pt,color 2,title 9,maxcitenames 2pt,color 2,title

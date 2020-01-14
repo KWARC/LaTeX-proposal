@@ -17,7 +17,7 @@
 \RequirePackage{eurosym}
 \RequirePackage{dfgpdata}
 \ifdeutsch\RequirePackage[ngerman]{babel}
-\else\RequirePackage[ngerman,USenglish]{babel}\fi
+\else\RequirePackage[ngerman,english]{babel}\fi
 \newenvironment{sitedescription}[2][]%
 {\def\@test{#1}\def\@@title{\ifx\@test\@empty\wa@ref3{institution}{#2}{acronym}\else #1\fi:
 \textsc{\wa@ref3{institution}{#2}{name}}}
@@ -74,7 +74,7 @@
 \prop@gen@months\quad Months starting \prop@gen@start
 \@ifundefined{prop@gen@fundsuntil}{}
 { (\ifdeutsch Mittel reichen bis\else funds last until\fi\ \prop@gen@fundsuntil)}
-\ifdeutsch\else\selectlanguage{USenglish}\fi
+\ifdeutsch\else\selectlanguage{english}\fi
 \newpage
 \setcounter{page}{0}%
 \fi\fi}% ifsubmit ifgeneral

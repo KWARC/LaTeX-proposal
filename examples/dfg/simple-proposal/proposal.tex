@@ -3,7 +3,13 @@
 % - submit.tex (no draft stuff, no ednotes, no revision information)
 % - public.tex (like submit.tex, but no financials either) 
 \providecommand{\classoptions}{,keys} % to be overwritten in variants
-\documentclass[gitinfo,noworkareas,RAM\classoptions]{dfgproposal}
+\documentclass[    % the options control the appearance, see the documentation
+    gitinfo,       % show GIT information 
+    noworkareas,   % do not generate work areas, this is a simple proposal
+    RAM,           % also manage research assistant (HiWi) months
+    general,       % make a title page, etc. 
+    \classoptions] % the other class options from above, they can be overwritten e.g. in submit/final,tex
+    {dfgproposal}
 \addbibresource{../lib/dummy.bib}
 \renewcommand{\familydefault}{\sfdefault}
 \RequirePackage[scaled=.90]{helvet}

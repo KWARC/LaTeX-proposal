@@ -354,9 +354,11 @@
 \fi% initial
 \fi% \if@taskshowwps
 \ifsubmit\else\ifx\task@PM\@empty\else; \task@PM~\task@legend@PM\fi\fi%
-\if@sites;%
+\if@sites%
+\ifx\task@title\@empty\else;\ \fi% deal with spaces and separator
 \ifx\task@lead\@empty\else\ \task@legend@partners\site\task@lead~(\legend@lead)%
-\@for\@I:=\task@partners\do{, \site\@I}\\\fi%
+\@for\@I:=\task@partners\do{, \site\@I}\\%
+\fi% if@sites
 \ifx\task@partners\@empty
 \xdef\@@involvement{}\xdef\@@inv{}%
 \xdef\@@sep{, }\def\m@sep{}% do not show the sep the first time around
