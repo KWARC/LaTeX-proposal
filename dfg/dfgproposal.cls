@@ -38,7 +38,7 @@
 \dfg@applicants@private@lines\hline
 \end{tabular}}
 \renewenvironment{prop@proposal}
-{\ifgeneral
+{
 \ifsubmit\setcounter{page}{1}\else
 \thispagestyle{empty}%
 \begin{center}
@@ -48,10 +48,11 @@
 {\large\today}\\[1em]
 \WAauthorblock[aff]\prop@gen@PIs\\[2cm]
 \end{center}
-\setcounter{section}{-1}
+\ifgeneral\setcounter{section}{-1}\fi
 \edef\keep@tocdepth{\value{tocdepth}}
 \setcounter{tocdepth}{2}\tableofcontents
 \setcounter{tocdepth}{\keep@tocdepth}
+\ifgeneral
 \newpage\thispagestyle{empty}
 \ifdeutsch\section{Allgemeine Angaben (nur f\"ur ELAN)}\else
 \section{General Information (for the ELAN system only)}\fi
@@ -77,7 +78,7 @@
 \ifdeutsch\else\selectlanguage{english}\fi
 \newpage
 \setcounter{page}{0}%
-\fi\fi}% ifsubmit ifgeneral
+\fi\fi\clearpage}% ifsubmit ifgeneral
 {}
 \ifdeutsch
 \def\prop@warnpubs@message{Viele der Publikationen der Antragsteller sind verf\"ugbar unter folgenden URLs:}
