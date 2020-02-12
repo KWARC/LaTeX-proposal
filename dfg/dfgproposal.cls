@@ -39,15 +39,16 @@
 \end{tabular}}
 \renewenvironment{prop@proposal}
 {
-\ifsubmit\setcounter{page}{1}\else
-\thispagestyle{empty}%
 \begin{center}
-{\LARGE \prop@gen@instrument}\\[.2cm]
+{\LARGE \prop@gen@instrument}\\[.75cm]
+\WAauthorblock[aff]\prop@gen@PIs\\[1em]
 {\LARGE\textbf{\prop@gen@title}}\\[.3cm]
 \ifx\prop@gen@acronym\@empty\else{\LARGE Acronym: {\prop@gen@acronym}}\\[.2cm]\fi
-{\large\today}\\[1em]
-\WAauthorblock[aff]\prop@gen@PIs\\[2cm]
+\ifgeneral{\large\today}\\[2cm]\fi
 \end{center}
+\ifsubmit
+\setcounter{page}{1}\else
+\thispagestyle{empty}%
 \ifgeneral\setcounter{section}{-1}\fi
 \edef\keep@tocdepth{\value{tocdepth}}
 \setcounter{tocdepth}{2}\tableofcontents
@@ -78,7 +79,7 @@
 \ifdeutsch\else\selectlanguage{english}\fi
 \newpage
 \setcounter{page}{0}%
-\fi\fi\clearpage}% ifsubmit ifgeneral
+\clearpage\fi\fi}% ifsubmit ifgeneral
 {}
 \ifdeutsch
 \def\prop@warnpubs@message{Viele der Publikationen der Antragsteller sind verf\"ugbar unter folgenden URLs:}
