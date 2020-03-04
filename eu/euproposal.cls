@@ -29,7 +29,7 @@
 \setcounter{part}{2}
 \def\thechapter{\thepart.\arabic{chapter}}
 \def\numberline#1{\hb@xt@\@tempdima{#1\hfil} }
-\fi
+\fi% ifpartB
 \newcommand\prop@sites@table{\def\@@table{}
 {\let\tabularnewline\relax\let\hline\relax
 \@for\@I:=\prop@gen@sites\do{\xdef\@@table{\@@table\pdataref{site}\@I{number}}
@@ -158,7 +158,7 @@
 \define@key{mst}{wdeliv}{\gdef\mst@wdeliv{#1}}
 \define@key{mst}{wverif}{\gdef\mst@wverif{#1}}
 \newcommand\milestonetable[1][]{%
-\IfFileExists{./\jobname.deliverables}{% to avoid errros
+\IfFileExists{./\jobname.deliverables}{% to avoid errors
 \message{euproposal.cls: Generating Milestones Table}%
 \def\mst@caption{Milestones, Deliverables, and Verification}%
 \def\mst@wname{2.5cm}\def\mst@wdeliv{7cm}\def\mst@wverif{4cm}

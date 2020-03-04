@@ -38,22 +38,20 @@
 \dfg@applicants@private@lines\hline
 \end{tabular}}
 \renewenvironment{prop@proposal}
-{
+{\ifgeneral
+\ifsubmit\setcounter{page}{1}\else
+\thispagestyle{empty}%
 \begin{center}
-{\LARGE \prop@gen@instrument}\\[.75cm]
-\WAauthorblock[aff]\prop@gen@PIs\\[1em]
+{\LARGE \prop@gen@instrument}\\[.2cm]
 {\LARGE\textbf{\prop@gen@title}}\\[.3cm]
 \ifx\prop@gen@acronym\@empty\else{\LARGE Acronym: {\prop@gen@acronym}}\\[.2cm]\fi
-\ifgeneral{\large\today}\\[2cm]\fi
+{\large\today}\\[1em]
+\WAauthorblock[aff]\prop@gen@PIs\\[2cm]
 \end{center}
-\ifsubmit
-\setcounter{page}{1}\else
-\thispagestyle{empty}%
-\ifgeneral\setcounter{section}{-1}\fi
+\setcounter{section}{-1}
 \edef\keep@tocdepth{\value{tocdepth}}
 \setcounter{tocdepth}{2}\tableofcontents
 \setcounter{tocdepth}{\keep@tocdepth}
-\ifgeneral
 \newpage\thispagestyle{empty}
 \ifdeutsch\section{Allgemeine Angaben (nur f\"ur ELAN)}\else
 \section{General Information (for the ELAN system only)}\fi
@@ -79,7 +77,7 @@
 \ifdeutsch\else\selectlanguage{english}\fi
 \newpage
 \setcounter{page}{0}%
-\clearpage\fi\fi}% ifsubmit ifgeneral
+\fi\fi}% ifsubmit ifgeneral
 {}
 \ifdeutsch
 \def\prop@warnpubs@message{Viele der Publikationen der Antragsteller sind verf\"ugbar unter folgenden URLs:}
