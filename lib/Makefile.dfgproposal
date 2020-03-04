@@ -21,7 +21,7 @@ BBL = $(PROPOSAL:%.tex=%.bbl)
 PROPCLS.dir = $(PROP.dir)/base
 PROPETC.dir = $(PROP.dir)/etc
 DFGPROPCLS.dir = $(PROP.dir)/dfg
-TEXINPUTS := .//:$(PROPCLS.dir)//:$(DFGPROPCLS.dir)//:$(PROPETC.dir)//:
+TEXINPUTS := $(PROPCLS.dir)//:$(DFGPROPCLS.dir)//:$(PROPETC.dir)//:
 BIBINPUTS := $(BIB):$(BIBINPUTS)
 BIBS := $(shell ls $(BIB)/*.bib)
 PROPCLS.clssty = proposal.cls pdata.sty reporting.cls
