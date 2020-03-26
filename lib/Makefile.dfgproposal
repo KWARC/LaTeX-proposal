@@ -4,26 +4,29 @@
 # of information to the developers. Variants submit.tex and public.tex are
 # used to prepare official versions (hiding development/private info). 
 ###########################################################################
-# To use this file, set these files in a local Makefile
+# To use this file, set these variables in a local Makefile
 # PROPOSAL = ????	# the base name of the top-level proposal file(s) 
 # REPORT = ????	# the base name of the top-level report file(s) 
 # BIB =  ?????		# directory of the bibTeX databases
 # PROP.dir = ????      # The LaTeX-proposal class directory
 ###########################################################################
-# the following are computed from these settings
+# The following variables can be used to customize things furhter
+LATEXMODE ?= batchmode 
+PDFLATEX = pdflatex -interaction $(LATEXMODE) -file-line-error 
+###########################################################################
+# the following variables are computed from these settings
 TARGET = $(PROPOSAL) $(REPORT)                       	  # all pdflatex targets
 TARGET.pdf 	= $(TARGET:%.tex=%.pdf)         	  # PDFs to be produced
 TARGET.aux 	= $(TARGET:%.tex=%.aux)             # their aux files.
 PDATA 		= $(PROPOSAL:%.tex=%.pdata)       # the proposal project data
 SRC = $(filter-out $(TARGET),$(shell ls *.tex))   # included files
-PDFLATEX = pdflatex -interaction batchmode -file-line-error
 BBL = $(PROPOSAL:%.tex=%.bbl) 
 PROPCLS.dir = $(PROP.dir)/base
 PROPETC.dir = $(PROP.dir)/etc
 DFGPROPCLS.dir = $(PROP.dir)/dfg
 TEXINPUTS := $(PROPCLS.dir)//:$(DFGPROPCLS.dir)//:$(PROPETC.dir)//:
 BIBINPUTS := $(BIB):$(BIBINPUTS)
-BIBS := $(shell ls $(BIB)/*.bib)
+BIBS := $(shell ls *.bib) $(shell ls $(BIB)/*.bib)
 PROPCLS.clssty = proposal.cls pdata.sty reporting.cls
 PROPETC.sty = workaddress.sty metakeys.sty sref.sty
 DFGPROPCLS.clssty = dfgproposal.cls dfgpdata.sty dfgreporting.cls
