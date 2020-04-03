@@ -12,7 +12,7 @@
     {dfgproposal}
 \addbibresource{../lib/dummy.bib}
 \renewcommand{\familydefault}{\sfdefault}
-\RequirePackage[scaled=.90]{helvet}
+\usepackage[scaled=.90]{helvet}
 \input{../lib/WApersons}
 
 \begin{document}
@@ -38,41 +38,11 @@
   discipline=Computer Science, 
   areas=Knowledge Management]
 
-
-\begin{Summary}
-  \begin{todo}{copy into the Elan system}
-    Summarize the relevant goals of the proposed project in generally intelligible
-    terms. Do not use more than 3000 characters, no special characters allowed.
-  \end{todo}
-\end{Summary}
-
-\begin{Zusammenfassung}
-  \begin{todo}{in das Elan System kopieren}
-    Fassen Sie die relevanten Projektziele allgemeinverst''andlich in maximal 3000 Zeichen
-    (keine Sonderzeichen) zusammen
-  \end{todo}
-  Das Schreiben von Antr"agen ist ein kollaborativer Prozess in dem Betr"age von mehreren
-  Personen integriert werden mu"ussen. Ein ASCII-basiertes Format wie {\LaTeX} erlaubt die
-  Koordination dieses Prozesses mittels Versionsverwaltungssystemen wie
-  Subversion. Dadurch k''onnen sich die Antragsteller auf Inhalte konzentrieren anstatt
-  auf die Mechanik der Dokumentenverwaltung.
-\end{Zusammenfassung}
-
-\begin{Summary}
-  \begin{todo}{copy into the Elan system}
-    Summarize the relevant goals of the proposed project in generally intelligible
-    terms. Do not use more than 3000 characters, no special characters allowed.
-  \end{todo}
-  Writing grant proposals is a collaborative effort that requires the integration of
-  contributions from many individuals. The use of an ASCII-based format like {\LaTeX}
-  allows to coordinate the process via a source code control system like Subversion,
-  allowing the proposal writing team to concentrate on the contents rather than the
-  mechanics of wrangling with text fragments and revisions.
-\end{Summary}
-
 % It is often good to separate the top-level sections into separate files. 
 % Especially in collaborative proposals. We do this here. And this allows us to share the
 % state of the art of another proposal.
+\input{../proposal/zusammenfassung}
+\input{../proposal/summary}
 \input{../proposal/state}
 \input{workplan}
 
