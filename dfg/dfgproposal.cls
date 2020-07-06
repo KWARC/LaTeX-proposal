@@ -69,6 +69,8 @@
 \@ifundefined{prop@gen@since}{initial proposal}{continuation proposal, the project started
   \prop@gen@since.}
 \fi%ifdeutsch
+\ifdeutsch\else\subsection{Keywords}\prop@gen@keywords\fi
+\subsection{Schl\"usselw\"orter}\prop@gen@Dkeywords
 \ifdeutsch\subsection{Antragszeitraum}\else
 \subsection{Application period \deu{(Antragszeitraum)}}\fi
 \prop@gen@months\quad Months starting \prop@gen@start

@@ -230,6 +230,8 @@
 %    \begin{macrocode}
 %<*pdata>
 \define@key{prop@gen}{thema}{\def\prop@gen@thema{#1}\pdata@def{prop}{gen}{thema}{#1}}
+\def\prop@gen@Dkeywords{kommt noch}
+\define@key{prop@gen}{Dkeywords}{\def\prop@gen@Dkeywords{#1}}
 %</pdata>
 %    \end{macrocode}
 % and now the ones for the final report 
@@ -377,6 +379,8 @@ Applicant\if@sites\ifnum\the@PIs>1{s}\fi\fi\ \deu{(Antragsteller)}}%
 \@ifundefined{prop@gen@since}{initial proposal}{continuation proposal, the project started
   \prop@gen@since.}
 \fi%ifdeutsch
+\ifdeutsch\else\subsection{Keywords}\prop@gen@keywords\fi
+\subsection{Schl\"usselw\"orter}\prop@gen@Dkeywords
 \ifdeutsch\subsection{Antragszeitraum}\else
 \subsection{Application period \deu{(Antragszeitraum)}}\fi
 \prop@gen@months\quad Months starting \prop@gen@start

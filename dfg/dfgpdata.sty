@@ -12,6 +12,8 @@
 \DeclareOption{german}{\deutschtrue\message{Deutscher Antrag}}
 \ProcessOptions
 \define@key{prop@gen}{thema}{\def\prop@gen@thema{#1}\pdata@def{prop}{gen}{thema}{#1}}
+\def\prop@gen@Dkeywords{kommt noch}
+\define@key{prop@gen}{Dkeywords}{\def\prop@gen@Dkeywords{#1}}
 \renewcommand\prop@gen@instrument{Neuantrag auf Sachbeihilfe}
 \newcommand\prop@gen@thema{??? Thema ???}
 \newcommand\deu[1]{#1}
