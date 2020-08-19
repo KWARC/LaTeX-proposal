@@ -25,7 +25,7 @@ PROPCLS.dir = $(PROP.dir)/base
 DFGPROPCLS.dir = $(PROP.dir)/dfg
 TEXINPUTS := $(PROPCLS.dir)//:$(DFGPROPCLS.dir)//:
 BIBINPUTS := $(BIB):$(BIBINPUTS)
-BIBS := $(shell ls *.bib) $(shell ls $(BIB)/*.bib)
+BIBS := $(shell ls *.bib 2>/dev/null) $(shell ls $(BIB)/*.bib 2>/dev/null)
 PROPCLS.clssty = proposal.cls pdata.sty reporting.cls
 DFGPROPCLS.clssty = dfgproposal.cls dfgpdata.sty dfgreporting.cls
 PROPCLS = $(PROPCLS.clssty:%=$(PROPCLS.dir)/%) $(DFGPROPCLS.clssty:%=$(DFGPROPCLS.dir)/%)
