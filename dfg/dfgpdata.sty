@@ -22,7 +22,10 @@
 \prop@tl\prop@gen@PIs{\wa@ref3{person}\tl@ext{academictitle}}\\
 \prop@tl\prop@gen@PIs{\wa@ref3{person}\tl@ext{birthdate}}\\}
 \newcommand\dfg@applicants@institute@lines{%
-\prop@tl\prop@gen@PIs{\wa@ref3{institution}{\wa@ref3{person}\tl@ext{affiliation}}{shortname}}\\
+\prop@tl\prop@gen@PIs{
+  \xdef\@@@aff {\wa@ref3{person}\tl@ext{affiliation}}
+  \message{AFF \tl@ext: \@@@aff}
+  \wa@ref3{institution}\@@@aff{shortname}}\\
 \prop@tl\prop@gen@PIs{\wa@ref3{person}\tl@ext{workaddress}}\\
 \prop@tl\prop@gen@PIs{Tel: \wa@ref3{person}\tl@ext{worktel}}\\
 \prop@tl\prop@gen@PIs{Fax: \wa@ref3{person}\tl@ext{workfax}}\\

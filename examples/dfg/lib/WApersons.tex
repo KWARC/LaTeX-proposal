@@ -3,6 +3,7 @@
            birthdate=13. September 1964,
            academictitle=Professor f\"ur Wissensrepr\"asentation und -verarbeitung,
            affiliation=fau,
+           department=fauinf,
            privaddress=None of your business,
            privtel=that neither,
            email=michael.kohlhase@fau.de,
@@ -26,7 +27,8 @@
            email=gc@pcg.phony]
            {Great Communicator}
 
-\WAinstitution[id=fau,acronym=FAU,
+\WAinstitution[id=fau,
+               acronym=FAU,
                url=http://fau.de,
                streetaddress={Schlossplatz 1},
                townzip={91058 Erlangen},
@@ -37,18 +39,29 @@
                shortname=FAU Erlangen-N\"urnberg]
                {FAU Erlangen-N\"urnberg}
 
-\WAinstitution[id=pcsa,
-                           url=http://pcg.phony/sa,
-                           partof=pcg,shortname=Science Affairs]
-               {Science Affairs}
+\WAinstitution[id=fauinf,acronym=INF,
+               url=http://cs.fau.de,
+               streetaddress={Martenstr. 3},
+               townzip={91058 Erlangen},
+               countryshort=D,
+               country=Germany,
+               shortname=Informatik]
+               {Informatik}
 
-               \WAinstitution[id=pcg,acronym=PCG,
+\WAinstitution[id=pcg,acronym=PCG,
                            url=http://pcg.phony,
                            countryshort=D,
                            streetaddress={Seefahrtstrasse 5},
                            townzip={23555 Hamburg},
                            shortname=Power Consulting]
                {Power Consulting GmbH}
+
+\WAinstitution[id=pcsa,
+                        url=http://pcg.phony/sa,
+                        partof=pcg,
+                        shortname=Science Affairs]
+               {Science Affairs}
+
 
 %%% Local Variables: 
 %%% mode: latex

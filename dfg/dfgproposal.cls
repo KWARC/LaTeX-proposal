@@ -38,9 +38,7 @@
 \dfg@applicants@private@lines\hline
 \end{tabular}}
 \renewenvironment{prop@proposal}
-{\ifgeneral
-\ifsubmit\setcounter{page}{1}\else
-\thispagestyle{empty}%
+{\ifsubmit\setcounter{page}{1}\else\thispagestyle{empty}\fi
 \begin{center}
 {\LARGE \prop@gen@instrument}\\[.2cm]
 {\LARGE\textbf{\prop@gen@title}}\\[.3cm]
@@ -48,6 +46,8 @@
 {\large\today}\\[1em]
 \WAauthorblock[aff]\prop@gen@PIs\\[2cm]
 \end{center}
+\ifgeneral
+\ifsubmit\else
 \setcounter{section}{-1}
 \edef\keep@tocdepth{\value{tocdepth}}
 \setcounter{tocdepth}{2}\tableofcontents
