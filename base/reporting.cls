@@ -58,8 +58,9 @@
   \ifx\prop@gen@acronym\@empty\else{\LARGE Acronym: {\prop@gen@acronym}}\\[.2cm]\fi
   {\large\today}\\[1em]
   \begin{tabular}{c*{\the@PIs}{c}}
-    \prop@tl\prop@gen@PIs{\wa@ref3{person}\tl@ext{name}}\\
-    \prop@tl\prop@gen@PIs{\wa@ref3{institution}{\wa@ref3{person}\tl@ext{affiliation}}{name}}
+    \prop@tl\prop@gen@PIs{\pdataref{PI}\tl@ext{name}}\\
+    \prop@tl\prop@gen@PIs{\pdataref{PI}\tl@ext{affiliation}}\\
+    \prop@tl\prop@gen@PIs{\pdataref{PI}\tl@ext{dept}}\\
  \end{tabular}\\[2cm]
 \end{center}
 \setcounter{tocdepth}{2}\tableofcontents\newpage\setcounter{page}{1}}
