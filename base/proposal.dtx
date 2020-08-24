@@ -1830,8 +1830,8 @@
 % \begin{macro}{\readpdata}
 %   This macro reads the project data file and its error handling
 %    \begin{macrocode}
-\newcommand\readpdata[1]{\IfFileExists{#1.pdata}
-{\message{proposal: Reading Project Data}\makeatletter\input{#1.pdata}\makeatother}
+\newcommand\readpdata[1]{\IfFileExists{./#1.pdata}
+{\message{proposal: Reading Project Data}\makeatletter\input{./#1.pdata}\makeatother}
 {proposal: No Project Data found, (forward) references may be compromized}}
 %    \end{macrocode}
 % \end{macro}

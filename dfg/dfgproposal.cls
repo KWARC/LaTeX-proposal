@@ -30,6 +30,7 @@
 {\LARGE\textbf{\prop@gen@title}}\\[.3cm]
 \ifx\prop@gen@acronym\@empty\else{\LARGE Acronym: {\prop@gen@acronym}}\\[.2cm]\fi
 {\large\today}\\[1em]
+\message{XXXXXX PIs: \the@PIs}
 \begin{tabular}{c*{\the@PIs}{c}}
 \prop@tl\prop@gen@PIs{\pdataref{PI}\tl@ext{name}}\\
 \prop@tl\prop@gen@PIs{\pdataref{PI}\tl@ext{affiliation}}\\
@@ -58,8 +59,10 @@
 \@ifundefined{prop@gen@since}{initial proposal}{continuation proposal, the project started
   \prop@gen@since.}
 \fi%ifdeutsch
-\ifdeutsch\else\subsection{Keywords}\prop@gen@keywords\fi
+\ifdeutsch
 \subsection{Schl\"usselw\"orter}\prop@gen@Dkeywords
+\else\subsection{Keywords}\prop@gen@keywords
+\fi
 \ifdeutsch\subsection{Antragszeitraum}\else
 \subsection{Application period \deu{(Antragszeitraum)}}\fi
 \prop@gen@months\quad Months starting \prop@gen@start
@@ -78,16 +81,8 @@
 \section{List of Attachments \deu{(Verzeichnis der Anlagen)}}\fi
 \begin{itemize}
 \@for\@I:=\prop@gen@PIs\do{%
- \item\ifdeutsch Lebenslauf und Publikatinsverzeichnis\else
- Curriculum Vitae and list of publications for \fi
-   \@nameuse{wa@person@\@I @personaltitle}
-   \@nameuse{wa@person@\@I @name}
-  (CD + \ifdeutsch Ausdruck\else printed version\fi)}
-\ifdeutsch
-\item Publications either cited in section~\ref{sec:ourpubs} or occurring in one of the
-  curricula vitae (CD only)\else
-\item Zitierte Publikationen aus Abschnitt~\ref{sec:ourpubs} oder einem der Lebensl\"aufe
-  (nur CD)\fi
+ \item\ifdeutsch Lebenslauf und Publikatinsverzeichnis\else Curriculum Vitae and list of publications for \fi
+   \pdataref{PI}\@I{title}\pdataref{PI}\@I{name}}
 \end{itemize}}
 \ifgeneral
 \newenvironment{Zusammenfassung}{\thispagestyle{empty}\subsection{Zusammenfassung}\begin{otherlanguage}{ngerman}}

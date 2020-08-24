@@ -96,8 +96,8 @@
 \newwrite\pdata@out
 \newcommand\pdata@open[1]{\immediate\openout\pdata@out=#1.pdata}
 \newcommand\pdata@close{\closeout\pdata@out}
-\newcommand\readpdata[1]{\IfFileExists{#1.pdata}
-{\message{proposal: Reading Project Data}\makeatletter\input{#1.pdata}\makeatother}
+\newcommand\readpdata[1]{\IfFileExists{./#1.pdata}
+{\message{proposal: Reading Project Data}\makeatletter\input{./#1.pdata}\makeatother}
 {proposal: No Project Data found, (forward) references may be compromized}}
 \newcommand\pdata@target[3]{\hypertarget{#1@#2@target}{#3}}
 \newcommand\pdata@def[4]{%\@pdata@def{#1}{#2}{#3}{#4}%
