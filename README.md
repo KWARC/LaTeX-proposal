@@ -20,7 +20,7 @@ should work.
 ```
 cd /path/to/project
 git clone https://github.com/KWARC/LaTeX-proposal
-echo 'export TEXINPUTS = "$(TEXINPUTS):/path/to/project/LaTeX-proposal:"' >> ~/.bashrc
+echo 'export TEXINPUTS = "$(TEXINPUTS):/path/to/project/LaTeX-proposal//:"' >> ~/.bashrc
 ```
 Of course you will have to replace `/path/to/project` with a path appropriate to
 your system. A simple `git pull` will update you to the newest version.
