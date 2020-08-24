@@ -7,7 +7,7 @@
 %% euproposal.dtx  (with options: `cls')
 %% 
 \NeedsTeXFormat{LaTeX2e}[1999/12/01]
-\ProvidesClass{euproposal}[2019/03/21 v1.5 EU Proposal]
+\ProvidesClass{euproposal}[2020/08/21 v1.7 EU Proposal]
 \newif\ifpartB\partBfalse
 \DeclareOption{partB}{\partBtrue}
 \newif\if@split\@splitfalse
