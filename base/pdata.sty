@@ -8,12 +8,20 @@
 %% 
 \NeedsTeXFormat{LaTeX2e}[1999/12/01]
 \ProvidesPackage{pdata}[2019/03/21 v1.6 Project Data]
-\RequirePackage{workaddress}[2016/07/06]
 \RequirePackage{eurosym}
 \newif\if@sites\@sitesfalse\let\prop@gen@sites=\relax%
 \newcounter{@site}%
 \define@key{prop@gen}{site}{\@sitestrue\@dmp{site=#1}%
 \stepcounter{@site}\pdata@def{site}{#1}{number}{\the@site}%
+\define@key{prop@gen}{#1name}{\pdata@def{site}{#1}{name}{##1}}
+\define@key{prop@gen}{#1acronym}{\pdata@def{site}{#1}{acronym}{##1}}
+\define@key{prop@gen}{#1country}{\pdata@def{site}{#1}{country}{##1}}
+\define@key{prop@gen}{#1countryshort}{\pdata@def{site}{#1}{countryshort}{##1}}
+\define@key{prop@gen}{#1streetaddress}{\pdata@def{site}{#1}{streetaddress}{##1}}
+\define@key{prop@gen}{#1townzip}{\pdata@def{site}{#1}{townzip}{##1}}
+\define@key{prop@gen}{#1url}{\pdata@def{site}{#1}{url}{##1}}
+\define@key{prop@gen}{#1logo}{\pdata@def{site}{#1}{logo}{##1}}
+\define@key{prop@gen}{#1type}{\pdata@def{site}{#1}{type}{##1}}
 \@ifundefined{prop@gen@sites}{\xdef\prop@gen@sites{#1}}{\xdef\prop@gen@sites{\prop@gen@sites,#1}}%
 \define@key{prop@gen}{#1RM}{\pdata@def{site}{#1}{intendedRM}{##1}}%
 \if@RAM\define@key{prop@gen}{#1RAM}{\pdata@def{site}{#1}{intendedRAM}{##1}}\fi
@@ -21,10 +29,11 @@
 \if@RAM\define@key{workpackage}{#1RAM}{\pdata@def\wp@id{#1}{RAM}{##1}}\fi
 \define@key{task}{#1RM}{\pdata@def{\wp@id @\task@id}{#1}{RM}{##1}}%
 \if@RAM\define@key{task}{#1RAM}{\pdata@def{\wp@id @\task@id}{#1}{RAM}{##1}}\fi
-\define@key{prop@gen}{#1employed}{{\let\tabularnewline\relax\let\hline\relax\let\wa@ref\relax%
+\define@key{prop@gen}{#1shortname}{\pdata@def{site}{#1}{shortname}{##1}}
+\define@key{prop@gen}{#1employed}{{\let\tabularnewline\relax\let\hline\relax\let%
 \@ifundefined{prop@gen@employed@lines}%
-{\xdef\prop@gen@employed@lines{\wa@ref3{institution}{#1}{shortname} & ##1\tabularnewline\hline}}%
-{\xdef\prop@gen@employed@lines{\prop@gen@employed@lines \wa@ref3{institution}{#1}{shortname} & ##1\tabularnewline\hline}}}}}
+{\xdef\prop@gen@employed@lines{\pdataref{site}{#1}{shortname} & ##1\tabularnewline\hline}}%
+{\xdef\prop@gen@employed@lines{\prop@gen@employed@lines\ \pdataref{site}{#1}{shortname} & ##1\tabularnewline\hline}}}}}
 \define@key{prop@gen}{RM}{\@dmp{RM=#1}\if@sites%
 \PackageWarning{Do not use the RM key in the presence of sites}\else%
 \pdata@def{all}{intended}{RM}{#1}\fi}
@@ -32,6 +41,10 @@
 \PackageWarning{Do not use the RAM key in the presence of sites}\else%
 \pdata@def{all}{intended}{RAM}{#1}\fi}
 \define@key{prop@gen}{PI}{\@dmp{PI=#1}%
+\define@key{prop@gen}{#1name}{\pdata@def{PI}{#1}{name}{##1}}%
+\define@key{prop@gen}{#1title}{\pdata@def{PI}{#1}{title}{##1}}%
+\define@key{prop@gen}{#1affiliation}{\pdata@def{PI}{#1}{affiliation}{##1}}%
+\define@key{prop@gen}{#1dept}{\pdata@def{PI}{#1}{dept}{##1}}%
 \@ifundefined{prop@gen@PIs}{\xdef\prop@gen@PIs{#1}}{\xdef\prop@gen@PIs{\prop@gen@PIs,#1}}}
 \define@key{prop@gen}{pubspage}{\@ifundefined{prop@gen@pubspages}%
 {\xdef\prop@gen@pubspages{#1}}{\xdef\prop@gen@pubspages{\prop@gen@pubspages,#1}}}
@@ -83,8 +96,8 @@
 \newwrite\pdata@out
 \newcommand\pdata@open[1]{\immediate\openout\pdata@out=#1.pdata}
 \newcommand\pdata@close{\closeout\pdata@out}
-\newcommand\readpdata[1]{\IfFileExists{#1.pdata}
-{\message{proposal: Reading Project Data}\makeatletter\input{#1.pdata}\makeatother}
+\newcommand\readpdata[1]{\IfFileExists{./#1.pdata}
+{\message{proposal: Reading Project Data}\makeatletter\input{./#1.pdata}\makeatother}
 {proposal: No Project Data found, (forward) references may be compromized}}
 \newcommand\pdata@target[3]{\hypertarget{#1@#2@target}{#3}}
 \newcommand\pdata@def[4]{%\@pdata@def{#1}{#2}{#3}{#4}%
@@ -123,7 +136,7 @@
 \newcommand{\signatures}[1]{\section{#1}
 \qquad\number\day. \number\month. \number\year\\[6ex]
 \strut\qquad Date\hfill\@for\@p:=\prop@gen@PIs\do{%
-\wa@ref3{person}\@p{personaltitle}~\wa@ref3{person}\@p{name}\hfill}}
+\pdataref{PI}\@p{title}~\pdataref{PI}\@p{name}\hfill}}
 \def\@dmp#1{\ifkeys\marginpar{\small #1}\fi}
 \renewcommand\euro{\officialeuro\xspace}
 

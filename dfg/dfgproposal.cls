@@ -19,24 +19,10 @@
 \ifdeutsch\RequirePackage[ngerman]{babel}
 \else\RequirePackage[ngerman,english]{babel}\fi
 \newenvironment{sitedescription}[2][]%
-{\def\@test{#1}\def\@@title{\ifx\@test\@empty\wa@ref3{institution}{#2}{acronym}\else #1\fi:
-\textsc{\wa@ref3{institution}{#2}{name}}}
+{\def\@test{#1}\def\@@title{\ifx\@test\@empty\pdataref{site}{#2}{acronym}\else #1\fi:
+\textsc{\pdataref{site}{#2}{name}}}
 \@for\@I:=#2\do{\pdata@target{site}\@I{}}\subsubsection\@@title}
 {}
-\newlength\applicants@table@columnwidth
-\newcommand\dfg@applicants@table%
-{\setlength\applicants@table@columnwidth\textwidth
-\advance\applicants@table@columnwidth by -6em
-\divide\applicants@table@columnwidth by \the@PIs
-\ifnum\the@PIs>2\begin{tabular}{|l|*{\the@PIs}{p{\applicants@table@columnwidth}|}}
-\else\begin{tabular}{|l|*{\the@PIs}{l|}}\fi
-\hline
-\dfg@applicants@lines\hline
-&\multicolumn{\the@PIs}{|l|}{\textbf{Work Address\deu{ (Dienstanschrift)}:}}\\\hline
-\dfg@applicants@institute@lines\hline
-&\multicolumn{\the@PIs}{|l|}{\textbf{Private Address\deu{ (Privatanschrift)}:}}\\\hline
-\dfg@applicants@private@lines\hline
-\end{tabular}}
 \renewenvironment{prop@proposal}
 {\ifsubmit\setcounter{page}{1}\else\thispagestyle{empty}\fi
 \begin{center}
@@ -44,7 +30,12 @@
 {\LARGE\textbf{\prop@gen@title}}\\[.3cm]
 \ifx\prop@gen@acronym\@empty\else{\LARGE Acronym: {\prop@gen@acronym}}\\[.2cm]\fi
 {\large\today}\\[1em]
-\WAauthorblock[aff]\prop@gen@PIs\\[2cm]
+\message{XXXXXX PIs: \the@PIs}
+\begin{tabular}{c*{\the@PIs}{c}}
+\prop@tl\prop@gen@PIs{\pdataref{PI}\tl@ext{name}}\\
+\prop@tl\prop@gen@PIs{\pdataref{PI}\tl@ext{affiliation}}\\
+\prop@tl\prop@gen@PIs{\pdataref{PI}\tl@ext{dept}}\\
+\end{tabular}\\[2cm]
 \end{center}
 \ifgeneral
 \ifsubmit\else
@@ -55,7 +46,6 @@
 \newpage\thispagestyle{empty}
 \ifdeutsch\section{Allgemeine Angaben (nur f\"ur ELAN)}\else
 \section{General Information (for the ELAN system only)}\fi
-\dfg@applicants
 \dfg@topic
 \dfg@area@field
 \ifdeutsch\subsection{Voraussichtliche Gesamtdauer}\else
@@ -69,8 +59,10 @@
 \@ifundefined{prop@gen@since}{initial proposal}{continuation proposal, the project started
   \prop@gen@since.}
 \fi%ifdeutsch
-\ifdeutsch\else\subsection{Keywords}\prop@gen@keywords\fi
+\ifdeutsch
 \subsection{Schl\"usselw\"orter}\prop@gen@Dkeywords
+\else\subsection{Keywords}\prop@gen@keywords
+\fi
 \ifdeutsch\subsection{Antragszeitraum}\else
 \subsection{Application period \deu{(Antragszeitraum)}}\fi
 \prop@gen@months\quad Months starting \prop@gen@start
@@ -89,16 +81,8 @@
 \section{List of Attachments \deu{(Verzeichnis der Anlagen)}}\fi
 \begin{itemize}
 \@for\@I:=\prop@gen@PIs\do{%
- \item\ifdeutsch Lebenslauf und Publikatinsverzeichnis\else
- Curriculum Vitae and list of publications for \fi
-   \@nameuse{wa@person@\@I @personaltitle}
-   \@nameuse{wa@person@\@I @name}
-  (CD + \ifdeutsch Ausdruck\else printed version\fi)}
-\ifdeutsch
-\item Publications either cited in section~\ref{sec:ourpubs} or occurring in one of the
-  curricula vitae (CD only)\else
-\item Zitierte Publikationen aus Abschnitt~\ref{sec:ourpubs} oder einem der Lebensl\"aufe
-  (nur CD)\fi
+ \item\ifdeutsch Lebenslauf und Publikatinsverzeichnis\else Curriculum Vitae and list of publications for \fi
+   \pdataref{PI}\@I{title}\pdataref{PI}\@I{name}}
 \end{itemize}}
 \ifgeneral
 \newenvironment{Zusammenfassung}{\thispagestyle{empty}\subsection{Zusammenfassung}\begin{otherlanguage}{ngerman}}

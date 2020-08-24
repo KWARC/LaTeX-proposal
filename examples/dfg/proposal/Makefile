@@ -7,6 +7,6 @@
 # possibly customize the following variables to your setting
 PROPOSAL = proposal.tex# 	# the proposal
 PROP.dir = ../../..#            # The LaTeX-proposal class directory
-BIB = $(PROP.dir)/lib/dummy.bib# # bibTeX databases
+BIB = ../lib#                   # bibTeX databases
 ###########################################################################
 include $(PROP.dir)/lib/Makefile.dfgproposal 

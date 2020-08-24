@@ -213,14 +213,12 @@
 % \item \DescribeMacro{discipline}|discipline| for the academic discipline and |areas| for
 %   the research areas in that discipline.
 % \item \DescribeMacro{PI}|PI| to declare the principal investigator. For collaborative
-%   proposals we can use the |PI| key multiple times. The |proposal| package uses the
-%   |workaddress| package for representation of personal metadata,
-%   see~\cite{Kohlhase:workaddress:ctan} or the file |proposal.tex| for details.
+%   proposals we can use the |PI| key multiple times.  \ednote{document the generated keys}
 % \item Many collaborative proposals are shared between two institutions, which we can
 %   declare with the \DescribeMacro{site}|site| key. As this changes the interface this
 %   should not be used for single-institution proposals. We will describe the setup for a
 %   single-site proposal below and point out the differences. The example |proposal.tex|
-%   is a two-site proposal.
+%   is a two-site proposal.  \ednote{document the generated keys}
 % \item Sometimes it makes sense to document the proposal number in the metadata, e.g. to
 %   use the generated metadata file \meta{main}|.pdata| for project reports. The
 %   |proposalnumber| can be used for that. 
@@ -753,11 +751,9 @@
 % \subsection{Proposal Metadata}\label{sec:impl:metadata}
 %  
 % Most of the metadata functionality is encapsulated into the \DescribeMacro{pdata}|pdata|
-% package, which is shared by the proposal and report classes. |pdata.sty| first loads the
-% |workaddress| package from sTeX and supplies the Euro symbol. 
+% package, which is shared by the proposal and report classes. |pdata.sty| first supplies the Euro symbol. 
 %    \begin{macrocode}
 %<*pdata>
-\RequirePackage{workaddress}[2016/07/06]
 \RequirePackage{eurosym}
 %    \end{macrocode}
 % We define the keys for metadata declarations in the |proposal| environment, they park
@@ -771,6 +767,15 @@
 \newcounter{@site}%
 \define@key{prop@gen}{site}{\@sitestrue\@dmp{site=#1}%
 \stepcounter{@site}\pdata@def{site}{#1}{number}{\the@site}%
+\define@key{prop@gen}{#1name}{\pdata@def{site}{#1}{name}{##1}}
+\define@key{prop@gen}{#1acronym}{\pdata@def{site}{#1}{acronym}{##1}}
+\define@key{prop@gen}{#1country}{\pdata@def{site}{#1}{country}{##1}}
+\define@key{prop@gen}{#1countryshort}{\pdata@def{site}{#1}{countryshort}{##1}}
+\define@key{prop@gen}{#1streetaddress}{\pdata@def{site}{#1}{streetaddress}{##1}}
+\define@key{prop@gen}{#1townzip}{\pdata@def{site}{#1}{townzip}{##1}}
+\define@key{prop@gen}{#1url}{\pdata@def{site}{#1}{url}{##1}}
+\define@key{prop@gen}{#1logo}{\pdata@def{site}{#1}{logo}{##1}}
+\define@key{prop@gen}{#1type}{\pdata@def{site}{#1}{type}{##1}}
 \@ifundefined{prop@gen@sites}{\xdef\prop@gen@sites{#1}}{\xdef\prop@gen@sites{\prop@gen@sites,#1}}%
 \define@key{prop@gen}{#1RM}{\pdata@def{site}{#1}{intendedRM}{##1}}%
 \if@RAM\define@key{prop@gen}{#1RAM}{\pdata@def{site}{#1}{intendedRAM}{##1}}\fi
@@ -778,10 +783,11 @@
 \if@RAM\define@key{workpackage}{#1RAM}{\pdata@def\wp@id{#1}{RAM}{##1}}\fi
 \define@key{task}{#1RM}{\pdata@def{\wp@id @\task@id}{#1}{RM}{##1}}%
 \if@RAM\define@key{task}{#1RAM}{\pdata@def{\wp@id @\task@id}{#1}{RAM}{##1}}\fi
-\define@key{prop@gen}{#1employed}{{\let\tabularnewline\relax\let\hline\relax\let\wa@ref\relax%
+\define@key{prop@gen}{#1shortname}{\pdata@def{site}{#1}{shortname}{##1}}
+\define@key{prop@gen}{#1employed}{{\let\tabularnewline\relax\let\hline\relax\let%
 \@ifundefined{prop@gen@employed@lines}%
-{\xdef\prop@gen@employed@lines{\wa@ref3{institution}{#1}{shortname} & ##1\tabularnewline\hline}}%
-{\xdef\prop@gen@employed@lines{\prop@gen@employed@lines \wa@ref3{institution}{#1}{shortname} & ##1\tabularnewline\hline}}}}}
+{\xdef\prop@gen@employed@lines{\pdataref{site}{#1}{shortname} & ##1\tabularnewline\hline}}%
+{\xdef\prop@gen@employed@lines{\prop@gen@employed@lines\ \pdataref{site}{#1}{shortname} & ##1\tabularnewline\hline}}}}}
 %    \end{macrocode}
 % If there are no sites, then we have to define keys |RM| and |RAM| that store the
 % intended research (assistant months). Unfortunately, we cannot just include this in the
@@ -797,6 +803,10 @@
 %  similarly, the |PI| keys  are registered in |\prop@gen@PIs|.
 %    \begin{macrocode}
 \define@key{prop@gen}{PI}{\@dmp{PI=#1}%
+\define@key{prop@gen}{#1name}{\pdata@def{PI}{#1}{name}{##1}}%
+\define@key{prop@gen}{#1title}{\pdata@def{PI}{#1}{title}{##1}}%
+\define@key{prop@gen}{#1affiliation}{\pdata@def{PI}{#1}{affiliation}{##1}}%
+\define@key{prop@gen}{#1dept}{\pdata@def{PI}{#1}{dept}{##1}}%
 \@ifundefined{prop@gen@PIs}{\xdef\prop@gen@PIs{#1}}{\xdef\prop@gen@PIs{\prop@gen@PIs,#1}}}
 %    \end{macrocode}
 %  and the |pubspage| keys  in |\prop@gen@pubspages|.
@@ -853,7 +863,7 @@
 %    \end{macrocode}
 %
 % \begin{macro}{\prop@tl}
-%   An auxiliary macro that is handy for making tables of WorkAddress data. 
+%   An auxiliary macro that is handy for making tables of metadata. 
 %    \begin{macrocode}
 \newcommand\prop@tl[2]{\xdef\tab@line{}
 \@for\tl@ext:={#1}\do{\xdef\tab@line{\tab@line&#2}}
@@ -892,8 +902,9 @@
   \ifx\prop@gen@acronym\@empty\else{\LARGE Acronym: {\prop@gen@acronym}}\\[.2cm]\fi
   {\large\today}\\[1em]
   \begin{tabular}{c*{\the@PIs}{c}}
-    \prop@tl\prop@gen@PIs{\wa@ref3{person}\tl@ext{name}}\\
-    \prop@tl\prop@gen@PIs{\wa@ref3{institution}{\wa@ref3{person}\tl@ext{affiliation}}{name}}
+    \prop@tl\prop@gen@PIs{\pdataref{PI}\tl@ext{name}}\\
+    \prop@tl\prop@gen@PIs{\pdataref{PI}\tl@ext{affiliation}}\\
+    \prop@tl\prop@gen@PIs{\pdataref{PI}\tl@ext{dept}}\\
  \end{tabular}\\[2cm]
 \end{center}
 \setcounter{tocdepth}{2}\tableofcontents\newpage\setcounter{page}{1}}
@@ -904,7 +915,7 @@
 \begin{itemize}
 \@for\@I:=\prop@gen@PIs\do{%
 \item Curriculum Vitae and list of publications for
-  \wa@ref3{person}\@I{personaltitle} \wa@ref3{person}\@I{name}}
+  \pdataref{PI\@I}{title} \pdataref{PI}\@I{name}}
 \end{itemize}\newpage
 \printbibliography[heading=warnpubs]}
 %    \end{macrocode}
@@ -977,8 +988,9 @@
   \ifx\prop@gen@acronym\@empty\else{\LARGE Acronym: {\prop@gen@acronym}}\\[.2cm]\fi
   {\large\today}\\[1em]
   \begin{tabular}{c*{\the@PIs}{c}}
-    \prop@tl\prop@gen@PIs{\wa@ref3{person}\tl@ext{name}}\\
-    \prop@tl\prop@gen@PIs{\wa@ref3{institution}{\wa@ref3{person}\tl@ext{affiliation}}{name}}
+    \prop@tl\prop@gen@PIs{\pdataref{PI}\tl@ext{name}}\\
+    \prop@tl\prop@gen@PIs{\pdataref{PI}\tl@ext{affiliation}}\\
+    \prop@tl\prop@gen@PIs{\pdataref{PI}\tl@ext{dept}}\\
  \end{tabular}\\[2cm]
 \end{center}
 \setcounter{tocdepth}{2}\tableofcontents\newpage\setcounter{page}{1}}
@@ -990,8 +1002,8 @@
 % \begin{macro}{\site*}
 %    \begin{macrocode}
 %<*sty>
-\newcommand\site[1]{\hyperlink{site@#1@target}{\textbf{\wa@ref3{institution}{#1}{acronym}}}}
-\newcommand\sitename[1]{\hyperlink{site@#1@target}{\textbf{\wa@ref3{institution}{#1}{name}}}}
+\newcommand\site[1]{\hyperlink{site@#1@target}{\textbf{\pdataref{site}{#1}{acronym}}}}
+\newcommand\sitename[1]{\hyperlink{site@#1@target}{\textbf{\pdataref{site}{#1}{name}}}}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -1818,8 +1830,8 @@
 % \begin{macro}{\readpdata}
 %   This macro reads the project data file and its error handling
 %    \begin{macrocode}
-\newcommand\readpdata[1]{\IfFileExists{#1.pdata}
-{\message{proposal: Reading Project Data}\makeatletter\input{#1.pdata}\makeatother}
+\newcommand\readpdata[1]{\IfFileExists{./#1.pdata}
+{\message{proposal: Reading Project Data}\makeatletter\input{./#1.pdata}\makeatother}
 {proposal: No Project Data found, (forward) references may be compromized}}
 %    \end{macrocode}
 % \end{macro}
@@ -2684,7 +2696,7 @@ joint&\multicolumn{\the@site}{l|}{\jpub $\hat=$ publication, \jpro $\hat=$ proje
 \newcommand{\signatures}[1]{\section{#1}
 \qquad\number\day. \number\month. \number\year\\[6ex]
 \strut\qquad Date\hfill\@for\@p:=\prop@gen@PIs\do{%
-\wa@ref3{person}\@p{personaltitle}~\wa@ref3{person}\@p{name}\hfill}}
+\pdataref{PI}\@p{title}~\pdataref{PI}\@p{name}\hfill}}
 %    \end{macrocode}
 % \end{macro}
 % 
@@ -2721,8 +2733,8 @@ joint&\multicolumn{\the@site}{l|}{\jpub $\hat=$ publication, \jpro $\hat=$ proje
 % LocalWords:  hyperref LaTeX workpackage PIs thema acrolong anzungsantrag im Mitarbeiter
 % LocalWords:  Einzelverfahren tabline Allgemeine Angaben Antragsteller worktel ifsvninfo
 % LocalWords:  bitabline personaltitle academictitle birthdate Dienstanschrift Hilfskraft
-% LocalWords:  workaddress atabline workfax Privatanschrift privaddress privtel ifgitinfo
-% LocalWords:  dt Kennwort Fachgebiet und Arbeitsrichtung Voraussichtliche wa fancyfoot
+% LocalWords:  atabline workfax Privatanschrift privaddress privtel ifgitinfo
+% LocalWords:  Kennwort Fachgebiet und Arbeitsrichtung Voraussichtliche wa fancyfoot
 % LocalWords:  Gesamtdauer Antragszeitraum Zusammenfassung workarea wp wps num prop@gen
 % LocalWords:  refundefinedtrue lightgray gantt xstep Unterschriften Id areas acro Lutz
 % LocalWords:  submit hide ed public article paper today array comment wide RE tweakable

@@ -6,18 +6,59 @@
 \documentclass[noworkareas,deliverables,gitinfo,report\classoptions]{euproposal}
 \usepackage{nimbusserif}
 \addbibresource{../lib/dummy.bib}
-\input{../lib/WApersons}% Some sections of the included files depend on this.
 
 \begin{document}
 \begin{center}\color{red}\huge
   This mock proposal is just an example for \texttt{euproposal.cls} it reflects the ICT
   template of January 2012
 \end{center}
-\begin{proposal}[site=jacu,jacuRM=36,
-  site=efo,efoRM=36,
-  site=bar,barRM=36,
-  site=baz,bazRM=36,
-  coordinator=miko,
+\begin{proposal}[
+  % Site 1
+  site=fau,
+  fauurl=http://fau.de,
+  faustreetaddress={Martenstr. 3},
+  fautownzip={91058 Erlangen},
+  faucountryshort=D,
+  faucountry=Germany,
+  fautype=University,
+  faulogo=jacobs-logo.png,
+  fauacronym=FAU,
+  faushortname=FAU Erlangen N\"urnberg,
+  fauRM=36,
+  % Site 2
+  site=efo,
+  efoshortname=European Future Office,
+  efourl=http://efo.eu,
+  efocountryshort=NL,
+  efocountry={The Netherlands}, 
+  efotownzip={Utrecht, 3kd89},
+  efostreetaddress={Kruislann 777},
+  efotype=NGO,
+  efoacronym=EFO,
+  efoRM=36, 
+  % Site 3
+  site=bar,
+  barurl=http://bar.fr,
+  barcountryshort=F,
+  barcountry={France},
+  barstreetaddress={Rue de Montparnasse}
+  bartownzip={Paris},
+  bartype=University,
+  baracronym=BAR,
+  barshortname=Universit\'e de BAR,
+  barRM=36,
+  % Site 4
+  site=baz,
+  bazurl=http://baz.co.uk,
+  bazcountryshort=UK,
+  bazcountry=United Kingdom,
+  bazstreetaddress={4711 Silicon Glen Drive},
+  baztownzip={Westerfield U3F2B},
+  baztype=SME,
+  bazshortname=BAZ International,
+  bazacronym=BAZ,
+  bazRM=36,
+  % Proposal metadata
   acronym={iPoWr},
   acrolong={\underline{I}ntelligent} {\underline{P}r\underline{o}sal} {\underline{Wr}iting},
   title=\pn: \protect\pnlong,
@@ -30,8 +71,11 @@
   objective = Technology-enhanced Documents,
   outcomeid = b1,
   outcome = {More time for Research, not Proposal writing},
-  coordinator=miko,
-  months=24,
+  months=24, 
+  % Coordinator
+  coordinator=Prof. Dr. Michael Kohlhase,
+  Cemail=michael.kohlhase@fau.de,
+  Ctelfax=(49) 9131-85-64052/55, 
   compactht]
 \begin{abstract}
   Writing grant proposals is a collaborative effort that requires the integration of

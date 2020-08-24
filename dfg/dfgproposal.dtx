@@ -231,6 +231,7 @@
 %<*pdata>
 \define@key{prop@gen}{thema}{\def\prop@gen@thema{#1}\pdata@def{prop}{gen}{thema}{#1}}
 \def\prop@gen@Dkeywords{kommt noch}
+\def\prop@gen@keywords{to be added}
 \define@key{prop@gen}{Dkeywords}{\def\prop@gen@Dkeywords{#1}}
 %</pdata>
 %    \end{macrocode}
@@ -257,41 +258,7 @@
 \newcommand\deu[1]{#1}
 %    \end{macrocode}
 %
-% Now, we can build the title page and general information, we first start with the
-% applicants table. The following macros build up the lines to be used in the table
-% eventually.  
-% \begin{macro}{\dfg@applicants@*}
-%   the macros use the |\prop@tl| macro from the base |proposal| package which iterates
-%   over the first argument (the PIs here) building up lines with the material from the
-%   second argument (where |\tl@ext| is the current PI).
-%    \begin{macrocode}
-\newcommand\dfg@applicants@lines{%
-\prop@tl\prop@gen@PIs{\wa@ref3{person}\tl@ext{personaltitle} \wa@ref3{person}\tl@ext{name}}\\
-\prop@tl\prop@gen@PIs{\wa@ref3{person}\tl@ext{academictitle}}\\
-\prop@tl\prop@gen@PIs{\wa@ref3{person}\tl@ext{birthdate}}\\}
-\newcommand\dfg@applicants@institute@lines{%
-\prop@tl\prop@gen@PIs{\wa@ref3{institution}{\wa@ref3{person}\tl@ext{affiliation}}{shortname}}\\
-\prop@tl\prop@gen@PIs{\wa@ref3{person}\tl@ext{workaddress}}\\
-\prop@tl\prop@gen@PIs{Tel: \wa@ref3{person}\tl@ext{worktel}}\\
-\prop@tl\prop@gen@PIs{Fax: \wa@ref3{person}\tl@ext{workfax}}\\
-\prop@tl\prop@gen@PIs{\wa@ref3{person}\tl@ext{email}}\\}
-\newcommand\dfg@applicants@private@lines{%
-\prop@tl\prop@gen@PIs{\wa@ref3{person}\tl@ext{privaddress}}\\
-\prop@tl\prop@gen@PIs{Tel: \wa@ref3{person}\tl@ext{privtel}}\\}
-%    \end{macrocode}
-% \end{macro}
-% 
-% \begin{macro}{\dfg@applicants}
-%   We automatically make it plurals if there is more than one PI and we indicate a joint
-%   proposal if there is more than one site. 
-%    \begin{macrocode}
-\newcommand\dfg@applicants{%
-\subsection{\if@sites\ifnum\the@sites>1 Joint Proposal; \fi\fi%
-Applicant\if@sites\ifnum\the@PIs>1{s}\fi\fi\ \deu{(Antragsteller)}}%
-\dfg@applicants@table}
-%    \end{macrocode}
-% \end{macro}
-% 
+% Now, we can build the title page and general information.
 %    \begin{macrocode}
 \newcommand\dfg@topic{\subsection{\ifdeutsch Thema\else Topic \deu{(Thema)}\fi}\prop@gen@thema}
 %    \end{macrocode}
@@ -310,38 +277,14 @@ Applicant\if@sites\ifnum\the@PIs>1{s}\fi\fi\ \deu{(Antragsteller)}}%
 %    \begin{macrocode}
 %<*cls>
 \newenvironment{sitedescription}[2][]%
-{\def\@test{#1}\def\@@title{\ifx\@test\@empty\wa@ref3{institution}{#2}{acronym}\else #1\fi: 
-\textsc{\wa@ref3{institution}{#2}{name}}}
+{\def\@test{#1}\def\@@title{\ifx\@test\@empty\pdataref{site}{#2}{acronym}\else #1\fi: 
+\textsc{\pdataref{site}{#2}{name}}}
 \@for\@I:=#2\do{\pdata@target{site}\@I{}}\subsubsection\@@title}
 {}
 %    \end{macrocode}
 % \end{environment}
 % 
 % \subsection{Proposal Title Page}\label{sec:impl:proptitlepage}
-%
-% \begin{macro}{\dfg@applicants@table}
-%   Now, we can build the title page and general information, we first start with the
-%   applicants table: We first compute the width of the columns for the case where we have
-%   more than two PIs. Then we add the lines we compute with the auxiliary macros
-%   |\dfg@applicants@lines|, |\dfg@applicants@institute@lines| and
-%   |\dfg@applicants@private@lines|
-%    \begin{macrocode}
-\newlength\applicants@table@columnwidth
-\newcommand\dfg@applicants@table%
-{\setlength\applicants@table@columnwidth\textwidth
-\advance\applicants@table@columnwidth by -6em
-\divide\applicants@table@columnwidth by \the@PIs
-\ifnum\the@PIs>2\begin{tabular}{|l|*{\the@PIs}{p{\applicants@table@columnwidth}|}}
-\else\begin{tabular}{|l|*{\the@PIs}{l|}}\fi
-\hline
-\dfg@applicants@lines\hline
-&\multicolumn{\the@PIs}{|l|}{\textbf{Work Address\deu{ (Dienstanschrift)}:}}\\\hline
-\dfg@applicants@institute@lines\hline
-&\multicolumn{\the@PIs}{|l|}{\textbf{Private Address\deu{ (Privatanschrift)}:}}\\\hline
-\dfg@applicants@private@lines\hline
-\end{tabular}}
-%    \end{macrocode}
-% \end{macro}
 % 
 % \begin{environment}{prop@proposal}
 %   This internal environment is called in the |proposal| environment from the |proposal|
@@ -354,7 +297,11 @@ Applicant\if@sites\ifnum\the@PIs>1{s}\fi\fi\ \deu{(Antragsteller)}}%
 {\LARGE\textbf{\prop@gen@title}}\\[.3cm]
 \ifx\prop@gen@acronym\@empty\else{\LARGE Acronym: {\prop@gen@acronym}}\\[.2cm]\fi
 {\large\today}\\[1em]
-\WAauthorblock[aff]\prop@gen@PIs\\[2cm]
+\begin{tabular}{c*{\the@PIs}{c}}
+\prop@tl\prop@gen@PIs{\pdataref{PI}\tl@ext{name}}\\
+\prop@tl\prop@gen@PIs{\pdataref{PI}\tl@ext{affiliation}}\\
+\prop@tl\prop@gen@PIs{\pdataref{PI}\tl@ext{dept}}\\
+\end{tabular}\\[2cm]
 \end{center}
 \ifgeneral 
 \ifsubmit\else
@@ -365,7 +312,6 @@ Applicant\if@sites\ifnum\the@PIs>1{s}\fi\fi\ \deu{(Antragsteller)}}%
 \newpage\thispagestyle{empty}
 \ifdeutsch\section{Allgemeine Angaben (nur f\"ur ELAN)}\else
 \section{General Information (for the ELAN system only)}\fi
-\dfg@applicants
 \dfg@topic
 \dfg@area@field
 \ifdeutsch\subsection{Voraussichtliche Gesamtdauer}\else
@@ -379,8 +325,10 @@ Applicant\if@sites\ifnum\the@PIs>1{s}\fi\fi\ \deu{(Antragsteller)}}%
 \@ifundefined{prop@gen@since}{initial proposal}{continuation proposal, the project started
   \prop@gen@since.}
 \fi%ifdeutsch
-\ifdeutsch\else\subsection{Keywords}\prop@gen@keywords\fi
+\ifdeutsch
 \subsection{Schl\"usselw\"orter}\prop@gen@Dkeywords
+\else\subsection{Keywords}\prop@gen@keywords
+\fi
 \ifdeutsch\subsection{Antragszeitraum}\else
 \subsection{Application period \deu{(Antragszeitraum)}}\fi
 \prop@gen@months\quad Months starting \prop@gen@start
@@ -408,16 +356,8 @@ Applicant\if@sites\ifnum\the@PIs>1{s}\fi\fi\ \deu{(Antragsteller)}}%
 \section{List of Attachments \deu{(Verzeichnis der Anlagen)}}\fi
 \begin{itemize}
 \@for\@I:=\prop@gen@PIs\do{%
- \item\ifdeutsch Lebenslauf und Publikatinsverzeichnis\else
- Curriculum Vitae and list of publications for \fi
-   \@nameuse{wa@person@\@I @personaltitle}
-   \@nameuse{wa@person@\@I @name}
-  (CD + \ifdeutsch Ausdruck\else printed version\fi)}
-\ifdeutsch
-\item Publications either cited in section~\ref{sec:ourpubs} or occurring in one of the
-  curricula vitae (CD only)\else
-\item Zitierte Publikationen aus Abschnitt~\ref{sec:ourpubs} oder einem der Lebensl\"aufe
-  (nur CD)\fi
+ \item\ifdeutsch Lebenslauf und Publikatinsverzeichnis\else Curriculum Vitae and list of publications for \fi
+   \pdataref{PI}\@I{title}\pdataref{PI}\@I{name}}
 \end{itemize}}
 %</cls>
 %    \end{macrocode}
@@ -466,8 +406,8 @@ Applicant\if@sites\ifnum\the@PIs>1{s}\fi\fi\ \deu{(Antragsteller)}}%
   {\large Reference number(s): \show@prop@gen@keys}\\[.2cm]
   {\large\today}\\[1em]
  \begin{tabular}{c*{\the@PIs}{c}}
-   \prop@tl\prop@gen@PIs{\wa@ref3{person}\tl@ext{name}}\\
-   \prop@tl\prop@gen@PIs{\wa@ref3{institution}{\wa@ref3{person}\tl@ext{affiliation}}{name}}
+   \prop@tl\prop@gen@PIs{\pdataref{PI}\tl@ext{name}}\\
+   \prop@tl\prop@gen@PIs{\pdataref{PI}\tl@ext{affiliation}}
  \end{tabular}\\[2cm]
 \end{center}
 \setcounter{tocdepth}{1}\tableofcontents\newpage\setcounter{page}{1}
@@ -585,7 +525,7 @@ Applicant\if@sites\ifnum\the@PIs>1{s}\fi\fi\ \deu{(Antragsteller)}}%
 % LocalWords:  hyperref LaTeX workpackage PIs thema acrolong anzungsantrag im generaltrue
 % LocalWords:  Einzelverfahren tabline Allgemeine Angaben Antragsteller worktel Deutscher
 % LocalWords:  bitabline personaltitle academictitle birthdate Dienstanschrift Antrag gen
-% LocalWords:  workaddress atabline workfax Privatanschrift privaddress privtel prop@gen
+% LocalWords:  atabline workfax Privatanschrift privaddress privtel prop@gen
 % LocalWords:  dt Kennwort Fachgebiet und Arbeitsrichtung Voraussichtliche wa deutschtrue
 % LocalWords:  Gesamtdauer Antragszeitraum Zusammenfassung workarea wp wps num Neuantrag
 % LocalWords:  refundefinedtrue lightgray gantt xstep Unterschriften Id areas auf deu nur
@@ -626,7 +566,7 @@ Applicant\if@sites\ifnum\the@PIs>1{s}\fi\fi\ \deu{(Antragsteller)}}%
 % LocalWords:  whilenum hfill marginpar texteuro officialeuro texttt newpage cb grau wprm
 % LocalWords:  min-crossrefs pdata xdef newcommand hline aff NeedsTeXFormat dfgreporting
 % LocalWords:  renewenvironment nameuse paperlist applareas applareas dfgpdata kursiv
-% LocalWords:  Gesch aftszeichen projpapers shortname sitedescription ednote generalfalse
+% LocalWords:  Gesch aftszeichen projpapers sitedescription ednote generalfalse
 % LocalWords:  textsc newlength setlength textwidth WAauthorblock assoc tmpop markiert
 % LocalWords:  tmpop tmpop deutschfalse Sachbeihilfe Arbeitsgebiet Fortsetungsantrag
 %  LocalWords:  Publikationen Publikatinsverzeichnis Wissenschaftler Verwertungsfelder

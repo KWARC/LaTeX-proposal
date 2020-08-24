@@ -45,8 +45,8 @@
   {\large Reference number(s): \show@prop@gen@keys}\\[.2cm]
   {\large\today}\\[1em]
  \begin{tabular}{c*{\the@PIs}{c}}
-   \prop@tl\prop@gen@PIs{\wa@ref3{person}\tl@ext{name}}\\
-   \prop@tl\prop@gen@PIs{\wa@ref3{institution}{\wa@ref3{person}\tl@ext{affiliation}}{name}}
+   \prop@tl\prop@gen@PIs{\pdataref{PI}\tl@ext{name}}\\
+   \prop@tl\prop@gen@PIs{\pdataref{PI}\tl@ext{affiliation}}
  \end{tabular}\\[2cm]
 \end{center}
 \setcounter{tocdepth}{1}\tableofcontents\newpage\setcounter{page}{1}
