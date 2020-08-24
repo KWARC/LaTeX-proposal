@@ -30,11 +30,10 @@
 {\LARGE\textbf{\prop@gen@title}}\\[.3cm]
 \ifx\prop@gen@acronym\@empty\else{\LARGE Acronym: {\prop@gen@acronym}}\\[.2cm]\fi
 {\large\today}\\[1em]
-\message{XXXXXX PIs: \the@PIs}
 \begin{tabular}{c*{\the@PIs}{c}}
-\prop@tl\prop@gen@PIs{\pdataref{PI}\tl@ext{name}}\\
-\prop@tl\prop@gen@PIs{\pdataref{PI}\tl@ext{affiliation}}\\
-\prop@tl\prop@gen@PIs{\pdataref{PI}\tl@ext{dept}}\\
+\prop@tl\prop@gen@PIs{\pdataref@safe{PI}\tl@ext{name}}\\
+\prop@tl\prop@gen@PIs{\pdataref@safe{PI}\tl@ext{affiliation}}\\
+\prop@tl\prop@gen@PIs{\pdataref@safe{PI}\tl@ext{dept}}\\
 \end{tabular}\\[2cm]
 \end{center}
 \ifgeneral
