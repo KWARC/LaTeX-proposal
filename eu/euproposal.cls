@@ -32,10 +32,10 @@
 \fi% ifpartB
 \newcommand\prop@sites@table{\def\@@table{}
 {\let\tabularnewline\relax\let\hline\relax
-\@for\@I:=\prop@gen@sites\do{\xdef\@@table{\@@table\pdataref{site}\@I{number}}
-\xdef\@@table{\@@table&\pdataref{site}\@I{shortname}\ifx\@I\prop@gen@coordinatorsite (coordinator)\fi}
-\xdef\@@table{\@@table&\pdataref{site}\@I{acronym}}
-\xdef\@@table{\@@table&\pdataref{site}\@I{countryshort}\tabularnewline\hline}}}
+\@for\@I:=\prop@gen@sites\do{\xdef\@@table{\@@table\pdataref@safe{site}\@I{number}}
+\xdef\@@table{\@@table&\pdataref@safe{site}\@I{shortname}\ifx\@I\prop@gen@coordinatorsite (coordinator)\fi}
+\xdef\@@table{\@@table&\pdataref@safe{site}\@I{acronym}}
+\xdef\@@table{\@@table&\pdataref@safe{site}\@I{countryshort}\tabularnewline\hline}}}
 \begin{tabular}{|l|p{8cm}|l|l|}\hline%|
 \# & Participant organisation name & Short name &  Country\\\hline\hline
 \@@table
@@ -69,7 +69,7 @@
 \begin{center}
 \prop@sites@table\vfill
 \@ifundefined{prop@gen@iconrowheight}{}
-{\@for\@site:=\prop@gen@sites\do{\includegraphics[height=\prop@gen@iconrowheight]{\pdataref{site}\@site{logo}}\qquad}}
+{\@for\@site:=\prop@gen@sites\do{\includegraphics[height=\prop@gen@iconrowheight]{\pdataref@safe{site}\@site{logo}}\qquad}}
 \end{center}
 \newpage
 \fi% ifgrantagreement
@@ -104,14 +104,14 @@
 \ifx\@site@desc@logo\@true% if we want a logo
 \includegraphics[height=\site@desc@width]{#2}\\[1ex]%
 \fi% end logo
-\textbf{\pdataref{site}{#2}{type}.\hfill \pdataref{site}{#2}{country}}\\%
-\small\pdataref{site}{#2}{streetaddress}, \pdataref{site}{#2}{townzip}\\\hline%
+\textbf{\pdataref@safe{site}{#2}{type}.\hfill \pdataref@safe{site}{#2}{country}}\\%
+\small\pdataref@safe{site}{#2}{streetaddress}, \pdataref@safe{site}{#2}{townzip}\\\hline%
 \end{tabular}\vspace{-2.5ex}%
 \end{wrapfigure}%
 \fi% end box
 \pdata@target{site}{#2}%
-{\subsubsection{\pdataref{site}{#2}{acronym}: % space here
-{\textsc{\pdataref{site}{#2}{shortname}}  (\pdataref{site}{#2}{countryshort})}}}%
+{\subsubsection{\pdataref@safe{site}{#2}{acronym}: % space here
+{\textsc{\pdataref@safe{site}{#2}{shortname}}  (\pdataref@safe{site}{#2}{countryshort})}}}%
 \small%
 \renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
                                     {0.25ex \@plus1ex \@minus.2ex}%
