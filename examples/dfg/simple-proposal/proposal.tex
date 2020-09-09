@@ -3,7 +3,7 @@
 % - submit.tex (no draft stuff, no ednotes, no revision information)
 % - public.tex (like submit.tex, but no financials either) 
 \providecommand{\classoptions}{,keys,general} % to be overwritten in variants
-\documentclass[    % the options control the appearance, see the documentation
+\documentclass[% the options control the appearance, see the documentation
     gitinfo,       % show GIT information 
     noworkareas,   % do not generate work areas, this is a simple proposal
     RAM,           % also manage research assistant (HiWi) months
@@ -11,8 +11,6 @@
     \classoptions] % the other class options from above, they can be overwritten e.g. in submit/final,tex
     {dfgproposal}
 \addbibresource{../lib/dummy.bib}
-\renewcommand{\familydefault}{\sfdefault}
-\usepackage[scaled=.90]{helvet}
 \usepackage[utf8]{inputenc}
 
 \begin{document}
@@ -51,8 +49,7 @@
 \input{workplan}
 
 \section{Bibliography concerning the state of the art, the research objectives, and the
-  work programme \deu{(Literaturverzeichnis zum Stand der Forschung, zu den Zielen und dem
-    Arbeitsprogramm)}}
+  work programme}
 
 \begin{todo}{from the proposal template}
   In this bibliography, list only the works you cite in your presentation of the state of
@@ -66,7 +63,7 @@
 \input{../proposal/funds}
 \input{preconditions}
 
-\section{Additional information \deu{(Ergänzende Erklärungen)}}
+\section{Additional Information}
 
 Funding proposal XYZ-83282 has been submitted prior to this proposal on related topic XYZ.
 \fi %ifpublic

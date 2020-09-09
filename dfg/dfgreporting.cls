@@ -9,6 +9,7 @@
 \NeedsTeXFormat{LaTeX2e}[1999/12/01]
 \ProvidesPackage{dfgreporting}[2019/03/21 v1.4 DFG Project Reporting]
 \DeclareOption{german}{\PassOptionsToPackage{\CurrentOption}{dfgpdata}}
+\\PassOptionsToClass{11pt}{article}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{reporting}}
 \ProcessOptions
 \LoadClass{reporting}
@@ -16,6 +17,8 @@
 \RequirePackage{dfgpdata}
 \ifdeutsch\RequirePackage[ngerman]{babel}
 \else\RequirePackage[ngerman,english]{babel}\fi
+\RequirePackage[scaled=.90]{helvet}
+\renewcommand{\familydefault}{\sfdefault}
 \define@key{prop@gen}{reportperiod}{\def\prop@gen@reportperiod{#1}}
 \define@key{prop@gen}{applareas}{\def\prop@gen@applareas{#1}}
 \define@key{prop@gen}{key}{\@dmp{key=#1}%

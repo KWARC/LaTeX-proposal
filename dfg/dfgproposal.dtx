@@ -198,12 +198,14 @@
 % 
 % \subsection{Package Options and Format Initialization}\label{sec:impl:options}
 % 
-% We first set up the options for the package. 
+% We first set up the options for the package. In particular, we set the font size 11pt
+% that DFG wants. 
 % 
 %    \begin{macrocode}
 %<cls>\newif\ifgeneral\generalfalse
 %<cls>\DeclareOption{general}{\generaltrue}
 %<cls|reporting>\DeclareOption{german}{\PassOptionsToPackage{\CurrentOption}{dfgpdata}}
+%<cls|reporting>\PassOptionsToClass{11pt}{article}
 %<cls>\DeclareOption*{\PassOptionsToClass{\CurrentOption}{proposal}}
 %<reporting>\DeclareOption*{\PassOptionsToClass{\CurrentOption}{reporting}}
 %<pdata>\newif\ifdeutsch\deutschfalse
@@ -211,7 +213,7 @@
 %<cls|reporting|pdata>\ProcessOptions
 %    \end{macrocode}
 %
-%    Then we load the packages we make use of
+%    Then we load the packages we make use of. 
 % 
 %    \begin{macrocode}
 %<cls>\LoadClass{proposal}
@@ -221,9 +223,16 @@
 \RequirePackage{dfgpdata}
 \ifdeutsch\RequirePackage[ngerman]{babel}
 \else\RequirePackage[ngerman,english]{babel}\fi
-%</cls|reporting>
 %    \end{macrocode}
 % 
+% In particular, we set the font Helvetica (as a substitute for the Arial font DFG wants).
+% 
+%    \begin{macrocode}
+\RequirePackage[scaled=.90]{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+%</cls|reporting>
+%    \end{macrocode}
+%
 % \subsection{Proposal Metadata}\label{sec:impl:metadata}
 %  
 % We extend the metadata keys from the |proposal| class.

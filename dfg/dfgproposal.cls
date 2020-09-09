@@ -11,6 +11,7 @@
 \newif\ifgeneral\generalfalse
 \DeclareOption{general}{\generaltrue}
 \DeclareOption{german}{\PassOptionsToPackage{\CurrentOption}{dfgpdata}}
+\PassOptionsToClass{11pt}{article}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{proposal}}
 \ProcessOptions
 \LoadClass{proposal}
@@ -18,6 +19,8 @@
 \RequirePackage{dfgpdata}
 \ifdeutsch\RequirePackage[ngerman]{babel}
 \else\RequirePackage[ngerman,english]{babel}\fi
+\RequirePackage[scaled=.90]{helvet}
+\renewcommand{\familydefault}{\sfdefault}
 \newenvironment{sitedescription}[2][]%
 {\def\@test{#1}\def\@@title{\ifx\@test\@empty\pdataref{site}{#2}{acronym}\else #1\fi:
 \textsc{\pdataref{site}{#2}{name}}}
