@@ -9,7 +9,7 @@
 \NeedsTeXFormat{LaTeX2e}[1999/12/01]
 \ProvidesPackage{dfgreporting}[2019/03/21 v1.4 DFG Project Reporting]
 \DeclareOption{german}{\PassOptionsToPackage{\CurrentOption}{dfgpdata}}
-\\PassOptionsToClass{11pt}{article}
+\PassOptionsToClass{11pt}{article}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{reporting}}
 \ProcessOptions
 \LoadClass{reporting}
