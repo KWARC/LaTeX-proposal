@@ -18,10 +18,10 @@
 \renewcommand\prop@gen@instrument{Neuantrag auf Sachbeihilfe}
 \newcommand\prop@gen@thema{??? Thema ???}
 \newcommand\deu[1]{#1}
-\newcommand\dfg@topic{\subsection{\ifdeutsch Thema\else Topic \deu{(Thema)}\fi}\prop@gen@thema}
+\newcommand\dfg@topic{\subsection{\ifdeutsch Thema\else Topic\fi}\prop@gen@thema}
 \newcommand\dfg@area@field{%
 \ifdeutsch\subsection{Fachgebiet und Arbeitsrichtung}\else
-\subsection{Research area and field of work \deu{(Fachgebiet und Arbeitsrichtung)}}\fi
+\subsection{Research area and field of work }\fi
 \ifdeutsch Disziplin\else Scientific discipline\fi:  \prop@gen@discipline\\
 \ifdeutsch Arbeitsgebiet\else Fields of work\fi:  \prop@gen@areas}
 \newcommand\dfgprojpapers[2][]{\prop@paperlist[#1]{#2}}

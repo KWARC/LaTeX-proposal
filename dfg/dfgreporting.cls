@@ -26,45 +26,38 @@
 \define@key{prop@gen}{coop}{\@dmp{coop=#1}%
 \@ifundefined{prop@gen@coops}{\xdef\prop@gen@coops{{#1}}}{\xdef\prop@gen@coops{\prop@gen@coops,{#1}}}}
 \define@key{prop@gen}{projpapers}{\def\prop@gen@projpapers{#1}}
-\newcommand\dfg@applicants@table%
-{\begin{tabular}{|l|*{\the@PIs}{l|}}\hline
-\dfg@applicants@lines\hline
-&\multicolumn{\the@PIs}{|l|}{\textbf{Private Address\deu{ (Privatanschrift)}:}}\\\hline
-\dfg@applicants@private@lines\hline
-\end{tabular}}
-\newcommand\dfg@institute@table%
-{\begin{tabular}{|l|*{\the@PIs}{l|}}\hline
-\dfg@applicants@institute@lines\hline
-\end{tabular}}
 \newcommand\prop@assoc[2]{\let\@tmpop=\relax\@for\@I:=#2\do{\@tmpop\@I\let\@tmpop=#1}}
 \newcommand\show@prop@gen@keys{\def\@cb{, }\@ifundefined{prop@gen@keys}{??:???? ?/?}{\prop@assoc\@cb\prop@gen@keys}}
 \renewenvironment{prop@report}
-{\selectlanguage{english}
-\thispagestyle{empty}%
+{\ifsubmit\setcounter{page}{1}\else\thispagestyle{empty}\fi%
 \begin{center}
-  {\LARGE Final Project Report}\\[.2cm]
-  {\LARGE\textbf{\prop@gen@title}}\\[.3cm]
+{\LARGE \prop@gen@instrument}\\[.2cm]
+{\LARGE\textbf{\prop@gen@title}}\\[.3cm]
 \ifx\prop@gen@acronym\@empty\else{\LARGE Acronym: {\prop@gen@acronym}}\\[.2cm]\fi
-  {\large Reference number(s): \show@prop@gen@keys}\\[.2cm]
-  {\large\today}\\[1em]
- \begin{tabular}{c*{\the@PIs}{c}}
-   \prop@tl\prop@gen@PIs{\pdataref{PI}\tl@ext{name}}\\
-   \prop@tl\prop@gen@PIs{\pdataref{PI}\tl@ext{affiliation}}
- \end{tabular}\\[2cm]
+{\large\today}\\[1em]
+\edef\the@PIs{\pdataref{all}{PI}{count}}
+\edef\prop@gen@PIs{\pdataref{all}{PI}{ids}}
+\begin{tabular}{c*{\the@PIs}{c}}
+\prop@tl\prop@gen@PIs{\pdataref@safe{PI}\tl@ext{name}}\\
+\prop@tl\prop@gen@PIs{\pdataref@safe{PI}\tl@ext{affiliation}}\\
+\prop@tl\prop@gen@PIs{\pdataref@safe{PI}\tl@ext{dept}}\\
+\end{tabular}\\[2cm]
 \end{center}
-\setcounter{tocdepth}{1}\tableofcontents\newpage\setcounter{page}{1}
-\section{General Information \deu{(Allgemeine Angaben)}}
-\subsection{Reference Numbers \deu{(DFG Gesch\"aftszeichen)}}
+\setcounter{section}{-1}
+\edef\keep@tocdepth{\value{tocdepth}}
+\setcounter{tocdepth}{2}\tableofcontents
+\setcounter{tocdepth}{\keep@tocdepth}
+\newpage\thispagestyle{empty}
+\ifdeutsch\section{Allgemeine Angaben (nur f\"ur ELAN)}\else
+\section{General Information (for the ELAN system only)}\fi
+\subsection{Reference Numbers}
 \show@prop@gen@keys
-\dfg@applicants
-\subsection{Institute/Chair \deu{(Institut/Lehrstuhl)}}\dfg@institute@table
-\dfg@topic
-\subsection{Report and Funding Period \deu{(Berichts- und F\"orderzeitraum)}}
+\subsection{Report and Funding Period}
 \prop@gen@reportperiod
 \dfg@area@field
-\subsection{Application Areas \deu{(Verwertungsfelder)}}\prop@gen@applareas
+\subsection{Application Areas}\prop@gen@applareas
 \dfgprojpapers\prop@gen@projpapers}
-{\signatures{Signatures \deu{(Unterschriften)}}}
+{}
 \endinput
 %%
 %% End of file `dfgreporting.cls'.

@@ -265,18 +265,17 @@
 %<*pdata>
 \renewcommand\prop@gen@instrument{Neuantrag auf Sachbeihilfe}
 \newcommand\prop@gen@thema{??? Thema ???}
-\newcommand\deu[1]{#1}
 %    \end{macrocode}
 %
 % Now, we can build the title page and general information.
 %    \begin{macrocode}
-\newcommand\dfg@topic{\subsection{\ifdeutsch Thema\else Topic \deu{(Thema)}\fi}\prop@gen@thema}
+\newcommand\dfg@topic{\subsection{\ifdeutsch Thema\else Topic\fi}\prop@gen@thema}
 %    \end{macrocode}
 % 
 %    \begin{macrocode}
 \newcommand\dfg@area@field{%
 \ifdeutsch\subsection{Fachgebiet und Arbeitsrichtung}\else
-\subsection{Research area and field of work \deu{(Fachgebiet und Arbeitsrichtung)}}\fi
+\subsection{Research area and field of work }\fi
 \ifdeutsch Disziplin\else Scientific discipline\fi:  \prop@gen@discipline\\
 \ifdeutsch Arbeitsgebiet\else Fields of work\fi:  \prop@gen@areas}
 %</pdata>
@@ -307,13 +306,15 @@
 {\LARGE\textbf{\prop@gen@title}}\\[.3cm]
 \ifx\prop@gen@acronym\@empty\else{\LARGE Acronym: {\prop@gen@acronym}}\\[.2cm]\fi
 {\large\today}\\[1em]
+\edef\the@PIs{\pdataref{all}{PI}{count}}
+\edef\prop@gen@PIs{\pdataref{all}{PI}{ids}}
 \begin{tabular}{c*{\the@PIs}{c}}
 \prop@tl\prop@gen@PIs{\pdataref@safe{PI}\tl@ext{name}}\\
 \prop@tl\prop@gen@PIs{\pdataref@safe{PI}\tl@ext{affiliation}}\\
 \prop@tl\prop@gen@PIs{\pdataref@safe{PI}\tl@ext{dept}}\\
 \end{tabular}\\[2cm]
 \end{center}
-\ifgeneral 
+\ifgeneral
 \ifsubmit\else
 \setcounter{section}{-1}
 \edef\keep@tocdepth{\value{tocdepth}}
@@ -325,7 +326,7 @@
 \dfg@topic
 \dfg@area@field
 \ifdeutsch\subsection{Voraussichtliche Gesamtdauer}\else
-\subsection{Anticipated total duration \deu{(Voraussichtliche Gesamtdauer)}}
+\subsection{Anticipated total duration}
 \fi% ifdeutsch
 \@ifundefined{prop@gen@totalduration}{????}{\prop@gen@totalduration};
 \ifdeutsch
@@ -340,7 +341,7 @@
 \else\subsection{Keywords}\prop@gen@keywords
 \fi
 \ifdeutsch\subsection{Antragszeitraum}\else
-\subsection{Application period \deu{(Antragszeitraum)}}\fi
+\subsection{Application period}\fi
 \prop@gen@months\quad Months starting \prop@gen@start
 \@ifundefined{prop@gen@fundsuntil}{}
 { (\ifdeutsch Mittel reichen bis\else funds last until\fi\ \prop@gen@fundsuntil)}
@@ -363,7 +364,7 @@
 % \ednote{MK: this is deprecated (no longer useful with the ELAN system), delete at some time}
 %    \begin{macrocode}
 \newcommand\attachments{\ifdeutsch\section{Verzeichnis der Anlagen}\else
-\section{List of Attachments \deu{(Verzeichnis der Anlagen)}}\fi
+\section{List of Attachments}\fi
 \begin{itemize}
 \@for\@I:=\prop@gen@PIs\do{%
  \item\ifdeutsch Lebenslauf und Publikatinsverzeichnis\else Curriculum Vitae and list of publications for \fi
@@ -377,73 +378,46 @@
 % 
 % The |prop@report| environment is similar, but somewhat simpler. 
 %
-% \begin{macro}{\dfg@applicants@table}
-% Now, we can build the title page and general information, we first start with the
-% applicants table:
-%    \begin{macrocode}
-%<*reporting>
-\newcommand\dfg@applicants@table%
-{\begin{tabular}{|l|*{\the@PIs}{l|}}\hline
-\dfg@applicants@lines\hline    
-&\multicolumn{\the@PIs}{|l|}{\textbf{Private Address\deu{ (Privatanschrift)}:}}\\\hline
-\dfg@applicants@private@lines\hline
-\end{tabular}}
-%    \end{macrocode}
-% \end{macro}
-% 
-% \begin{macro}{\dfg@institute@table}
-% Now, we can build the title page and general information, we first start with the
-% applicants table:
-%    \begin{macrocode}
-\newcommand\dfg@institute@table%
-{\begin{tabular}{|l|*{\the@PIs}{l|}}\hline
-\dfg@applicants@institute@lines\hline
-\end{tabular}}
-%    \end{macrocode}
-% \end{macro}
-% 
 % \begin{environment}{prop@report}
 %    \begin{macrocode}
+%<*reporting>
 \newcommand\prop@assoc[2]{\let\@tmpop=\relax\@for\@I:=#2\do{\@tmpop\@I\let\@tmpop=#1}}
 \newcommand\show@prop@gen@keys{\def\@cb{, }\@ifundefined{prop@gen@keys}{??:???? ?/?}{\prop@assoc\@cb\prop@gen@keys}}
 \renewenvironment{prop@report}
-{\selectlanguage{english}
-\thispagestyle{empty}%
+{\ifsubmit\setcounter{page}{1}\else\thispagestyle{empty}\fi%
 \begin{center}
-  {\LARGE Final Project Report}\\[.2cm]
-  {\LARGE\textbf{\prop@gen@title}}\\[.3cm]
+{\LARGE \prop@gen@instrument}\\[.2cm]
+{\LARGE\textbf{\prop@gen@title}}\\[.3cm]
 \ifx\prop@gen@acronym\@empty\else{\LARGE Acronym: {\prop@gen@acronym}}\\[.2cm]\fi
-  {\large Reference number(s): \show@prop@gen@keys}\\[.2cm]
-  {\large\today}\\[1em]
- \begin{tabular}{c*{\the@PIs}{c}}
-   \prop@tl\prop@gen@PIs{\pdataref{PI}\tl@ext{name}}\\
-   \prop@tl\prop@gen@PIs{\pdataref{PI}\tl@ext{affiliation}}
- \end{tabular}\\[2cm]
+{\large\today}\\[1em]
+\edef\the@PIs{\pdataref{all}{PI}{count}}
+\edef\prop@gen@PIs{\pdataref{all}{PI}{ids}}
+\begin{tabular}{c*{\the@PIs}{c}}
+\prop@tl\prop@gen@PIs{\pdataref@safe{PI}\tl@ext{name}}\\
+\prop@tl\prop@gen@PIs{\pdataref@safe{PI}\tl@ext{affiliation}}\\
+\prop@tl\prop@gen@PIs{\pdataref@safe{PI}\tl@ext{dept}}\\
+\end{tabular}\\[2cm]
 \end{center}
-\setcounter{tocdepth}{1}\tableofcontents\newpage\setcounter{page}{1}
-\section{General Information \deu{(Allgemeine Angaben)}}
-\subsection{Reference Numbers \deu{(DFG Gesch\"aftszeichen)}}
+\setcounter{section}{-1}
+\edef\keep@tocdepth{\value{tocdepth}}
+\setcounter{tocdepth}{2}\tableofcontents
+\setcounter{tocdepth}{\keep@tocdepth}
+\newpage\thispagestyle{empty}
+\ifdeutsch\section{Allgemeine Angaben (nur f\"ur ELAN)}\else
+\section{General Information (for the ELAN system only)}\fi
+\subsection{Reference Numbers}
 \show@prop@gen@keys
-\dfg@applicants
-\subsection{Institute/Chair \deu{(Institut/Lehrstuhl)}}\dfg@institute@table
-\dfg@topic
-% no longer necessary
-% \subsection{DFG-Funded Researchers \deu{(Aus DFG-Mitteln bezahlte Wissenschaftler)}}
-% \begin{tabular}{|l|l|}\hline
-% Partner & Employee/Period\\\hline\hline
-% \prop@gen@employed@lines
-% \end{tabular}
-\subsection{Report and Funding Period \deu{(Berichts- und F\"orderzeitraum)}}
+\subsection{Report and Funding Period}
 \prop@gen@reportperiod
 \dfg@area@field
-\subsection{Application Areas \deu{(Verwertungsfelder)}}\prop@gen@applareas
+\subsection{Application Areas}\prop@gen@applareas
 % no longer necessary
-% \subsection{Cooperation Partners \deu{(Kooperationspartner)}}
+% \subsection{Cooperation Partners}
 % \begin{compactitem}
 % \@for\@I:=\prop@gen@coops\do{\item \@I}
 % \end{compactitem}
 \dfgprojpapers\prop@gen@projpapers}
-{\signatures{Signatures \deu{(Unterschriften)}}}
+{}
 %</reporting>
 %    \end{macrocode}
 % \end{environment}

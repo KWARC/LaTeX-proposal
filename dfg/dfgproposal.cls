@@ -33,6 +33,8 @@
 {\LARGE\textbf{\prop@gen@title}}\\[.3cm]
 \ifx\prop@gen@acronym\@empty\else{\LARGE Acronym: {\prop@gen@acronym}}\\[.2cm]\fi
 {\large\today}\\[1em]
+\edef\the@PIs{\pdataref{all}{PI}{count}}
+\edef\prop@gen@PIs{\pdataref{all}{PI}{ids}}
 \begin{tabular}{c*{\the@PIs}{c}}
 \prop@tl\prop@gen@PIs{\pdataref@safe{PI}\tl@ext{name}}\\
 \prop@tl\prop@gen@PIs{\pdataref@safe{PI}\tl@ext{affiliation}}\\
@@ -51,7 +53,7 @@
 \dfg@topic
 \dfg@area@field
 \ifdeutsch\subsection{Voraussichtliche Gesamtdauer}\else
-\subsection{Anticipated total duration \deu{(Voraussichtliche Gesamtdauer)}}
+\subsection{Anticipated total duration}
 \fi% ifdeutsch
 \@ifundefined{prop@gen@totalduration}{????}{\prop@gen@totalduration};
 \ifdeutsch
@@ -66,7 +68,7 @@
 \else\subsection{Keywords}\prop@gen@keywords
 \fi
 \ifdeutsch\subsection{Antragszeitraum}\else
-\subsection{Application period \deu{(Antragszeitraum)}}\fi
+\subsection{Application period}\fi
 \prop@gen@months\quad Months starting \prop@gen@start
 \@ifundefined{prop@gen@fundsuntil}{}
 { (\ifdeutsch Mittel reichen bis\else funds last until\fi\ \prop@gen@fundsuntil)}
@@ -80,7 +82,7 @@
 \def\prop@warnpubs@title{Literatur}
 \fi
 \newcommand\attachments{\ifdeutsch\section{Verzeichnis der Anlagen}\else
-\section{List of Attachments \deu{(Verzeichnis der Anlagen)}}\fi
+\section{List of Attachments}\fi
 \begin{itemize}
 \@for\@I:=\prop@gen@PIs\do{%
  \item\ifdeutsch Lebenslauf und Publikatinsverzeichnis\else Curriculum Vitae and list of publications for \fi
