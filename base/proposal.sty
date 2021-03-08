@@ -105,6 +105,8 @@
 \fi
 \newcounter{@PIs}
 \@ifundefined{prop@gen@PIs}{}{\@for\@I:=\prop@gen@PIs\do{\stepcounter{@PIs}}}
+\pdata@def{all}{PI}{ids}{\prop@gen@PIs}%
+\pdata@def{all}{PI}{count}{\the@PIs}%
 \newcounter{@sites}
 \@ifundefined{prop@gen@sites}{}{\@for\@I:=\prop@gen@sites\do{\stepcounter{@sites}}
 \pdata@def{all}{site}{ids}{\prop@gen@sites}%
