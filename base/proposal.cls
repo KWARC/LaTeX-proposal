@@ -20,6 +20,7 @@
 \newif\if@gitinfo\@gitinfofalse
 \newif\if@numericcites\@numericcitesfalse
 \newif\if@longtasklabels\@longtasklabelsfalse
+\newif\if@attachments\@attachmentsfalse
 \def\proposal@class{article}
 \DeclareOption{wpsubsection}{\@wpsubsectiontrue}
 \DeclareOption{submit}{\submittrue}
@@ -34,10 +35,12 @@
 \DeclareOption{keys}{\keystrue}
 \DeclareOption{deliverables}{\delivstrue}
 \DeclareOption{longtasklabels}{\@longtasklabelstrue}
+\DeclareOption{attachments}{\@attachmentsfalse}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{\proposal@class}}
 \ProcessOptions
 \LoadClass[a4paper,twoside]{\proposal@class}
 \RequirePackage{proposal}
+
 
 \endinput
 %%

@@ -87,13 +87,15 @@
  \end{tabular}\\[2cm]
 \end{center}
 \setcounter{tocdepth}{2}\tableofcontents\newpage\setcounter{page}{1}}
-{\section{List of Attachments}
-\begin{itemize}
-\@for\@I:=\prop@gen@PIs\do{%
-\item Curriculum Vitae and list of publications for
-  \pdataref{PI\@I}{title} \pdataref{PI}\@I{name}}
-\end{itemize}\newpage
+{\if@attachments\proposal@attachments\fi
 \printbibliography[heading=warnpubs]}
+\newcommand\prop@attachments{%
+\section{List of Attachments}\label{sec:attachments}%
+\begin{itemize}%
+\@for\@I:=\prop@gen@PIs\do{%
+\item Curriculum Vitae and list of publications for%
+  \pdataref{PI\@I}{title} \pdataref{PI}\@I{name}}%
+\end{itemize}\newpage}
 \newenvironment{proposal}[1][]{\readpdata\jobname
 \ofpagetrue\setkeys{prop@gen}{#1}
 \pdata@open\jobname
@@ -1098,6 +1100,7 @@ joint&\multicolumn{\the@site}{l|}{\jpub $\hat=$ publication, \jpro $\hat=$ proje
   \iftoggle{bbx:url}
     {\usebibmacro{url+urldate}}
     {}}
+
 
 \endinput
 %%
