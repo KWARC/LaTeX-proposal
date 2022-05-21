@@ -1,0 +1,270 @@
+\@pdata@def{PI}{miko}{name}{Michael Kohlhase}
+\@pdata@def{PI}{miko}{affiliation}{FAU Erlangen N\"urnberg}
+\@pdata@def{PI}{miko}{dept}{Computer Science}
+\@pdata@def{PI}{miko}{title}{Prof. Dr.}
+\@pdata@def{PI}{gc}{name}{Great Communicator}
+\@pdata@def{PI}{gc}{affiliation}{Power Consulting GmbH}
+\@pdata@def{PI}{gc}{dept}{Science Affairs}
+\@pdata@def{PI}{gc}{title}{Dr.}
+\@pdata@def{site}{fau}{number}{1}
+\@pdata@def{site}{fau}{acronym}{FAU}
+\@pdata@def{site}{fau}{shortname}{FAU Erlangen N\"urnberg}
+\@pdata@def{site}{pcg}{number}{2}
+\@pdata@def{site}{pcg}{acronym}{PCG}
+\@pdata@def{site}{pcg}{shortname}{Power Consulting GmbH}
+\@pdata@def{prop}{gen}{thema}{Intelligentes Schreiben von Antr\"agen}
+\@pdata@def{prop}{gen}{acronym}{iPoWr}
+\@pdata@def{prop}{gen}{acrolong}{{\underline  {I}ntelligent} {\underline  {P}r\underline  {o}posal} {\underline  {Wr}iting}}
+\@pdata@def{prop}{gen}{title}{iPoWr\xspace  : \pnlong }
+\@pdata@def{prop}{gen}{totalduration}{3 years}
+\@pdata@def{prop}{gen}{start}{1. Feb. 2010}
+\@pdata@def{prop}{gen}{months}{24}
+\@pdata@def{prop}{gen}{discipline}{Computer Science}
+\@pdata@def{prop}{gen}{areas}{Knowledge Management}
+\@pdata@def{all}{PI}{ids}{miko,gc}
+\@pdata@def{all}{PI}{count}{2}
+\@pdata@def{all}{site}{ids}{fau,pcg}
+\@pdata@def{all}{site}{count}{2}
+\@pdata@def{obj}{firstobj}{label}{O1}
+\@pdata@def{obj}{firstobj}{title}{Supporting Authors}
+\@pdata@def{obj}{secondobj}{label}{O2}
+\@pdata@def{obj}{secondobj}{title}{Supporting Reviewers}
+\@pdata@def{mansubsus}{fau}{RM}{2}
+\@pdata@def{mansubsus}{fau}{RAM}{10}
+\@pdata@def{mansubsus}{pcg}{RM}{10}
+\@pdata@def{mansubsus}{pcg}{RAM}{0}
+\@pdata@def{systems}{fau}{RM}{24}
+\@pdata@def{systems}{fau}{RAM}{8}
+\@pdata@def{systems}{pcg}{RM}{12}
+\@pdata@def{systems}{pcg}{RAM}{2}
+\@pdata@def{all}{fau}{RM}{26}
+\@pdata@def{all}{fau}{RAM}{18}
+\@pdata@def{all}{pcg}{RM}{22}
+\@pdata@def{all}{pcg}{RAM}{2}
+\@pdata@def{all}{total}{RM}{48}
+\@pdata@def{all}{total}{RAM}{20}
+\@pdata@def{wa}{mansubsus}{title}{Management, Support \& Sustainability}
+\@pdata@def{wa}{mansubsus}{short}{Management}
+\@pdata@def{wa}{mansubsus}{label}{WA{1}}
+\@pdata@def{wa}{mansubsus}{number}{1}
+\@pdata@def{wa}{mansubsus}{page}{2}
+\@pdata@def{wa}{mansubsus}{num}{1}
+\@pdata@def{wa}{mansubsus}{RM}{12}
+\@pdata@def{prop}{all}{RM}{12}
+\@pdata@def{wa}{mansubsus}{RAM}{10}
+\@pdata@def{prop}{all}{RAM}{10}
+\@pdata@def{wp}{management}{lead}{fau}
+\@pdata@def{wp}{management}{title}{Project Management}
+\@pdata@def{management}{fau}{RM}{2}
+\@pdata@def{management}{fau}{RAM}{8}
+\@pdata@def{management}{pcg}{RM}{2}
+\@pdata@def{wp}{management}{start}{0}
+\@pdata@def{wp}{management}{end}{0}
+\@pdata@def{wp}{management}{label}{WP{1.1}}
+\@pdata@def{wp}{management}{number}{1}
+\@pdata@def{wp}{management}{page}{2}
+\@pdata@def{wp}{management}{num}{1}
+\@pdata@def{wp}{management}{RM}{4}
+\@pdata@def{wp}{management}{RAM}{8}
+\@pdata@def{taskdep}{taskdep1}{from}{management@foo}
+\@pdata@def{taskdep}{taskdep1}{to}{dissem@t1}
+\@pdata@def{task}{management@foo}{title}{}
+\@pdata@def{task}{management@foo}{lead}{}
+\@pdata@def{task}{management@foo}{partners}{}
+\@pdata@def{task}{management@foo}{PM}{}
+\@pdata@def{task}{management@foo}{wphases}{0-3}
+\@pdata@def{task}{management@foo}{label}{\textbf  {T1.1.1}}
+\@pdata@def{task}{management@foo}{locallabel}{\textbf  {T1}}
+\@pdata@def{task}{management@foo}{number}{1}
+\@pdata@def{task}{management@foo}{page}{2}
+\@pdata@def{task}{management@task2}{title}{}
+\@pdata@def{task}{management@task2}{lead}{}
+\@pdata@def{task}{management@task2}{partners}{}
+\@pdata@def{task}{management@task2}{PM}{}
+\@pdata@def{task}{management@task2}{wphases}{13-17!.5}
+\@pdata@def{task}{management@task2}{label}{\textbf  {T1.1.2}}
+\@pdata@def{task}{management@task2}{locallabel}{\textbf  {T2}}
+\@pdata@def{task}{management@task2}{number}{2}
+\@pdata@def{task}{management@task2}{page}{2}
+\@pdata@def{task}{management@task3}{title}{}
+\@pdata@def{task}{management@task3}{lead}{}
+\@pdata@def{task}{management@task3}{partners}{}
+\@pdata@def{task}{management@task3}{PM}{}
+\@pdata@def{task}{management@task3}{wphases}{0-0}
+\@pdata@def{task}{management@task3}{label}{\textbf  {T1.1.3}}
+\@pdata@def{task}{management@task3}{locallabel}{\textbf  {T3}}
+\@pdata@def{task}{management@task3}{number}{3}
+\@pdata@def{task}{management@task3}{page}{3}
+\@pdata@def{task}{management@task4}{title}{}
+\@pdata@def{task}{management@task4}{lead}{}
+\@pdata@def{task}{management@task4}{partners}{}
+\@pdata@def{task}{management@task4}{PM}{}
+\@pdata@def{task}{management@task4}{wphases}{0-0}
+\@pdata@def{task}{management@task4}{label}{\textbf  {T1.1.4}}
+\@pdata@def{task}{management@task4}{locallabel}{\textbf  {T4}}
+\@pdata@def{task}{management@task4}{number}{4}
+\@pdata@def{task}{management@task4}{page}{3}
+\@pdata@def{management}{task}{ids}{management@foo,management@task2,management@task3,management@task4}
+\@pdata@def{wp}{dissem}{lead}{pcg}
+\@pdata@def{wp}{dissem}{title}{Dissemination and Exploitation}
+\@pdata@def{dissem}{pcg}{RM}{8}
+\@pdata@def{dissem}{fau}{RAM}{2}
+\@pdata@def{wp}{dissem}{start}{0}
+\@pdata@def{wp}{dissem}{end}{0}
+\@pdata@def{wp}{dissem}{label}{WP{1.2}}
+\@pdata@def{wp}{dissem}{number}{2}
+\@pdata@def{wp}{dissem}{page}{3}
+\@pdata@def{wp}{dissem}{num}{2}
+\@pdata@def{wp}{dissem}{RM}{8}
+\@pdata@def{wp}{dissem}{RAM}{2}
+\@pdata@def{task}{dissem@t1}{title}{}
+\@pdata@def{task}{dissem@t1}{lead}{}
+\@pdata@def{task}{dissem@t1}{partners}{}
+\@pdata@def{task}{dissem@t1}{PM}{}
+\@pdata@def{task}{dissem@t1}{wphases}{6-7}
+\@pdata@def{task}{dissem@t1}{label}{\textbf  {T1.2.1}}
+\@pdata@def{task}{dissem@t1}{locallabel}{\textbf  {T1}}
+\@pdata@def{task}{dissem@t1}{number}{1}
+\@pdata@def{task}{dissem@t1}{page}{3}
+\@pdata@def{task}{dissem@task6}{title}{}
+\@pdata@def{task}{dissem@task6}{lead}{}
+\@pdata@def{task}{dissem@task6}{partners}{}
+\@pdata@def{task}{dissem@task6}{PM}{}
+\@pdata@def{task}{dissem@task6}{wphases}{12-13}
+\@pdata@def{task}{dissem@task6}{label}{\textbf  {T1.2.2}}
+\@pdata@def{task}{dissem@task6}{locallabel}{\textbf  {T2}}
+\@pdata@def{task}{dissem@task6}{number}{2}
+\@pdata@def{task}{dissem@task6}{page}{3}
+\@pdata@def{task}{dissem@task7}{title}{}
+\@pdata@def{task}{dissem@task7}{lead}{}
+\@pdata@def{task}{dissem@task7}{partners}{}
+\@pdata@def{task}{dissem@task7}{PM}{}
+\@pdata@def{task}{dissem@task7}{wphases}{18-19}
+\@pdata@def{task}{dissem@task7}{label}{\textbf  {T1.2.3}}
+\@pdata@def{task}{dissem@task7}{locallabel}{\textbf  {T3}}
+\@pdata@def{task}{dissem@task7}{number}{3}
+\@pdata@def{task}{dissem@task7}{page}{3}
+\@pdata@def{task}{dissem@task8}{title}{}
+\@pdata@def{task}{dissem@task8}{lead}{}
+\@pdata@def{task}{dissem@task8}{partners}{}
+\@pdata@def{task}{dissem@task8}{PM}{}
+\@pdata@def{task}{dissem@task8}{wphases}{22-24}
+\@pdata@def{task}{dissem@task8}{label}{\textbf  {T1.2.4}}
+\@pdata@def{task}{dissem@task8}{locallabel}{\textbf  {T4}}
+\@pdata@def{task}{dissem@task8}{number}{4}
+\@pdata@def{task}{dissem@task8}{page}{3}
+\@pdata@def{dissem}{task}{ids}{dissem@t1,dissem@task6,dissem@task7,dissem@task8}
+\@pdata@def{mansubsus}{wp}{ids}{management,dissem}
+\@pdata@def{mansubsus}{wp}{count}{2}
+\@pdata@def{wa}{systems}{title}{System Development}
+\@pdata@def{wa}{systems}{label}{WA{2}}
+\@pdata@def{wa}{systems}{number}{2}
+\@pdata@def{wa}{systems}{page}{3}
+\@pdata@def{wa}{systems}{num}{2}
+\@pdata@def{wa}{systems}{RM}{36}
+\@pdata@def{prop}{all}{RM}{48}
+\@pdata@def{wa}{systems}{RAM}{10}
+\@pdata@def{prop}{all}{RAM}{20}
+\@pdata@def{wp}{class}{lead}{fau}
+\@pdata@def{wp}{class}{title}{A LaTeX class for EU Proposals}
+\@pdata@def{wp}{class}{short}{Class}
+\@pdata@def{class}{fau}{RM}{12}
+\@pdata@def{class}{fau}{RAM}{8}
+\@pdata@def{class}{pcg}{RM}{12}
+\@pdata@def{class}{pcg}{RAM}{2}
+\@pdata@def{wp}{class}{start}{0}
+\@pdata@def{wp}{class}{end}{0}
+\@pdata@def{wp}{class}{label}{WP{2.1}}
+\@pdata@def{wp}{class}{number}{1}
+\@pdata@def{wp}{class}{page}{3}
+\@pdata@def{wp}{class}{num}{1}
+\@pdata@def{wp}{class}{RM}{24}
+\@pdata@def{wp}{class}{RAM}{10}
+\@pdata@def{task}{class@task9}{title}{}
+\@pdata@def{task}{class@task9}{lead}{}
+\@pdata@def{task}{class@task9}{partners}{}
+\@pdata@def{task}{class@task9}{PM}{}
+\@pdata@def{task}{class@task9}{wphases}{0-2}
+\@pdata@def{task}{class@task9}{label}{\textbf  {T2.1.1}}
+\@pdata@def{task}{class@task9}{locallabel}{\textbf  {T1}}
+\@pdata@def{task}{class@task9}{number}{1}
+\@pdata@def{task}{class@task9}{page}{3}
+\@pdata@def{task}{class@task10}{title}{}
+\@pdata@def{task}{class@task10}{lead}{}
+\@pdata@def{task}{class@task10}{partners}{}
+\@pdata@def{task}{class@task10}{PM}{}
+\@pdata@def{task}{class@task10}{wphases}{4-8}
+\@pdata@def{task}{class@task10}{label}{\textbf  {T2.1.2}}
+\@pdata@def{task}{class@task10}{locallabel}{\textbf  {T2}}
+\@pdata@def{task}{class@task10}{number}{2}
+\@pdata@def{task}{class@task10}{page}{3}
+\@pdata@def{task}{class@t3}{title}{}
+\@pdata@def{task}{class@t3}{lead}{}
+\@pdata@def{task}{class@t3}{partners}{}
+\@pdata@def{task}{class@t3}{PM}{}
+\@pdata@def{task}{class@t3}{wphases}{10-14}
+\@pdata@def{task}{class@t3}{label}{\textbf  {T2.1.3}}
+\@pdata@def{task}{class@t3}{locallabel}{\textbf  {T3}}
+\@pdata@def{task}{class@t3}{number}{3}
+\@pdata@def{task}{class@t3}{page}{3}
+\@pdata@def{task}{class@task12}{title}{}
+\@pdata@def{task}{class@task12}{lead}{}
+\@pdata@def{task}{class@task12}{partners}{}
+\@pdata@def{task}{class@task12}{PM}{}
+\@pdata@def{task}{class@task12}{wphases}{20-24}
+\@pdata@def{task}{class@task12}{label}{\textbf  {T2.1.4}}
+\@pdata@def{task}{class@task12}{locallabel}{\textbf  {T4}}
+\@pdata@def{task}{class@task12}{number}{4}
+\@pdata@def{task}{class@task12}{page}{3}
+\@pdata@def{class}{task}{ids}{class@task9,class@task10,class@t3,class@task12}
+\@pdata@def{wp}{temple}{lead}{pcg}
+\@pdata@def{wp}{temple}{title}{Proposal Template}
+\@pdata@def{wp}{temple}{short}{Template}
+\@pdata@def{temple}{fau}{RM}{12}
+\@pdata@def{wp}{temple}{start}{0}
+\@pdata@def{wp}{temple}{end}{0}
+\@pdata@def{wp}{temple}{label}{WP{2.2}}
+\@pdata@def{wp}{temple}{number}{2}
+\@pdata@def{wp}{temple}{page}{3}
+\@pdata@def{wp}{temple}{num}{2}
+\@pdata@def{wp}{temple}{RM}{12}
+\@pdata@def{wp}{temple}{RAM}{0}
+\@pdata@def{task}{temple@task13}{title}{}
+\@pdata@def{task}{temple@task13}{lead}{}
+\@pdata@def{task}{temple@task13}{partners}{}
+\@pdata@def{task}{temple@task13}{PM}{}
+\@pdata@def{task}{temple@task13}{wphases}{6-12}
+\@pdata@def{task}{temple@task13}{label}{\textbf  {T2.2.1}}
+\@pdata@def{task}{temple@task13}{locallabel}{\textbf  {T1}}
+\@pdata@def{task}{temple@task13}{number}{1}
+\@pdata@def{task}{temple@task13}{page}{3}
+\@pdata@def{taskdep}{taskdep2}{from}{temple@temple2}
+\@pdata@def{taskdep}{taskdep2}{to}{class@t3}
+\@pdata@def{task}{temple@temple2}{title}{}
+\@pdata@def{task}{temple@temple2}{lead}{}
+\@pdata@def{task}{temple@temple2}{partners}{}
+\@pdata@def{task}{temple@temple2}{PM}{}
+\@pdata@def{task}{temple@temple2}{wphases}{18-24}
+\@pdata@def{task}{temple@temple2}{label}{\textbf  {T2.2.2}}
+\@pdata@def{task}{temple@temple2}{locallabel}{\textbf  {T2}}
+\@pdata@def{task}{temple@temple2}{number}{2}
+\@pdata@def{task}{temple@temple2}{page}{3}
+\@pdata@def{temple}{task}{ids}{temple@task13,temple@temple2}
+\@pdata@def{wp}{workphase}{title}{A work package without tasks}
+\@pdata@def{wp}{workphase}{wphases}{0-4!.5}
+\@pdata@def{wp}{workphase}{start}{0}
+\@pdata@def{wp}{workphase}{end}{4}
+\@pdata@def{wp}{workphase}{label}{WP{2.3}}
+\@pdata@def{wp}{workphase}{number}{3}
+\@pdata@def{wp}{workphase}{page}{3}
+\@pdata@def{wp}{workphase}{num}{3}
+\@pdata@def{wp}{workphase}{RM}{0}
+\@pdata@def{wp}{workphase}{RAM}{0}
+\@pdata@def{systems}{wp}{ids}{class,temple,workphase}
+\@pdata@def{systems}{wp}{count}{3}
+\@pdata@def{all}{task}{deps}{taskdep1,taskdep2}
+\@pdata@def{all}{task}{count}{14}
+\@pdata@def{all}{wa}{ids}{mansubsus,systems}
+\@pdata@def{all}{wa}{count}{2}
+\@pdata@def{all}{wp}{count}{5}
+\@pdata@def{prop}{page}{last}{6}
