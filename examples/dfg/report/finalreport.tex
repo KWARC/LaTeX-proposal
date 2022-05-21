@@ -9,13 +9,21 @@
 \usepackage[scaled=.90]{helvet}
 
 \begin{document}
-\providecommand\ifprefchar[2]{}% fix biblatex
-\makeatletter\def\blx@maxline{77}\makeatother 
 
 \begin{center}\color{red}\huge
   This mock report is just an example for \texttt{dfgreporting.cls} it reflects the
-  template valid until January 2012 (have to update soon)
+  template valid until January 2012.
 \end{center}
+
+\begin{Large}\color{red}
+  The first time this proposal file is being run it will throw errors (forward references
+  need to be initialized), just run pdflatex on it again.
+
+  This report also depends on the file \texttt{../proposal/proposal.pdata}: it imports
+  metadata from there to save you typing and keep things in sync (see the
+  \texttt{importsfrom=} option). If that file is missing, re-generate that by running
+  \texttt{pdflatex} (twice) on ../proposal/proposal.
+\end{Large}
 
 \begin{report}[
   importfrom=../proposal/proposal,

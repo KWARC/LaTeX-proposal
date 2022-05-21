@@ -48,7 +48,7 @@
 \@ifundefined{prop@gen@PIs}{\xdef\prop@gen@PIs{#1}}{\xdef\prop@gen@PIs{\prop@gen@PIs,#1}}}
 \define@key{prop@gen}{pubspage}{\@ifundefined{prop@gen@pubspages}%
 {\xdef\prop@gen@pubspages{#1}}{\xdef\prop@gen@pubspages{\prop@gen@pubspages,#1}}}
-\define@key{prop@gen}{importfrom}{\message{importing proposal data from #1.pdata}\readpdata{#1}}
+\define@key{prop@gen}{importfrom}{\readpdata{#1}}
 \define@key{prop@gen}{instrument}{\def\prop@gen@instrument{#1}%
 \pdata@def{prop}{gen}{instrument}{#1}\@dmp{inst=#1}}
 \define@key{prop@gen}{title}{\def\prop@gen@title{#1}%
@@ -97,8 +97,11 @@
 \newcommand\pdata@open[1]{\immediate\openout\pdata@out=#1.pdata}
 \newcommand\pdata@close{\closeout\pdata@out}
 \newcommand\readpdata[1]{\IfFileExists{./#1.pdata}
-{\message{proposal: Reading Project Data}\makeatletter\input{./#1.pdata}\makeatother}
-{proposal: No Project Data found, (forward) references may be compromized}}
+  {\PackageInfo{pdata}{importing proposal data from #1.pdata}%
+    \makeatletter\input{./#1.pdata}\makeatother}
+{\PackageError{pdata}
+  {No project data file found at #1.pdata,\MessageBreak (forward) references may be compromized}
+  {You may have to re-format the original proposal to generate a new project data file #1.pdata}}}
 \newcommand\pdata@target[3]{\hypertarget{#1@#2@target}{#3}}
 \newcommand\pdata@def[4]{%\@pdata@def{#1}{#2}{#3}{#4}%
   \protected@write\pdata@out{}{\string\@pdata@def{#1}{#2}{#3}{#4}}}
